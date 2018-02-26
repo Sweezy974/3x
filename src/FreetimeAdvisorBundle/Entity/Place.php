@@ -42,6 +42,18 @@ class Place
      */
     private $description;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="City", inversedBy="place")
+    * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+    */
+    private $city;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Category", inversedBy="place")
+    * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+    */
+    private $category;
+
 
     /**
      * Get id
@@ -124,5 +136,50 @@ class Place
     {
         return $this->description;
     }
-}
 
+    /**
+     * Set City
+     *
+     * @param \FreetimeAdvisorBundle\Entity\City $city
+     *
+     * @return Place
+     */
+    public function setCity(\FreetimeAdvisorBundle\Entity\City $city = null)
+    {
+        $this->city = $city;
+        return $this;
+    }
+    /**
+     * Get City
+     *
+     * @return \FreetimeAdvisorBundle\Entity\City
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set Category
+     *
+     * @param \FreetimeAdvisorBundle\Entity\Category $category
+     *
+     * @return Place
+     */
+    public function setCategory(\FreetimeAdvisorBundle\Entity\Category $category = null)
+    {
+        $this->city = $category;
+        return $this;
+    }
+    /**
+     * Get Category
+     *
+     * @return \FreetimeAdvisorBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+
+}

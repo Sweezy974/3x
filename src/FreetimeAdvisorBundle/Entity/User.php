@@ -47,6 +47,12 @@ class User extends FosUser
      */
     private $avatar;
 
+    /**
+    * @ORM\OneToOne(targetEntity="City", cascade={"persist"})
+    * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+    */
+    private $city;
+
 
     /**
      * Get id
@@ -128,5 +134,27 @@ class User extends FosUser
     public function getAvatar()
     {
         return $this->avatar;
+    }
+
+    /**
+     * Set City
+     *
+     * @param \FreetimeAdvisorBundle\Entity\City $city
+     *
+     * @return User
+     */
+    public function setCity(\FreetimeAdvisorBundle\Entity\City $city = null)
+    {
+        $this->city = $city;
+        return $this;
+    }
+    /**
+     * Get City
+     *
+     * @return \FreetimeAdvisorBundle\Entity\City
+     */
+    public function getCity()
+    {
+        return $this->city;
     }
 }
