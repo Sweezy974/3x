@@ -1,13 +1,52 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}3xAdvisor!{% endblock %}</title>
+
+    {% block stylesheets %}
+    <!--  Main CSS Style -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- CSS animation  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <!-- materialize CSS -->
+    <link rel="stylesheet" href="materialize/css/materialize.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css"> -->
+    <!--Google font  -->
+    <link href="https://fonts.googleapis.com/css?family=Poiret+One|Satisfy|Sedgwick+Ave" rel="stylesheet">
+    <!-- icons  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://use.fontawesome.com/7e9c620a85.js"></script>
+    {% endblock %}
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+{% block body %}
+{% endblock %}
+
+
+{% block javascripts %}
+<!-- Compiled and minified JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.js"></script>
+<script type="text/javascript">
+// $(document).ready(function(){
+//    $('.carousel').carousel();
+//   $('.carousel.carousel-slider').carousel({fullWidth: true});
+// });
+$(document).ready(function(){
+    // $('.slider').slider();
+    $('.slider').slider({transition: 1000});
+    $(".button-collapse").sideNav();
+    $('.materialboxed').materialbox();
+    $('.carousel').carousel();
+    // Initialize collapse button
+    // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+    //$('.collapsible').collapsible();
+});
+
+</script>
+{% endblock %}
+</body>
 </html>
