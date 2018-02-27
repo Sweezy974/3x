@@ -1,0 +1,31 @@
+<div class="container">
+   <div class="row">
+      <div class="col s12 m8 l8 offset-m2 offset-l2 ">
+         <div class="center">
+            <h4>Inscription</h4>
+         </div>
+         {% trans_default_domain 'FOSUserBundle' %}
+
+
+         {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+         <div class="file-field input-field">
+            <div class="btn cyan">
+               <span>AVATAR</span>
+               <input type="file"  accept="image/x-png,image/jpeg">
+            </div>
+            <div class="file-path-wrapper">
+               <input class="file-path validate" type="text"  placeholder="photo de profil">
+            </div>
+         </div>
+         {{ form_widget(form) }}
+         <div class="col s12 m12 l12 center">
+            <a class="waves-effect waves-light btn cyan" type="submit" value="{{ 'registration.submit'|trans }}"><i class="material-icons right">send</i>envoyer<a/>
+         </div>
+         {{ form_end(form) }}
+
+
+
+
+      </div>
+   </div>
+</div>
