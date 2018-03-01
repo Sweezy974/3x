@@ -8,6 +8,8 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    app.path.user_images: /uploads/images/users
+    app.path.place_images: /uploads/images/places
 
 framework:
     templating:
@@ -73,6 +75,20 @@ fos_user:
   db_driver: orm
   firewall_name: main
   user_class: FreetimeAdvisorBundle\Entity\User
+  registration:
+    form:
+      type: FreetimeAdvisorBundle\Form\RegistrationType
   from_email:
     address: "fred.boy.work@gmail.com"
     sender_name: "Frédéric"
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        place_images:
+            uri_prefix:         '%app.path.place_images%'
+            upload_destination: '%kernel.root_dir%/../web/uploads/images/places'
+
+        user_images:
+            uri_prefix:         '%app.path.user_images%'
+            upload_destination: '%kernel.root_dir%/../web/uploads/images/users'
