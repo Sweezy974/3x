@@ -1,40 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <title>{% block title %}3xAdvisor!{% endblock %}</title>
+  <meta charset="UTF-8" />
+  <title>{% block title %}3xAdvisor!{% endblock %}</title>
 
-    {% block stylesheets %}
-    <!--  Main CSS Style -->
-    <link rel="stylesheet" type="" href="{{ asset ('css/main.css') }}">
-    <!-- CSS animation  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <!-- materialize CSS -->
-    <!-- <link rel="stylesheet" href="materialize/css/materialize.css"> -->
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-    <!--Google font  -->
-    <link href="https://fonts.googleapis.com/css?family=Poiret+One|Satisfy|Sedgwick+Ave" rel="stylesheet">
-    <!-- icons  -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://use.fontawesome.com/7e9c620a85.js"></script>
-    {% endblock %}
+  {% block stylesheets %}
+  <!--  Main CSS Style -->
+  <link rel="stylesheet" type="" href="{{ asset ('css/main.css') }}">
+  <!-- CSS animation  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <!-- materialize CSS -->
+  <!-- <link rel="stylesheet" href="materialize/css/materialize.css"> -->
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <!--Google font  -->
+  <link href="https://fonts.googleapis.com/css?family=Poiret+One|Satisfy|Sedgwick+Ave" rel="stylesheet">
+  <!-- icons  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://use.fontawesome.com/7e9c620a85.js"></script>
+  {% endblock %}
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
 {% block header %}
 <nav class="black cyan accent-4 navbar-fixed">
-    <div class="nav-wrapper">
-        <a href="#">
-            <!-- <img class="brand-logo" src="media/img/fm-logo.png"> -->
-            3x
-        </a>
-        <a class="brand-logo left animated jackInTheBox">Advisor</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="/login">connexion</a></li>
-        </ul>
-    </div>
+  <div class="nav-wrapper">
+    <a href="#">
+      <!-- <img class="brand-logo" src="media/img/fm-logo.png"> -->
+      3x
+    </a>
+    <a class="brand-logo left animated jackInTheBox">Advisor</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      {% if is_granted("ROLE_USER") %}
+      <!-- Dropdown Structure -->
+      <ul id="dropdown1" class="dropdown-content">
+        <li><a href="{{ path('fos_user_profile_show') }}">voir profil</a></li>
+        <li class="divider"></li>
+        <li><a href="/logout">déconnexion</a></li>
+      </ul>
+      <li><a>Accueil</a></li>
+      <li><a>découvrir</a></li>
+      <li><a class="dropdown-button" href="#!" data-activates="dropdown1">{{ user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
+      {% else %}
+      <li><a href="/login">connexion</a></li>
+      {% endif %}
+    </ul>
+  </div>
 </nav>
 {% endblock %}
 {% block body %}
@@ -42,26 +54,26 @@
 
 {% block footer %}
 <footer class="page-footer cyan accent-4">
+  <div class="container">
+    <div class="row">
+      <div class="col l6 s12">
+        <h5 class="white-text">Footer Content</h5>
+        <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <h5 class="white-text">Links</h5>
+        <ul>
+          <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright">
     <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-            </div>
-            <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-                <ul>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                </ul>
-            </div>
-        </div>
+      © 2018 Copyright Text
+      <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
     </div>
-    <div class="footer-copyright">
-        <div class="container">
-            © 2018 Copyright Text
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-        </div>
-    </div>
+  </div>
 </footer>
 {% endblock %}
 
@@ -76,14 +88,24 @@
 //   $('.carousel.carousel-slider').carousel({fullWidth: true});
 // });
 $(document).ready(function(){
-    // $('.slider').slider();
-    $('.slider').slider({transition: 1000});
-    $(".button-collapse").sideNav();
-    $('.materialboxed').materialbox();
-    $('.carousel').carousel();
-    // Initialize collapse button
-    // Initialize collapsible (uncomment the line below if you use the dropdown variation)
-    //$('.collapsible').collapsible();
+  // $('.slider').slider();
+  $('.slider').slider({transition: 1000});
+  $(".button-collapse").sideNav();
+  $('.materialboxed').materialbox();
+  $('.carousel').carousel();
+  // Initialize collapse button
+  // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+  //$('.collapsible').collapsible();
+
+  // datepicker
+  $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false // Close upon selecting a date,
+  });
 });
 
 </script>

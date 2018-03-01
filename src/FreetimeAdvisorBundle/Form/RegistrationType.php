@@ -15,7 +15,7 @@ class RegistrationType extends AbstractType
     $builder
     ->add('description')
     ->add('age', DateType::class, array('years' => range(1940,2018)))
-    ->add('imageFile', VichImageType::class, array('label' => ' ', 'required' => true))
+    ->add('imageFile', VichImageType::class, array('label' => 'avatar', 'required' => true))
     ->add('city')
 
     ;
