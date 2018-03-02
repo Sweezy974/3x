@@ -15,7 +15,7 @@ framework:
     templating:
         engines: ['twig']
     #esi: ~
-    #translator: { fallbacks: ['%locale%'] }
+    translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'
@@ -40,6 +40,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+      - 'materialize_layout.html.twig'
 
 # Doctrine Configuration
 doctrine:

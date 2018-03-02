@@ -1,3 +1,17 @@
-/* nav{
-  font-size: 4em;
-} */
+/* FOSUserBundle error */
+.error{
+  color: red!important;
+}
+
+/* NAVBAR */
+nav ul a {
+  padding: 0 40px!important;
+}
+
+#dropdown1 {
+  top: 64px!important;
+}
+
+.dropdown-content li>a, .dropdown-content li>span{
+  padding: 14px 16px!important;
+}
