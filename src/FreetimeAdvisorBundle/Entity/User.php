@@ -44,7 +44,7 @@ class User extends FosUser
     private $age;
 
     /**
-    * @ORM\Column(type="string", length=255)
+    * @ORM\Column(type="string", length=255,options={"default":"default.jpg"})
     * @var string
     */
     private $avatar;
@@ -56,7 +56,7 @@ class User extends FosUser
     private $imageFile;
 
     /**
-    * @ORM\Column(type="datetime")
+    * @ORM\Column(type="datetime",options={"default":0})
     * @var \DateTime
     */
     private $avatarUpdatedAt;
@@ -66,6 +66,12 @@ class User extends FosUser
     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
     */
     private $city;
+
+    /**
+    * @ORM\Column(type="string", length=5,nullable=true)
+    * @var string
+    */
+    private $favorite_categories;
 
 
     /**
@@ -175,5 +181,29 @@ class User extends FosUser
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+    * Set description
+    *
+    * @param string $description
+    *
+    * @return User
+    */
+    public function setFavoriteCategories($favorite_categories)
+    {
+        $this->favorite_categories = $favorite_categories;
+
+        return $this;
+    }
+
+    /**
+    * Get description
+    *
+    * @return string
+    */
+    public function getFavoriteCategories()
+    {
+        return $this->favorite_categories;
     }
 }

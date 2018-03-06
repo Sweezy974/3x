@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://use.fontawesome.com/7e9c620a85.js"></script>
   <!-- Viewport Responsive -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="viewport" content="initial-scale=1.0">
   {% endblock %}
 
   <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -101,6 +101,7 @@ $(document).ready(function(){
   $(".button-collapse").sideNav();
   $('.materialboxed').materialbox();
   $('.carousel').carousel();
+  $('.carousel.carousel-slider').carousel({fullWidth: true});
   $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,

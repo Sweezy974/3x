@@ -5,3 +5,8 @@ freetime_advisor:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+# register_categories:
+#     resource: "@FreetimeAdvisorBundle/Controller/CategoryController"
+#     type:     annotation
+#     prefix:   /

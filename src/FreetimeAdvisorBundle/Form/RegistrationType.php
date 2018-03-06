@@ -17,8 +17,8 @@ class RegistrationType extends AbstractType
 
   {
     $builder
-    ->add('description', TextareaType::class,array('attr' => array('maxlength' => 300)))
-    ->add('age', BirthdayType::class, array('label'=>'','required' => true,'widget' => 'single_text','html5' => true))
+    ->add('description', TextareaType::class,array('required' => false,'attr' => array('maxlength' => 300)))
+    ->add('age', BirthdayType::class, array('attr' => array('class' => 'date'),'label'=>false,'required' => true,'widget' => 'single_text','html5' => true))
     ->add('city', ChoiceType::class, array('required' => true,
     'choices'  => array(
       'Yes' => NULL,

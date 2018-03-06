@@ -3,8 +3,22 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_content %}
-    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
-    {% if targetUrl %}
-    <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
-    {% endif %}
+<div class="row">
+
+    <div class="col s12 m12 l12 center">
+        <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+        <h5>Choisissez 3 catégories que vous préférez :</h5>
+        {% if targetUrl %}
+        <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m12 l12 center">
+        <a href="#" class="btn ">confirmer</a>
+
+    </div>
+
+</div>
+
 {% endblock fos_user_content %}
