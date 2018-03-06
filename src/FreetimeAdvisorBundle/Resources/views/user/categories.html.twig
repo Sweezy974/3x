@@ -9,21 +9,25 @@
 <div class="row">
   {% for category in categories %}
   <div class="col s12 m4 l3">
-    <div class="card blue-grey darken-1">
-      <div class="card-content white-text">
-        <span class="card-title">{{category.name}}</span>
-        <!-- <p>I am a very simple card.</p> -->
+    <a href="#">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">{{category.name}}</span>
+          <!-- <p>I am a very simple card.</p> -->
         </div>
         <div class="card-action">
-          <a href="#"><i class="material-icons left">star</i>Ajouter</a>
+          <a id="add" href="#" onclick='changeText()'><i class="material-icons left">star_border</i>Ajouter</a>
         </div>
       </div>
-    </div>
+    </a>
+  </div>
   {% endfor %}
+</div>
+<div class="row">
+  <div class="center col s12 m12 l12">
+    <a href="#" class="btn col s6 offset-s3">Confirmer</a>
 
+  </div>
 
 </div>
-
-{{ dump(categories) }}
-
 {% endblock %}
