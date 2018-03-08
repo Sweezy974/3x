@@ -26,6 +26,28 @@
 </head>
 <body>
 {% block header %}
+{% if is_granted("ROLE_USER") %}
+<ul id="slide-out" class="side-nav">
+  <li><div class="user-view cyan accent-4">
+    <div class="background">
+      <img src="">
+    </div>
+    <a href="#!user"><img class="circle" src="{{ asset ('uploads/images/users/') }}{{ app.user.avatar }}"></a>
+    <a href="#!name"><span class="white-text name"><i class="material-icons left">account_circle</i>{{ app.user.username }}</span></a>
+    <a href="#!email"><span class="white-text email"><i class="material-icons left">email</i>{{ app.user.email }}</span></a>
+  </div></li>
+  <li><a class="subheader">Profil</a></li>
+  <li><a href="/logout"><i class="material-icons left">perm_contact_calendar</i>Voir profil</a></li>
+  <li><a href="/logout"><i class="material-icons left">exit_to_app</i>Déconnexion</a></li>
+  <li><div class="divider"></div></li>
+  <li><a class="subheader">Tableau de bord</a></li>
+  <li><a class="waves-effect" href="#!"><i class="material-icons left">assignment_turned_in</i>Mes avis</a></li>
+  <!-- <li><a class="waves-effect" href="#!">Mes lieux</a></li> -->
+</ul>
+<!-- <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a> -->
+{% else %}
+{% endif %}
+{% endblock %}
 <nav class="black cyan accent-4 navbar-fixed">
   <div class="nav-wrapper">
     <a href="#">
@@ -35,16 +57,8 @@
     <a class="brand-logo left animated jackInTheBox">Advisor</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       {% if is_granted("ROLE_USER") %}
-      <!-- Dropdown Structure -->
-      <ul id="dropdown1" class="dropdown-content">
-        <li><a href="{{ path('fos_user_profile_show') }}">voir profil</a></li>
-        <li class="divider"></li>
-        <li><a href="/logout">déconnexion</a></li>
-      </ul>
-      <!-- <li><a>Accueil</a></li> -->
       <li><a>découvrir</a></li>
-      <!-- <li><a class="dropdown-button" href="#!" data-activates="dropdown1">profil<i class="material-icons right">arrow_drop_down</i></a></li> -->
-      <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><i class="material-icons left">account_circle</i>{{ app.user.username }}</a></li>
+      <li><a data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons left">account_circle</i>{{ app.user.username }}</a></li>
       {% else %}
       <li><a href="/login"><i class="material-icons left">input</i>connexion</a></li>
       <li><a href="/register"><i class="material-icons left">account_circle</i> inscription</a></li>
@@ -52,7 +66,7 @@
     </ul>
   </div>
 </nav>
-{% endblock %}
+
 <div class="container">
 {% block body %}
 {% endblock %}

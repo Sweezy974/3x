@@ -62,14 +62,14 @@ class User extends FosUser
     private $avatarUpdatedAt;
 
     /**
-    * @ORM\OneToOne(targetEntity="City", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="City", cascade={"persist"})
     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
     */
     private $city;
 
     /**
-    * @ORM\Column(type="string", length=5,nullable=true)
-    * @var string
+    * @ORM\ManyToOne(targetEntity="Category", cascade={"persist"})
+    * @ORM\JoinColumn(name="favorite_categories", referencedColumnName="id")
     */
     private $favorite_categories;
 

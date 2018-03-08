@@ -54,6 +54,13 @@ class Place
     */
     private $category;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="User", inversedBy="place")
+    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+    */
+    private $user;
+
+
 
     /**
      * Get id
@@ -168,7 +175,7 @@ class Place
      */
     public function setCategory(\FreetimeAdvisorBundle\Entity\Category $category = null)
     {
-        $this->city = $category;
+        $this->category = $category;
         return $this;
     }
     /**
@@ -180,6 +187,20 @@ class Place
     {
         return $this->category;
     }
+
+
+    public function setUser(\FreetimeAdvisorBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+
 
 
 }
