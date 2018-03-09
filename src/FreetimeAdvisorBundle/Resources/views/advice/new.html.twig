@@ -1,12 +1,21 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+<div class="row">
+      <div class="col s12 m12 l12 center">
+            <h3>{{ place.name|upper }}</h3>
+      </div>
+</div>
+<div class="row">
+      <div class="col s12 m12 l12 center">
+            <h5>Ecrivez votre avis :</h5>
+      </div>
+
+</div>
 
       {{ form_start(form) }}
           {{ form_widget(form) }}
       {{ form_end(form) }}
-
-      {{ dump(user) }}
 
 
 

@@ -138,23 +138,15 @@ class Advice
   }
 
 
-    /**
-     * Set Place
-     *
-     * @param \Blog\RunBlogBundle\Entity\Place $place
-     *
-     * @return Advice
-     */
+
+
     public function setPlace(\FreetimeAdvisorBundle\Entity\Place $place = null)
     {
         $this->place = $place;
         return $this;
     }
-    /**
-     * Get Place
-     *
-     * @return \FreetimeAdvisorBundle\Entity\Place
-     */
+
+
     public function getPlace()
     {
         return $this->place;

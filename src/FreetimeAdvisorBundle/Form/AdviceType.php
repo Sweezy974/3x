@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class AdviceType extends AbstractType
 {
@@ -18,7 +20,6 @@ class AdviceType extends AbstractType
     ->add('title')
     ->add('comment')
     ->add('score')
-    ->add('place')
     ->add('save', SubmitType::class, array('label' => 'envoyer','attr' => array('class' => '')));
   }/**
   * {@inheritdoc}

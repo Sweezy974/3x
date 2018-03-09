@@ -1,0 +1,82 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+<div class="row">
+  <div class="col s12 m12 l12 center">
+    <h3>{{place.name}}</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 m12 l12">
+    <div class="carousel carousel-slider center" data-indicators="true">
+      <div class="carousel-fixed-item center">
+        <a class="btn waves-effect white grey-text darken-text-2">button</a>
+      </div>
+      <div class="carousel-item red white-text" href="#one!">
+        <h2>First Panel</h2>
+        <p class="white-text">This is your first panel</p>
+      </div>
+      <div class="carousel-item amber white-text" href="#two!">
+        <h2>Second Panel</h2>
+        <p class="white-text">This is your second panel</p>
+      </div>
+      <div class="carousel-item green white-text" href="#three!">
+        <h2>Third Panel</h2>
+        <p class="white-text">This is your third panel</p>
+      </div>
+      <div class="carousel-item blue white-text" href="#four!">
+        <h2>Fourth Panel</h2>
+        <p class="white-text">This is your fourth panel</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<div class="row left">
+  <div class="col s12 m12 l12 ">
+    <div class="chip">
+    #{{place.category.name}}
+      <!-- <i class="close material-icons">close</i> -->
+    </div>
+
+  </div>
+
+</div>
+<div class="row">
+  <div class="col s12 m12 l12">
+    <h5>Informations</h5>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 m12 l12">
+    <p><strong>Ville :</strong> {{place.city.name}}</p>
+  </div>
+  <div class="col s12 m12 l12">
+    <p><strong>Location :</strong> {{place.location}}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 m12 l12">
+    <hr>
+    <h5>les avis :</h5>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col s12 m12 l12">
+    <ul class="collection">
+      {% for advice in place.advice %}
+      <li class="collection-item avatar ">
+        <img src="images/yuna.jpg" alt="" class="circle">
+        <span class="title"><strong>{{advice.title}}</strong></span>
+        <p class="">par : {{advice.user.username}}
+        </p>
+
+        <p class="truncate"> {{advice.comment}}</p>
+        <a href="#!" class="secondary-content"><i class="yellow-text material-icons left">grade</i>{{advice.score}} / 5</a>
+      </li>
+      {% endfor %}
+    </div>
+  </div>
+</ul>
+{% endblock %}
