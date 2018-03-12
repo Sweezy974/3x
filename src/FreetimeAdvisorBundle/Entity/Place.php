@@ -66,6 +66,12 @@ class Place
     private $advice;
 
     /**
+    * @ORM\Column(type="datetime",options={"default":0})
+    * @var \DateTime
+    */
+    private $date;
+
+    /**
     * Constructor
     */
     public function __construct()
@@ -208,13 +214,28 @@ class Place
         return $this;
     }
 
+    public function getUser()
+    {
+        return $this->user;
+    }
 
     public function setAdvice(\FreetimeAdvisorBundle\Entity\Advice $advice = null)
     {
         $this->advice = $advice;
         return $this;
     }
-    
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function setDate($date)
+    {
+        $this->date = new \DateTime();
+        return $this;
+    }
+
     /**
     * Get Category
     *

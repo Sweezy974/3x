@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class PlaceType extends AbstractType
@@ -17,8 +18,6 @@ class PlaceType extends AbstractType
     {
         $builder
         ->add('name')
-        ->add('location')
-        ->add('description')
         ->add('city', EntityType::class, array(
           'mapped'=>true,
           'class' => 'FreetimeAdvisorBundle:City',
@@ -29,7 +28,9 @@ class PlaceType extends AbstractType
           'class' => 'FreetimeAdvisorBundle:Category',
           'choice_label' => 'name',
         ))
-        ->add('user')
+        ->add('description')
+        ->add('location')
+        // ->add('date', DateType::class, array('years' => range(1940,2016),))
         ->add('save', SubmitType::class, array('label' => 'envoyer','attr' => array('class' => '')));
     }/**
     * {@inheritdoc}

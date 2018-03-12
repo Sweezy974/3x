@@ -2,7 +2,7 @@
 {% block body %}
 <div class="row">
   <div class="col s12 m12 l12 center">
-    <h3>{{place.name}}</h3>
+    <h3>{{place.name|upper}}</h3>
   </div>
 </div>
 <div class="row">
@@ -35,7 +35,7 @@
 <div class="row left">
   <div class="col s12 m12 l12 ">
     <div class="chip">
-    #{{place.category.name}}
+    <a href="#">#{{place.category.name}}</a>
       <!-- <i class="close material-icons">close</i> -->
     </div>
 
@@ -43,7 +43,16 @@
 
 </div>
 <div class="row">
-  <div class="col s12 m12 l12">
+  <div class="col s12 m12 l12 center">
+    <h5>Descriptions</h5>
+  </div>
+  <div class="col s12 m12 l12 center">
+    <p>{{place.description}}</p>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 m12 l12 center">
     <h5>Informations</h5>
   </div>
 </div>
@@ -67,16 +76,33 @@
     <ul class="collection">
       {% for advice in place.advice %}
       <li class="collection-item avatar ">
-        <img src="images/yuna.jpg" alt="" class="circle">
+        <img src="{{ asset ('uploads/images/users/') }}{{ app.user.avatar }}" alt="" class="circle">
         <span class="title"><strong>{{advice.title}}</strong></span>
         <p class="">par : {{advice.user.username}}
         </p>
 
         <p class="truncate"> {{advice.comment}}</p>
+        {% if advice.score == 5 %}
         <a href="#!" class="secondary-content"><i class="yellow-text material-icons left">grade</i>{{advice.score}} / 5</a>
+        {% elseif advice.score == 4 %}
+        <a href="#!" class="secondary-content"><i class="blue-text material-icons left">grade</i>{{advice.score}} / 5</a>
+        {% elseif advice.score == 3 %}
+        <a href="#!" class="secondary-content"><i class="green-text material-icons left">grade</i>{{advice.score}} / 5</a>
+        {% elseif advice.score == 2 %}
+        <a href="#!" class="secondary-content"><i class="orange-text material-icons left">grade</i>{{advice.score}} / 5</a>
+        {% elseif advice.score == 1 %}
+        <a href="#!" class="secondary-content"><i class="red-text material-icons left">grade</i>{{advice.score}} / 5</a>
+        {% endif %}
       </li>
       {% endfor %}
     </div>
+  </div>
+  <div class="row">
+    <div class="col s12 m12 l12 center">
+      <a href="#" class="btn "> écrire un avis</a>
+
+    </div>
+
   </div>
 </ul>
 {% endblock %}

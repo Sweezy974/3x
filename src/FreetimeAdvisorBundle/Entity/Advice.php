@@ -54,6 +54,12 @@ class Advice
   */
   private $user;
 
+  /**
+  * @ORM\Column(type="datetime",options={"default":0})
+  * @var \DateTime
+  */
+  private $date;
+
 
   /**
   * Get id
@@ -140,37 +146,48 @@ class Advice
 
 
 
-    public function setPlace(\FreetimeAdvisorBundle\Entity\Place $place = null)
-    {
-        $this->place = $place;
-        return $this;
-    }
+  public function setPlace(\FreetimeAdvisorBundle\Entity\Place $place = null)
+  {
+    $this->place = $place;
+    return $this;
+  }
 
 
-    public function getPlace()
-    {
-        return $this->place;
-    }
+  public function getPlace()
+  {
+    return $this->place;
+  }
 
-    /**
-     * Set User
-     *
-     * @param \FreetimeAdvisorBundle\Entity\User $user
-     *
-     * @return Advice
-     */
-    public function setUser(\FreetimeAdvisorBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-        return $this;
-    }
-    /**
-     * Get User
-     *
-     * @return \FreetimeAdvisorBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
+  /**
+  * Set User
+  *
+  * @param \FreetimeAdvisorBundle\Entity\User $user
+  *
+  * @return Advice
+  */
+  public function setUser(\FreetimeAdvisorBundle\Entity\User $user = null)
+  {
+    $this->user = $user;
+    return $this;
+  }
+  /**
+  * Get User
+  *
+  * @return \FreetimeAdvisorBundle\Entity\User
+  */
+  public function getUser()
+  {
+    return $this->user;
+  }
+
+  public function getDate()
+  {
+    return $this->date;
+  }
+
+  public function setDate($date)
+  {
+    $this->date = new \DateTime();
+    return $this;
+  }
 }

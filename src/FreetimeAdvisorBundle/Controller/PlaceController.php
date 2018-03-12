@@ -17,7 +17,7 @@ class PlaceController extends Controller
 
   /**
   * @Route("/new/place", name="new_place")
-  * @Method("POST")
+  * @Method({"GET","POST"})
   */
   public function newPlace(Request $request)
   {
@@ -27,7 +27,8 @@ class PlaceController extends Controller
     $form = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
     $form->handleRequest($request);
     // $article->setDate(date("d-m-Y"))
-    $place->setUser($user);
+    $place->setUser($user)
+          ->setDate("now");
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
       $em->persist($place);
@@ -53,7 +54,9 @@ class PlaceController extends Controller
     $advice = new Advice();
     $form = $this->createForm('FreetimeAdvisorBundle\Form\AdviceType', $advice);
     $form->handleRequest($request);
-    $advice->setUser($user)
+    $advice
+    ->setUser($user)
+    ->setDate("now")
     ->setPlace($place);
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();

@@ -46,6 +46,12 @@ class Photo
     */
     private $advice;
 
+    /**
+    * @ORM\Column(type="datetime",options={"default":0})
+    * @var \DateTime
+    */
+    private $date;
+
 
     /**
      * Get id
@@ -145,5 +151,16 @@ class Photo
     public function getAdvice()
     {
         return $this->advice;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function setDate()
+    {
+        $this->date = new \DateTime();
+        return $this;
     }
 }
