@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use FreetimeAdvisorBundle\Entity\Place;
 use FreetimeAdvisorBundle\Entity\Advice;
+use FreetimeAdvisorBundle\Entity\Photo;
 
 
 
@@ -63,7 +64,7 @@ class PlaceController extends Controller
       $em->persist($advice);
       $em->flush();
 
-      return $this->redirectToRoute('show_place', array('id' => $place->getId()));
+      return $this->redirectToRoute('new_place_photo', array('id' => $place->getId()));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/advice/new.html.twig', array(
       'place'=> $place,
@@ -85,6 +86,35 @@ class PlaceController extends Controller
 
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(
       'place' => $place
+    ));
+  }
+
+  /**
+  * @Route("place/{id}/new/photo", name="new_place_photo")
+  * @Method({"GET","POST"})
+  */
+  public function newPlacePhoto(Place $place, Request $request)
+  {
+    $user = $this->getUser();
+    $user->getId();
+    $photo = new Photo();
+    $form = $this->createForm('FreetimeAdvisorBundle\Form\PhotoType', $photo);
+    $form->handleRequest($request);
+    $photo
+    ->setUser($user)
+    ->setDate("now")
+    ->setPlace($place);
+    if ($form->isSubmitted() && $form->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($photo);
+      $em->flush();
+
+      return $this->redirectToRoute('show_place', array('id' => $place->getId()));
+    }
+    return $this->render('@FreetimeAdvisorBundle/Resources/views/photo/new.html.twig', array(
+      'place'=> $place,
+      'user' => $user,
+      'form' => $form->createView(),
     ));
   }
 }

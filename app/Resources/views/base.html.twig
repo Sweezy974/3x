@@ -7,6 +7,7 @@
   {% block stylesheets %}
   <!--  Main CSS Style -->
   <link rel="stylesheet" type="" href="{{ asset ('css/main.css') }}">
+  <link href="{{ asset ('css/lightbox.css') }}" rel="stylesheet">
   <!-- CSS animation  -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
   <!-- materialize CSS -->
@@ -105,17 +106,17 @@
 <!-- Materialize  JS CDN -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.js"></script>
 <!-- <script type="text/javascript" src="{{ asset('js/materialize.min.js') }}"></script> -->
+<!--  -->
+<script src="{{ asset ('js/lightbox.js') }}"></script>
 <script type="text/javascript">
-// $(document).ready(function(){
-//    $('.carousel').carousel();
-//   $('.carousel.carousel-slider').carousel({fullWidth: true});
-// });
+
 $(document).ready(function(){
   // $('.slider').slider();
   $('.slider').slider({transition: 1000});
   $(".button-collapse").sideNav();
   $('.materialboxed').materialbox();
   $('.carousel').carousel();
+  $('.carousel.carousel-slider').carousel({fullWidth: true});
   $('.carousel.carousel-slider').carousel({fullWidth: true});
   $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
@@ -132,12 +133,19 @@ $(document).ready(function(){
     selectYears: 30, // Creates a dropdown of 15 years to control year
     format: 'dd/mm/yyyy'
   });
+  $('.materialboxed').materialbox();
+  $('.modal').modal();
 });
 
 function changeText()
 {
   document.getElementById('add').innerHTML = '<i class="material-icons left">star</i>Ajouté';
 }
+
+lightbox.option({
+  'resizeDuration': 200,
+  'wrapAround': true
+})
 
 </script>
 {% endblock %}

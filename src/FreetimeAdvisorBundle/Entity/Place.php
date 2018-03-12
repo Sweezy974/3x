@@ -66,6 +66,11 @@ class Place
     private $advice;
 
     /**
+    * @ORM\OneToMany(targetEntity="Photo", mappedBy="place", cascade={"remove", "persist"}))
+    */
+    private $photo;
+
+    /**
     * @ORM\Column(type="datetime",options={"default":0})
     * @var \DateTime
     */
@@ -225,6 +230,27 @@ class Place
         return $this;
     }
 
+    /**
+    * Get Category
+    *
+    * @return \FreetimeAdvisorBundle\Entity\Advice
+    */
+    public function getAdvice()
+    {
+        return $this->advice;
+    }
+
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
     public function getDate()
     {
         return $this->date;
@@ -234,16 +260,6 @@ class Place
     {
         $this->date = new \DateTime();
         return $this;
-    }
-
-    /**
-    * Get Category
-    *
-    * @return \FreetimeAdvisorBundle\Entity\Advice
-    */
-    public function getAdvice()
-    {
-        return $this->advice;
     }
 
 

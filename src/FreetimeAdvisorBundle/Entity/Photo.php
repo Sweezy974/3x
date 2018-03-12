@@ -3,164 +3,179 @@
 namespace FreetimeAdvisorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * Photo
- *
- * @ORM\Table(name="photo")
- * @ORM\Entity(repositoryClass="FreetimeAdvisorBundle\Repository\PhotoRepository")
- */
+* Photo
+*
+* @ORM\Table(name="photo")
+* @ORM\Entity(repositoryClass="FreetimeAdvisorBundle\Repository\PhotoRepository")
+* @Vich\Uploadable
+*/
 class Photo
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pathname", type="string", length=255, unique=true)
-     */
-    private $pathname;
-
-    /**
-    * @ORM\ManyToOne(targetEntity="User", inversedBy="photo")
-    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-    */
-    private $user;
-
-    /**
-    * @ORM\ManyToOne(targetEntity="Place", inversedBy="photo")
-    * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
-    */
-    private $place;
-
-    /**
-    * @ORM\ManyToOne(targetEntity="Advice", inversedBy="photo")
-    * @ORM\JoinColumn(name="advice_id", referencedColumnName="id")
-    */
-    private $advice;
-
-    /**
-    * @ORM\Column(type="datetime",options={"default":0})
-    * @var \DateTime
-    */
-    private $date;
+  /**
+  * @var int
+  *
+  * @ORM\Column(name="id", type="integer")
+  * @ORM\Id
+  * @ORM\GeneratedValue(strategy="AUTO")
+  */
+  private $id;
 
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
+  /**
+  * @ORM\Column(type="string", length=255,options={"default":"default.jpg"})
+  * @var string
+  */
+  private $name;
+
+  /**
+  * @Vich\UploadableField(mapping="place_images", fileNameProperty="name")
+  * @var File
+  */
+  private $imageFile;
+
+
+  /**
+  * @ORM\ManyToOne(targetEntity="User", inversedBy="photo")
+  * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+  */
+  private $user;
+
+  /**
+  * @ORM\ManyToOne(targetEntity="Place", inversedBy="photo")
+  * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
+  */
+  private $place;
+
+  /**
+  * @ORM\ManyToOne(targetEntity="Advice", inversedBy="photo")
+  * @ORM\JoinColumn(name="advice_id", referencedColumnName="id")
+  */
+  private $advice;
+
+  /**
+  * @ORM\Column(type="datetime",options={"default":0})
+  * @var \DateTime
+  */
+  private $date;
+
+
+  /**
+  * Get id
+  *
+  * @return int
+  */
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  public function setImageFile(File $image = null)
+  {
+    $this->imageFile = $image;
+
+    // VERY IMPORTANT:
+    // It is required that at least one field changes if you are using Doctrine,
+    // otherwise the event listeners won't be called and the file is lost
+    if ($image) {
+      // if 'updatedAt' is not defined in your entity, use another property
+      $this->date = new \DateTime('now');
     }
+  }
 
-    /**
-     * Set pathname
-     *
-     * @param string $pathname
-     *
-     * @return Photo
-     */
-    public function setPathname($pathname)
-    {
-        $this->pathname = $pathname;
+  public function getImageFile()
+  {
+    return $this->imageFile;
+  }
 
-        return $this;
-    }
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
 
-    /**
-     * Get pathname
-     *
-     * @return string
-     */
-    public function getPathname()
-    {
-        return $this->pathname;
-    }
+  public function getName()
+  {
+    return $this->name;
+  }
 
-    /**
-     * Set User
-     *
-     * @param \FreetimeAdvisorBundle\Entity\User $user
-     *
-     * @return Photo
-     */
-    public function setUser(\FreetimeAdvisorBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-        return $this;
-    }
-    /**
-     * Get User
-     *
-     * @return \FreetimeAdvisorBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
 
-    /**
-     * Set Place
-     *
-     * @param \Blog\RunBlogBundle\Entity\Place $place
-     *
-     * @return Photo
-     */
-    public function setPlace(\FreetimeAdvisorBundle\Entity\Place $place = null)
-    {
-        $this->place = $place;
-        return $this;
-    }
-    /**
-     * Get Place
-     *
-     * @return \FreetimeAdvisorBundle\Entity\Place
-     */
-    public function getPlace()
-    {
-        return $this->place;
-    }
+  /**
+  * Set User
+  *
+  * @param \FreetimeAdvisorBundle\Entity\User $user
+  *
+  * @return Photo
+  */
+  public function setUser(\FreetimeAdvisorBundle\Entity\User $user = null)
+  {
+    $this->user = $user;
+    return $this;
+  }
+  /**
+  * Get User
+  *
+  * @return \FreetimeAdvisorBundle\Entity\User
+  */
+  public function getUser()
+  {
+    return $this->user;
+  }
 
-    /**
-     * Set Advice
-     *
-     * @param \Blog\RunBlogBundle\Entity\Advice $place
-     *
-     * @return Photo
-     */
-    public function setAdvice(\FreetimeAdvisorBundle\Entity\Advice $advice = null)
-    {
-        $this->advice = $advice;
-        return $this;
-    }
-    /**
-     * Get Advice
-     *
-     * @return \FreetimeAdvisorBundle\Entity\Advice
-     */
-    public function getAdvice()
-    {
-        return $this->advice;
-    }
+  /**
+  * Set Place
+  *
+  * @param \Blog\RunBlogBundle\Entity\Place $place
+  *
+  * @return Photo
+  */
+  public function setPlace(\FreetimeAdvisorBundle\Entity\Place $place = null)
+  {
+    $this->place = $place;
+    return $this;
+  }
+  /**
+  * Get Place
+  *
+  * @return \FreetimeAdvisorBundle\Entity\Place
+  */
+  public function getPlace()
+  {
+    return $this->place;
+  }
 
-    public function getDate()
-    {
-        return $this->date;
-    }
+  /**
+  * Set Advice
+  *
+  * @param \Blog\RunBlogBundle\Entity\Advice $place
+  *
+  * @return Photo
+  */
+  public function setAdvice(\FreetimeAdvisorBundle\Entity\Advice $advice = null)
+  {
+    $this->advice = $advice;
+    return $this;
+  }
+  /**
+  * Get Advice
+  *
+  * @return \FreetimeAdvisorBundle\Entity\Advice
+  */
+  public function getAdvice()
+  {
+    return $this->advice;
+  }
 
-    public function setDate()
-    {
-        $this->date = new \DateTime();
-        return $this;
-    }
+  public function getDate()
+  {
+    return $this->date;
+  }
+
+  public function setDate()
+  {
+    $this->date = new \DateTime();
+    return $this;
+  }
 }
