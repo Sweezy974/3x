@@ -31,7 +31,7 @@ class RegistrationType extends AbstractType
       'class' => 'FreetimeAdvisorBundle:Category',
       'mapped'=>true,
       'choice_label' => 'name',
-      'multiple' => 'true',
+      // 'multiple' => 'true',
     ))
     ->add('description', TextareaType::class,array('required' => false,'attr' => array('maxlength' => 300)))
     ->add('imageFile', VichImageType::class, array('required' => true,'label'=>false,'attr' => array('class' => 'col s12 m10 l10 offset-m1 offset-l1 center')))

@@ -57,9 +57,12 @@
     <ul class="collection">
       {% for advice in place.advice %}
       <li class="collection-item avatar ">
-        <img src="{{ asset ('uploads/images/users/') }}{{ app.user.avatar }}" alt="" class="circle">
+        <img src="{{ asset ('uploads/images/users/') }}{{ advice.user.avatar }}" alt="" class="circle">
         <span class="title"><strong>{{advice.title}}</strong></span>
         <p class="">par : {{advice.user.username}}
+          {% if advice.user.username == app.user.username %}
+          <a href="#">modifier mon avis</a>
+          {% endif %}
         </p>
 
         <p class="truncate"> {{advice.comment}}</p>
