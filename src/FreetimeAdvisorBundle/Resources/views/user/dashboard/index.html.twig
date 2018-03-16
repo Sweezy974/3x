@@ -63,13 +63,20 @@
   </div>
   <div class="col s12">
 
-  <ul class="collection with-header">
-  <!-- <li class="collection-header"><h4>Mes avis</h4></li> -->
-  {% for advice in advices %}
-  <li class="collection-item"><div><strong>{{ advice.place.name|upper }}</strong> le {{advice.date|date('d/m/Y à h:m')}} <br>{{advice.title}} <br>{{ advice.comment }}<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-{% endfor %}
-</ul>
-</div>
+    <ul class="collection with-header">
+      <!-- <li class="collection-header"><h4>Mes avis</h4></li> -->
+      {% for advice in advices %}
+      <li class="collection-item">
+        <div>
+          <strong><a href="{{ path('show_place', {'id': advice.place.id }) }}">{{ advice.place.name|upper }}</a></strong>
+          <br><strong>{{advice.title}}</strong>
+          <br>{{ advice.comment }}
+          <br>    le {{advice.date|date('d/m/Y à h:m')}}
+          <a href="{{ path('edit_advice', {'idPlace': advice.place.id,'id': advice.id }) }}" class="secondary-content"><i class="material-icons">edit</i></a></div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
 <div id="lieux" class="row center">
   <div class="col s12 m12 l12">
