@@ -3,6 +3,10 @@
 <div class="row">
   <div class="col s12 m12 l12 center">
     <h3>{{place.name|upper}}</h3>
+    {% if place.user.id == app.user.id %}
+    <a href="{{ path('edit_place', { 'id': place.id }) }}">Modifier ce lieu</a>
+
+  {% endif %}
   </div>
 </div>
 <div class="row">
@@ -60,8 +64,8 @@
         <img src="{{ asset ('uploads/images/users/') }}{{ advice.user.avatar }}" alt="" class="circle">
         <span class="title"><strong>{{advice.title}}</strong></span>
         <p class="">par : {{advice.user.username}}
-          {% if advice.user.username == app.user.username %}
-          <a href="#">modifier mon avis</a>
+          {% if advice.user.id == app.user.id %}
+          <a href="{{ path('edit_advice', {'idPlace': advice.place.id,'id': advice.id }) }}">Modifier mon avis</a>
           {% endif %}
         </p>
 

@@ -27,7 +27,6 @@ class PlaceController extends Controller
     $place = new Place();
     $form = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
     $form->handleRequest($request);
-    // $article->setDate(date("d-m-Y"))
     $place->setUser($user)
           ->setDate("now");
     if ($form->isSubmitted() && $form->isValid()) {
@@ -86,6 +85,28 @@ class PlaceController extends Controller
 
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(
       'place' => $place
+    ));
+  }
+
+  /**
+  * @Route("place/{id}/edit", name="edit_place")
+  * @Method({"GET","POST"})
+  */
+  public function editPlace(Place $place, Request $request)
+  {
+    $editForm = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
+    $editForm->handleRequest($request);
+    if ($editForm->isSubmitted() && $editForm->isValid()) {
+        $em = $this->getDoctrine()->getManager();
+        $place->setDate("now");
+        $em->persist($place);
+        $em->flush();
+
+        return $this->redirectToRoute('show_place', array('id' => $place->getId()));
+    }
+    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/edit.html.twig', array(
+        'place' => $place,
+        'edit_form' => $editForm->createView(),
     ));
   }
 

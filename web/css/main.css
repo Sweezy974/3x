@@ -27,3 +27,12 @@ body{
   background-repeat: repeat;
   /* background-size: 10%; */
 }
+
+.nav-content a {
+  color: #00b8d4!important;
+}
+
+
+.nav-content a:hover{
+  color: black!important;
+}

@@ -53,13 +53,13 @@
     <a href="#!name"><span class="white-text name"><i class="material-icons left">account_circle</i>{{ app.user.username }}</span></a>
     <a href="#!email"><span class="white-text email"><i class="material-icons left">email</i>{{ app.user.email }}</span></a>
   </div></li>
-  <li><a class="subheader">Profil</a></li>
-  <li><a href="/logout"><i class="material-icons left">perm_contact_calendar</i>Voir profil</a></li>
   <li><a href="/logout"><i class="material-icons left">exit_to_app</i>Déconnexion</a></li>
   <li><div class="divider"></div></li>
   <li><a class="subheader">Tableau de bord</a></li>
-  <li><a class="waves-effect" href="#!"><i class="material-icons left">note_add</i>Créé un avis</a></li>
-  <li><a class="waves-effect" href="#!"><i class="material-icons left">assignment_turned_in</i>Mes avis</a></li>
+  <li><a class="waves-effect" href="/dashboard#profil"><i class="material-icons left">perm_contact_calendar</i>Voir profil</a></li>
+  <li><a class="waves-effect" href="/dashboard#avis"><i class="material-icons left">assignment_turned_in</i>Mes avis</a></li>
+  <li><a class="waves-effect" href="/dashboard#lieux"><i class="material-icons left">location_on</i>Mes lieux</a></li>
+  <li><a class="waves-effect" href="/dashboard#favoris"><i class="material-icons left">star</i>Mes favoris</a></li>
   <!-- <li><a class="waves-effect" href="#!">Mes lieux</a></li> -->
 </ul>
 <!-- <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a> -->
@@ -121,7 +121,7 @@ $(document).ready(function(){
     today: 'Today',
     clear: 'Clear',
     close: 'Ok',
-    closeOnSelect: false // Close upon selecting a date,
+    closeOnSelect: true // Close upon selecting a date,
   });
   $('select').material_select();
   $('input#input_text, textarea#fos_user_registration_form_description').characterCounter();

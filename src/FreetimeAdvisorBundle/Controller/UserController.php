@@ -12,10 +12,14 @@ class UserController extends Controller
   */
   public function dashboard()
   {
+    $user = $this->getUser();
+    $user->getId();
+    $em = $this->getDoctrine()->getManager();
+    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('user'=>$user),array('id' => 'desc'));
+    $advices = $em->getRepository('FreetimeAdvisorBundle:Advice')->findby(array('user'=>$user),array('id' => 'desc'));
     return $this->render('@FreetimeAdvisorBundle/Resources/views/user/dashboard/index.html.twig', array(
-      // 'place' => $place,
-      // 'user' => $user,
-      // 'form' => $form->createView(),
+      'places' => $places,
+      'advices' => $advices
     ));
   }
 }
