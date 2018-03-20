@@ -68,7 +68,7 @@
       {% for advice in advices %}
       <li class="collection-item">
         <div>
-          <strong><a href="{{ path('show_place', {'id': advice.place.id }) }}">{{ advice.place.name|upper }}</a></strong>
+          <strong><a href="{{ path('show_place', {'name': advice.place.name }) }}">{{ advice.place.name|upper }}</a></strong>
           <br><strong>{{advice.title}}</strong>
           <br>{{ advice.comment }}
           <br>    le {{advice.date|date('d/m/Y à h:m')}}
@@ -95,8 +95,8 @@
           <p> {{ place.city.name }}</p>
         </div>
         <div class="card-action">
-          <a href="{{ path('show_place', { 'id': place.id }) }}">Voir</a>
-          <a href="{{ path('edit_place', { 'id': place.id }) }}">Modifier</a>
+          <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
+          <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier</a>
         </div>
       </div>
     </div>

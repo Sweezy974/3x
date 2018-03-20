@@ -15,6 +15,19 @@ use FreetimeAdvisorBundle\Entity\Photo;
 
 class PlaceController extends Controller
 {
+  /**
+  *
+  * @Route("/place/index", name="place_index")
+  * @Method("GET")
+  */
+  public function index()
+  {
+    $em = $this->getDoctrine()->getManager();
+    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array(),array('date' => 'desc'));
+    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/index.html.twig', array(
+      'places' => $places,
+    ));
+  }
 
   /**
   * @Route("/new/place", name="new_place")
@@ -28,13 +41,13 @@ class PlaceController extends Controller
     $form = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
     $form->handleRequest($request);
     $place->setUser($user)
-          ->setDate("now");
+    ->setDate("now");
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
       $em->persist($place);
       $em->flush();
 
-      return $this->redirectToRoute('new_place_advice', array('id' => $place->getId()));
+      return $this->redirectToRoute('new_place_advice', array('name' => $place->getName()));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/new.html.twig', array(
       'place' => $place,
@@ -43,8 +56,46 @@ class PlaceController extends Controller
     ));
   }
 
+
   /**
-  * @Route("place/{id}/new/advice", name="new_place_advice")
+  * @Route("place/{name}", name="show_place")
+  * @Method({"GET","POST"})
+  */
+  public function showPlace(Place $place, Request $request)
+  {
+    $advice = new Advice();
+    $comment = $advice->getTitle();
+
+
+    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(
+      'place' => $place
+    ));
+  }
+
+  /**
+  * @Route("place/{name}/edit", name="edit_place")
+  * @Method({"GET","POST"})
+  */
+  public function editPlace(Place $place, Request $request)
+  {
+    $editForm = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
+    $editForm->handleRequest($request);
+    if ($editForm->isSubmitted() && $editForm->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+      $place->setDate("now");
+      $em->persist($place);
+      $em->flush();
+
+      return $this->redirectToRoute('show_place', array('name' => $place->getName()));
+    }
+    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/edit.html.twig', array(
+      'place' => $place,
+      'edit_form' => $editForm->createView(),
+    ));
+  }
+
+  /**
+  * @Route("place/{name}/new/advice", name="new_place_advice")
   * @Method({"GET","POST"})
   */
   public function newPlaceAdvice(Place $place, Request $request)
@@ -63,7 +114,7 @@ class PlaceController extends Controller
       $em->persist($advice);
       $em->flush();
 
-      return $this->redirectToRoute('new_place_photo', array('id' => $place->getId()));
+      return $this->redirectToRoute('new_place_photo', array('name' => $place->getName()));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/advice/new.html.twig', array(
       'place'=> $place,
@@ -74,44 +125,7 @@ class PlaceController extends Controller
   }
 
   /**
-  * @Route("place/{id}", name="show_place")
-  * @Method({"GET","POST"})
-  */
-  public function showPlace(Place $place, Request $request)
-  {
-    $advice = new Advice();
-    $comment = $advice->getTitle();
-
-
-    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(
-      'place' => $place
-    ));
-  }
-
-  /**
-  * @Route("place/{id}/edit", name="edit_place")
-  * @Method({"GET","POST"})
-  */
-  public function editPlace(Place $place, Request $request)
-  {
-    $editForm = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
-    $editForm->handleRequest($request);
-    if ($editForm->isSubmitted() && $editForm->isValid()) {
-        $em = $this->getDoctrine()->getManager();
-        $place->setDate("now");
-        $em->persist($place);
-        $em->flush();
-
-        return $this->redirectToRoute('show_place', array('id' => $place->getId()));
-    }
-    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/edit.html.twig', array(
-        'place' => $place,
-        'edit_form' => $editForm->createView(),
-    ));
-  }
-
-  /**
-  * @Route("place/{id}/new/photo", name="new_place_photo")
+  * @Route("place/{name}/new/photo", name="new_place_photo")
   * @Method({"GET","POST"})
   */
   public function newPlacePhoto(Place $place, Request $request)
@@ -130,7 +144,7 @@ class PlaceController extends Controller
       $em->persist($photo);
       $em->flush();
 
-      return $this->redirectToRoute('show_place', array('id' => $place->getId()));
+      return $this->redirectToRoute('show_place', array('name' => $place->getName()));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/photo/new.html.twig', array(
       'place'=> $place,

@@ -34,7 +34,7 @@
     </a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       {% if is_granted("ROLE_USER") %}
-      <li><a>découvrir</a></li>
+      <li><a href="{{ path('place_index') }}">découvrir</a></li>
       <li><a data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons left">account_circle</i>{{ app.user.username }}</a></li>
       {% else %}
       <li><a href="/login"><i class="material-icons left">input</i>connexion</a></li>

@@ -178,4 +178,6 @@ class Photo
     $this->date = new \DateTime();
     return $this;
   }
+
+
 }

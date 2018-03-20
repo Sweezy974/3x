@@ -1,0 +1,40 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+<div class="row">
+  <div class="col s12 m12 l12 center">
+    <h3>Les derniers lieux</h3>
+  </div>
+</div>
+<div class="row">
+  {% for place in places %}
+
+  <div class="col s12 m4">
+    <div class="card horizontal">
+      <div class="card-image">
+        <p>
+        </p>
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          <h5><strong>{{place.name}}</strong></h5>
+
+          <div class="chip">
+            <a href="#" style="color:black;">#{{place.city.name}}</a>
+          </div>
+          <div class="chip">
+            <a href="#">#{{place.category.name}}</a>
+          </div>
+        </div>
+        <div class="card-action">
+          <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
+          <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {% endfor %}
+</div>
+
+{% endblock %}

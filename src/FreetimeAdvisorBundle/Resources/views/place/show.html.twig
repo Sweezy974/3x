@@ -4,7 +4,7 @@
   <div class="col s12 m12 l12 center">
     <h3>{{place.name|upper}}</h3>
     {% if place.user.id == app.user.id %}
-    <a href="{{ path('edit_place', { 'id': place.id }) }}">Modifier ce lieu</a>
+    <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier ce lieu</a>
 
   {% endif %}
   </div>
@@ -65,7 +65,7 @@
         <span class="title"><strong>{{advice.title}}</strong></span>
         <p class="">par : {{advice.user.username}}
           {% if advice.user.id == app.user.id %}
-          <a href="{{ path('edit_advice', {'idPlace': advice.place.id,'id': advice.id }) }}">Modifier mon avis</a>
+          <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier mon avis</a>
           {% endif %}
         </p>
 
@@ -87,7 +87,7 @@
   </div>
   <div class="row">
     <div class="col s12 m12 l12 center">
-      <a href="{{ path('new_place_advice', {'id': place.id }) }}" class="btn "> écrire un avis</a>
+      <a href="{{ path('new_place_advice', {'name': place.name }) }}" class="btn "> écrire un avis</a>
 
     </div>
 
