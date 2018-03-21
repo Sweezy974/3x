@@ -62,6 +62,12 @@ class Photo
   */
   private $date;
 
+  /**
+  * @var int
+  *
+  * @ORM\Column(name="like", type="integer")
+  */
+  private $like;
 
   /**
   * Get id
@@ -177,6 +183,18 @@ class Photo
   {
     $this->date = new \DateTime();
     return $this;
+  }
+
+
+  public function setLike($like)
+  {
+      $this->name = $like;
+      return $this;
+  }
+
+  public function getLike()
+  {
+      return $this->like;
   }
 
 

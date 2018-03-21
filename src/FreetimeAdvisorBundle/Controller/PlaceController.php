@@ -152,4 +152,5 @@ class PlaceController extends Controller
       'form' => $form->createView(),
     ));
   }
+
 }

@@ -43,6 +43,13 @@ class Place
     private $description;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(name="bestPicture", type="string", length=255, nullable=true,options={"default":"default.jpg"})
+    */
+    private $bestPicture;
+
+    /**
     * @ORM\ManyToOne(targetEntity="City", inversedBy="place")
     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
     */
@@ -168,6 +175,17 @@ class Place
         return $this->description;
     }
 
+    public function setBestPicture($bestPicture)
+    {
+        $this->bestPicture = $bestPicture;
+    }
+
+    public function getBestPicture()
+    {
+        return $this->bestPicture;
+    }
+
+
     /**
     * Set City
     *
@@ -246,6 +264,11 @@ class Place
         return $this;
     }
 
+    /**
+    * Get Category
+    *
+    * @return \FreetimeAdvisorBundle\Entity\Photo
+    */
     public function getPhoto()
     {
         return $this->photo;
