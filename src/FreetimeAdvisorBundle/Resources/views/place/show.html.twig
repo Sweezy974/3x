@@ -5,6 +5,7 @@
     <h3>{{place.name|upper}}</h3>
     {% if place.user.id == app.user.id %}
     <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier ce lieu</a>
+    <a href="{{ path('user_new_favorite', {'id': place.id }) }}">Ajouter aux favoris</a>
 
   {% endif %}
   </div>
