@@ -11,7 +11,7 @@ use FreetimeAdvisorBundle\Entity\Hobbies;
 class UserController extends Controller
 {
   /**
-  * @Route("/dashboard", name="dashboard")
+  * @Route("user/dashboard", name="user_dashboard")
   */
   public function dashboard()
   {
@@ -20,14 +20,16 @@ class UserController extends Controller
     $em = $this->getDoctrine()->getManager();
     $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('user'=>$user),array('id' => 'desc'));
     $advices = $em->getRepository('FreetimeAdvisorBundle:Advice')->findby(array('user'=>$user),array('id' => 'desc'));
+    $hobbies = $em->getRepository('FreetimeAdvisorBundle:Hobbies')->findOneByUser(array('user'=>$user));
     return $this->render('@FreetimeAdvisorBundle/Resources/views/user/dashboard/index.html.twig', array(
       'places' => $places,
-      'advices' => $advices
+      'advices' => $advices,
+      'hobbies' => $hobbies
     ));
   }
 
   /**
-  * @Route("/user/hobbies/select", name="new_place")
+  * @Route("/user/hobbies/select", name="user_select_hobbies")
   * @Method({"GET","POST"})
   */
   public function selectHobbies(Request $request)
@@ -51,7 +53,7 @@ class UserController extends Controller
   }
 
   /**
-  * @Route("user/{pseudo}/hobbies/{id}/edit", name="edit_hobbies")
+  * @Route("user/{pseudo}/hobbies/{id}/edit", name="user_edit_hobbies")
   * @Method({"GET","POST"})
   */
   public function editHobbies(Hobbies $hobbies ,Request $request)

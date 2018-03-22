@@ -21,17 +21,15 @@
   <!-- <li><a class="waves-effect" href="#!">Mes lieux</a></li> -->
 </ul>
 <!-- <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a> -->
-{% else %}
-{% endif %}
-<nav class="black cyan accent-4 navbar-fixed nav-extended">
+<nav class="black cyan accent-4 navbar-fixed nav-extended ">
   <div class="nav-wrapper">
-    <a href="/" class="brand-logo animated jackInTheBox vertical-align-center">
-      <img width="140"class="vertical-middle" src="{{ asset ('images/logo-plaintext.png') }}">
+    <a href="/" class="brand-logo animated jackInTheBox vertical-align-center hide-on-med-and-down" >
+      <img width="140"class="vertical-middle  hide-on-med-and-down" src="{{ asset ('images/logo-plaintext.png') }}">
     </a>
-    <a class="brand-logo center">Tableau de bord</a>
+    <a data-activates="slide-out" class="button-collapse show-on-large brand-logo center">Tableau de bord</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       {% if is_granted("ROLE_USER") %}
-      <li><a>découvrir</a></li>
+      <li><a href="{{ path('place_index') }}">découvrir</a></li>
       <li><a data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons left">account_circle</i>{{ app.user.username }}</a></li>
       {% else %}
       <li><a href="/login"><i class="material-icons left">input</i>connexion</a></li>
@@ -39,12 +37,12 @@
       {% endif %}
     </ul>
   </div>
-  <div class="nav-content white darken-1">
+  <div class="nav-content white darken-1 hide-on-med-and-down">
     <ul class="tabs tabs-transparent">
-      <li class="tab"><a href="#profil"><i class="material-icons left">account_circle</i>Voir profil</a></li>
-      <li class="tab"><a class="active" href="#avis"><i class="material-icons left">assignment_turned_in</i>Mes avis</a></li>
-      <li class="tab"><a href="#lieux"><i class="material-icons left medium">location_on</i>Mes lieux</a></li>
-      <li class="tab"><a href="#favoris"><i class="material-icons left medium">star</i>Mes favoris</a></li>
+      <li class="tab"><a href="{{ path('user_dashboard') }}#profil"><i class="material-icons left">account_circle</i>Voir profil</a></li>
+      <li class="tab"><a class="active" href="{{ path('user_dashboard') }}#avis"><i class="material-icons left">assignment_turned_in</i>Mes avis</a></li>
+      <li class="tab"><a href="{{ path('user_dashboard') }}#lieux"><i class="material-icons left medium">location_on</i>Mes lieux</a></li>
+      <li class="tab"><a href="{{ path('user_dashboard') }}#favoris"><i class="material-icons left medium">star</i>Mes favoris</a></li>
     </ul>
   </div>
 
@@ -53,9 +51,52 @@
   <div class="col s12 m12 l12">
     <h3>Mon profil</h3>
   </div>
-  <div class="col s12 m12 l12">
-    profil
+  <div class="col s12">
+    <img class="circle" width="150"src="{{ asset ('uploads/images/users/') }}{{ app.user.avatar }}">
   </div>
+  <div class="col s12">
+    <p><strong>Pseudo</strong></p>
+  </div>
+  <div class="col s12">
+    <p>{{app.user.username}}</p>
+  </div>
+  <div class="col s12">
+    <p><strong>Email</strong></p>
+  </div>
+  <div class="col s12">
+    <p>{{app.user.email}}</p>
+  </div>
+  <div class="col s12">
+    <p><strong>Date de naissance</strong></p>
+  </div>
+  <div class="col s12">
+    <p>{{app.user.age|date('d/m/Y')}}</p>
+  </div>
+  <div class="col s12">
+    <p><strong>Ma description</strong></p>
+  </div>
+  <div class="col s12">
+    <p>{{app.user.description}}</p>
+  </div>
+  <div class="col s12">
+    <a  href="{{ path('fos_user_profile_edit') }}"><strong>Modifier</strong></a>
+  </div>
+  <div class="col s12">
+    <p><strong>Mes loisirs favoris</strong></p>
+  </div>
+  <div class="col s2 offset-s3">
+    <p>{{ hobbies.first.name}}</p>
+  </div>
+  <div class="col s2 ">
+    <p>{{ hobbies.second.name}}</p>
+  </div>
+  <div class="col s2 ">
+    <p>{{ hobbies.third.name}}</p>
+  </div>
+  <div class="col s12">
+    <a  href="{{ path('user_edit_hobbies', {'pseudo': app.user.id,'id': hobbies.id }) }}"><strong>Modifier</strong></a>
+  </div>
+
 </div>
 <div id="avis" class="row ">
   <div class="col s12 m12 l12 center">
@@ -74,50 +115,51 @@
           <br>    le {{advice.date|date('d/m/Y à h:m')}}
           <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}" class="secondary-content"><i class="material-icons">edit</i></a></div>
         </li>
-      {% endfor %}
-    </ul>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
-</div>
-<div id="lieux" class="row center">
-  <div class="col s12 m12 l12">
-    <h3>Mes lieux</h3>
-  </div>
-  <div class="col s12 m12 l12">
-    lieux
-  </div>
-  <div class="row">
-    {% for place in places %}
+  <div id="lieux" class="row center">
+    <div class="col s12 m12 l12">
+      <h3>Mes lieux</h3>
+    </div>
+    <div class="col s12 m12 l12">
+      lieux
+    </div>
+    <div class="row">
+      {% for place in places %}
 
-    <div class="col s12 m4">
-      <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-          <span class="card-title">{{ place.name|upper }}</span>
-          <p> {{ place.city.name }}</p>
-        </div>
-        <div class="card-action">
-          <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
-          <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier</a>
+      <div class="col s12 m4">
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <span class="card-title">{{ place.name|upper }}</span>
+            <p> {{ place.city.name }}</p>
+          </div>
+          <div class="card-action">
+            <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
+            <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier</a>
+          </div>
         </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-  <div class="row center">
-    <a class="btn " href="{{ path('new_place') }}">Ajouter un lieu</a>
+    <div class="row center">
+      <a class="btn " href="{{ path('new_place') }}">Ajouter un lieu</a>
+
+    </div>
 
   </div>
-
-</div>
-<div id="favoris" class="row center">
-  <div class="col s12 m12 l12">
-    <h3>Mes favoris</h3>
+  <div id="favoris" class="row center">
+    <div class="col s12 m12 l12">
+      <h3>Mes favoris</h3>
+    </div>
+    <div class="col s12 m12 l12">
+      favoris
+    </div>
   </div>
-  <div class="col s12 m12 l12">
-    favoris
-  </div>
-</div>
 
-
+  {% else %}
+  {% endif %}
 {% endblock %}
 
 {% block body %}
