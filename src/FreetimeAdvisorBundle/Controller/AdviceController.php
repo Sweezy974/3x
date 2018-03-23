@@ -32,4 +32,18 @@ class AdviceController extends Controller
       'edit_form' => $editForm->createView(),
     ));
   }
+
+  /**
+  * delete an advices
+  *
+  * @Route("place/{name}/advice/{id}/delete", name="delete_advice")
+  * @Method({"GET", "DELETE"})
+  */
+  public function deleteAdvice(Advice $advice)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $em->remove($advice);
+    $em->flush();
+    return $this->redirectToRoute('user_dashboard');
+  }
 }

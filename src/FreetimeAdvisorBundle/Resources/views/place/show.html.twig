@@ -66,7 +66,8 @@
         <span class="title"><strong>{{advice.title}}</strong></span>
         <p class="">par : {{advice.user.username}}
           {% if advice.user.id == app.user.id %}
-          <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier mon avis</a>
+          <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier mon avis</a>|
+          <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}">Supprimer mon avis</a>
           {% endif %}
         </p>
 

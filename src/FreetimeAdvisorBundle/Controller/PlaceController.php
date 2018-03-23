@@ -132,7 +132,7 @@ class PlaceController extends Controller
   * @ParamConverter("place", class="FreetimeAdvisorBundle:Place",options={"mapping":{"place_name":"name"}})
   * @ParamConverter("advice", class="FreetimeAdvisorBundle:Advice",options={"mapping":{"advice_id":"id"}})
   */
-  public function newPlacePhoto(Place $place,Advice $advice, Request $request)
+  public function newPlacePhoto( $place, $advice, Request $request)
   {
     // $advice = $this->getAdvice();
     $advice->getId();
