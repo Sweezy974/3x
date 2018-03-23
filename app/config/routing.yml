@@ -5,7 +5,7 @@ freetime_advisor:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
-# 
+#
 # new_advice:
 #     resource: "@FreetimeAdvisorBundle/Controller/AdviceController.php"
 #     type:     annotation
