@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use FreetimeAdvisorBundle\Entity\Place;
 use FreetimeAdvisorBundle\Entity\Advice;
 use FreetimeAdvisorBundle\Entity\Photo;
@@ -114,7 +116,7 @@ class PlaceController extends Controller
       $em->persist($advice);
       $em->flush();
 
-      return $this->redirectToRoute('new_place_photo', array('name' => $place->getName()));
+      return $this->redirectToRoute('new_place_photo', array('place_name' => $place->getName(),'advice_id' => $advice->getId()));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/advice/new.html.twig', array(
       'place'=> $place,
@@ -125,11 +127,16 @@ class PlaceController extends Controller
   }
 
   /**
-  * @Route("place/{name}/new/photo", name="new_place_photo")
-  * @Method({"GET","POST"})
+  * @Route("place/{place_name}/advice/{advice_id}/new/photo", name="new_place_photo")
+  * @Template()
+  * @ParamConverter("place", class="FreetimeAdvisorBundle:Place",options={"mapping":{"place_name":"name"}})
+  * @ParamConverter("advice", class="FreetimeAdvisorBundle:Advice",options={"mapping":{"advice_id":"id"}})
   */
-  public function newPlacePhoto(Place $place, Request $request)
+  public function newPlacePhoto(Place $place,Advice $advice, Request $request)
   {
+    // $advice = $this->getAdvice();
+    $advice->getId();
+    // dump($advice);
     $user = $this->getUser();
     $user->getId();
     $photo = new Photo();
@@ -138,6 +145,7 @@ class PlaceController extends Controller
     $photo
     ->setUser($user)
     ->setDate("now")
+    ->setAdvice($advice)
     ->setPlace($place);
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
