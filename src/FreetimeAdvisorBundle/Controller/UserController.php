@@ -107,4 +107,18 @@ class UserController extends Controller
     }
     return $this->redirectToRoute('fos_user_security_login');
   }
+
+  /**
+  * delete a favorite place
+  *
+  * @Route("user/favorites/{id}/delete", name="delete_favorite")
+  * @Method({"GET", "DELETE"})
+  */
+  public function deleteFavorite(Favorites $favorites)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $em->remove($favorites);
+    $em->flush();
+    return $this->redirectToRoute('user_dashboard');
+  }
 }

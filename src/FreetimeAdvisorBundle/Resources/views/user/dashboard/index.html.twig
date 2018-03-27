@@ -53,7 +53,7 @@
     <h3>Mon profil</h3>
   </div>
   <div class="col s12">
-    <img class="circle" width="150"src="{{ asset ('uploads/images/users/') }}{{ app.user.avatar }}">
+    <img class="circle" width="120" height="120" src="{{ asset ('uploads/images/users/') }}{{ app.user.avatar }}">
   </div>
   <div class="col s12">
     <p><strong>Pseudo</strong></p>
@@ -77,7 +77,11 @@
     <p><strong>Ma description</strong></p>
   </div>
   <div class="col s12">
+    {% if app.user.description is null %}
+    <p>vous n'avez pas de description </p>
+    {% else %}
     <p>{{app.user.description}}</p>
+    {% endif %}
   </div>
   <div class="col s12">
     <a  href="{{ path('fos_user_profile_edit') }}"><strong>Modifier</strong></a>
@@ -86,16 +90,30 @@
     <p><strong>Mes loisirs favoris</strong></p>
   </div>
   <div class="col s2 offset-s3">
+    {% if hobbies is null %}
+    {% else %}
     <p>{{ hobbies.first.name}}</p>
+    {% endif %}
   </div>
   <div class="col s2 ">
+    {% if hobbies is null %}
+    <p>Vous n'avez pas encore défini de catégories préférés </p>
+    {% else %}
     <p>{{ hobbies.second.name}}</p>
+    {% endif %}
   </div>
   <div class="col s2 ">
+    {% if hobbies is null %}
+    {% else %}
     <p>{{ hobbies.third.name}}</p>
+    {% endif %}
   </div>
   <div class="col s12">
+    {% if hobbies is null %}
+    <a  href="{{ path('user_select_hobbies') }}"><strong>Ajouter</strong></a>
+    {% else %}
     <a  href="{{ path('user_edit_hobbies', {'pseudo': app.user.id,'id': hobbies.id }) }}"><strong>Modifier</strong></a>
+    {% endif %}
   </div>
 
 </div>
@@ -144,6 +162,8 @@
           </div>
         </div>
       </div>
+      {% else %}
+          <p>vous n'avez pas encore créé de lieu. Voulez-vous en créé un ?</p></br>
       {% endfor %}
     </div>
     <div class="row center">
@@ -169,9 +189,14 @@
           </div>
           <div class="card-action">
             <a href="{{ path('show_place', { 'name': favorite.placeId.name }) }}">Voir</a>
+            <a href="{{ path('delete_favorite', {'id': favorite.id }) }}"><i class="material-icons">edit</i> Supprimer</a>
+
           </div>
         </div>
       </div>
+      {% else %}
+          <p>vous n'avez pas encore choisit de lieux favoris. Pour cela, rendez vous sur une fiche d'un lieu existant et ajouter le à vos favoris. Vous les retrouverez ici !</p></br>
+          <a href="{{ path('place_index')}}">Voir les lieux </a>
       {% endfor %}
     </div>
   </div>
