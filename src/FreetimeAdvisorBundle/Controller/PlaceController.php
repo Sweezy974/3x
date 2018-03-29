@@ -161,4 +161,34 @@ class PlaceController extends Controller
     ));
   }
 
+  /**
+  * @Route("place/by/category/{category_name}", name="searchPlaceByCategory")
+  * @Template()
+  * @ParamConverter("category", class="FreetimeAdvisorBundle:Category",options={"mapping":{"category_name":"name"}})
+  */
+  public function searchPlaceByCategory($category)
+  {
+    $category->getName();
+    $em = $this->getDoctrine()->getManager();
+    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category),array('id' => 'desc'));
+    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/category/index.html.twig', array(
+      'places' => $places,
+    ));
+  }
+
+  /**
+  * @Route("place/by/city/{city_name}", name="searchPlaceByCity")
+  * @Template()
+  * @ParamConverter("city", class="FreetimeAdvisorBundle:City",options={"mapping":{"city_name":"name"}})
+  */
+  public function searchPlaceByCity($city)
+  {
+    $city->getName();
+    $em = $this->getDoctrine()->getManager();
+    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('city'=>$city),array('id' => 'desc'));
+    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/category/index.html.twig', array(
+      'places' => $places,
+    ));
+  }
+
 }
