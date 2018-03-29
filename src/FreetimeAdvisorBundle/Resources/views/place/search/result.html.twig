@@ -1,12 +1,23 @@
 {% extends '::base.html.twig' %}
 {% block body %}
+<script type="text/javascript">
+$(".submit").click(function() {
+  $("#result").location.reload();
+});
+</script>
 <div class="row">
   <div class="col s12 m12 l12 center">
-    <h3>Les derniers lieux</h3>
+    <h4>Rechercher</h4>
   </div>
 </div>
+
 {{ render(controller('FreetimeAdvisorBundle:Place:searchPlace')) }}
-<div class="row">
+<div class="row center">
+  <h5>Résultat de la recherche :</h5>
+</div>
+<div class="row " id="#result">
+
+
   {% for place in places %}
 
   <div class="col s12 m4">
@@ -26,9 +37,6 @@
           <div class="chip">
             <a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}">#{{place.category.name}}</a>
           </div>
-          <div class="chip">
-            <p class="small"> ajouté le {{place.date|date("d/m/Y")}}</p>
-          </div>
         </div>
         <div class="card-action">
           <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
@@ -38,8 +46,14 @@
     </div>
   </div>
 
+  {% else %}
+  <div class="center">
+    <p>Aucun Lieu trouvé </p>
+    <a href="{{path('place_index')}}">Voir les derniers lieux</a>
+
+  </div>
+
 
   {% endfor %}
 </div>
-
 {% endblock %}

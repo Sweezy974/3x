@@ -5,7 +5,6 @@
     <h3>Les derniers lieux</h3>
   </div>
 </div>
-{{ render(controller('FreetimeAdvisorBundle:Place:searchPlace')) }}
 <div class="row">
   {% for place in places %}
 
@@ -21,13 +20,10 @@
           <h5><strong>{{place.name}}</strong></h5>
 
           <div class="chip">
-            <a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a>
+            <a href="#" style="color:black;">#{{place.city.name}}</a>
           </div>
           <div class="chip">
-            <a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}">#{{place.category.name}}</a>
-          </div>
-          <div class="chip">
-            <p class="small"> ajouté le {{place.date|date("d/m/Y")}}</p>
+            <a href="#">#{{place.category.name}}</a>
           </div>
         </div>
         <div class="card-action">
