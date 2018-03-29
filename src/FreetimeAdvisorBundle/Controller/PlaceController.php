@@ -169,7 +169,6 @@ class PlaceController extends Controller
   {
     $form = $this->createFormBuilder(null)
     ->add('city', EntityType::class, array(
-      // 'required' => false,
       'mapped'=>true,
       'class' => 'FreetimeAdvisorBundle:City',
       'choice_label' => 'name',
@@ -177,7 +176,6 @@ class PlaceController extends Controller
       'multiple'=>'true'
     ))
     ->add('category', EntityType::class, array(
-      // 'required' => false,
       'mapped'=>true,
       'class' => 'FreetimeAdvisorBundle:Category',
       'multiple' => 'true',
@@ -204,16 +202,13 @@ class PlaceController extends Controller
     $category=$request->get("form")["category"] ;
     $name=$request->get("form")["name"] ;
     $em = $this->getDoctrine()->getManager();
-    if(isset($category,$city,$name)) {
-      $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'city' => $city,'name'=>$name));
-    }
-    elseif(isset($category,$city)) {
+
+    if (empty($name)) {
       $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'city' => $city));
     }
     else {
-      $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('name'=>$name));
+      $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'city' => $city,'name' => $name));
     }
-
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
       'places' => $places,
     ));
