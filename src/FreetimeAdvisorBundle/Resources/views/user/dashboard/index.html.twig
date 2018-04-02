@@ -124,9 +124,9 @@
   </div>
   <div class="col s12">
 
+    {% for advice in advices %}
     <ul class="collection with-header">
       <!-- <li class="collection-header"><h4>Mes avis</h4></li> -->
-      {% for advice in advices %}
       <li class="collection-item">
         <div>
           <strong><a href="{{ path('show_place', {'name': advice.place.name }) }}">{{ advice.place.name|upper }}</a></strong>
@@ -135,17 +135,21 @@
           <br>    le {{advice.date|date('d/m/Y à h:m')}}
           <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}" class="secondary-content"><i class="material-icons">edit</i></a></div>
         </li>
-        {% endfor %}
       </ul>
+      {% else %}
+      <div class="row center">
+        <p>vous n'avez pas encore donné d'avis sur des lieux que vous avez  visité.</br>
+        Vos avis apparaîtrons ici quand vous en aurez posté</p>
+        <br>
+        <a href="{{ path('place_index')}}" class="btn">Voir les lieux </a>
+      </div>
+      {% endfor %}
     </div>
   </div>
   <!-- LIEUX -->
   <div id="lieux" class="row center">
     <div class="col s12 m12 l12">
       <h3>Mes lieux</h3>
-    </div>
-    <div class="col s12 m12 l12">
-      lieux
     </div>
     <div class="row">
       {% for place in places %}
@@ -163,7 +167,7 @@
         </div>
       </div>
       {% else %}
-          <p>vous n'avez pas encore créé de lieu. Voulez-vous en créé un ?</p></br>
+      <p>vous n'avez pas encore créé de lieu. Voulez-vous en créé un ?</p></br>
       {% endfor %}
     </div>
     <div class="row center">
@@ -195,8 +199,8 @@
         </div>
       </div>
       {% else %}
-          <p>vous n'avez pas encore choisit de lieux favoris. Pour cela, rendez vous sur une fiche d'un lieu existant et ajouter le à vos favoris. Vous les retrouverez ici !</p></br>
-          <a href="{{ path('place_index')}}">Voir les lieux </a>
+      <p>vous n'avez pas encore choisit de lieux favoris. Pour cela, rendez vous sur une fiche d'un lieu existant et ajouter le à vos favoris. Vous les retrouverez ici !</p></br>
+      <a href="{{ path('place_index')}}" class="btn">Voir les lieux </a>
       {% endfor %}
     </div>
   </div>

@@ -20,7 +20,7 @@ $(".submit").click(function() {
 
   {% for place in places %}
 
-  <div class="col s12 m4">
+  <div class="col s12 ">
     <div class="card horizontal">
       <div class="card-image">
         <img src="{{ asset ('uploads/images/users/') }}" alt="">
@@ -48,7 +48,7 @@ $(".submit").click(function() {
 
   {% else %}
   <div class="center">
-    <p>Aucun Lieu trouvé </p>
+    <p>Aucun Lieu trouvé </p><br>
     <a href="{{path('place_index')}}">Voir les derniers lieux</a>
 
   </div>

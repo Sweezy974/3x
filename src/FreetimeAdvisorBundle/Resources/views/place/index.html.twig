@@ -5,6 +5,14 @@
   <h4>Les derniers lieux</h4>
 </div>
 <div class="row">
+  <div class="col s12 m12 l12 center">
+    <h5>rechercher</h5>
+  </div>
+</div>
+<div class="row">
+{{ render(controller('FreetimeAdvisorBundle:Place:searchPlace')) }}
+</div>
+<div class="row">
   {% for place in places %}
 
   <div class="col s12 m4">
@@ -28,7 +36,9 @@
         </div>
         <div class="card-action">
           <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
+          {% if app.user.id == place.user.id %}
           <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier</a>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -41,12 +51,7 @@
 <div class="row center">
   <a href="{{ path('new_place') }}" class="btn">ajouter un lieu</a>
 </div>
-<div class="row">
-  <div class="col s12 m12 l12 center">
-    <h5>rechercher</h5>
-  </div>
-</div>
-{{ render(controller('FreetimeAdvisorBundle:Place:searchPlace')) }}
+
 
 
 {% endblock %}

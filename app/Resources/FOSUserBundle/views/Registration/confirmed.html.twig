@@ -2,23 +2,26 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block fos_user_content %}
-<div class="row">
-
-    <div class="col s12 m12 l12 center">
-        <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
-        <h5>Choisissez 3 catégories que vous préférez :</h5>
-        {% if targetUrl %}
-        <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
-        {% endif %}
-    </div>
+{% block body %}
+<div class="row center">
+    <img width="100" src="{{ asset ('images/3x-smile.png') }}" style="padding-top:10px;">
+    <p><strong>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</strong></p>
+</div>
 </div>
 <div class="row">
-    <div class="col s12 m12 l12 center">
-        <a href="#" class="btn ">confirmer</a>
-
+    <div class="col s12 center">
+        <p>Pour une experience optimale sur notre site,
+            nous vous conseillons de choisir au moins 3 catégories de loisirs que vous préférez
+            pour vous proposez des activités correspondantes à vos préférences.
+        </p>
+        <a href="{{path('user_select_hobbies')}}" class="btn ">choisir mes préférences</a>
     </div>
-
+    <div class="col s12 m12 l12 center">
+        <p><br>Si vous ne voulez pas le faire tout de suite
+            vous pourrez toujours le faire à parti de votre
+            <a href="{{path('user_dashboard')}}">tableau de bord</a> personnel </p>
+            <a href="/">aller à l'accueil</a>
+        </div>
 </div>
 
-{% endblock fos_user_content %}
+{% endblock %}

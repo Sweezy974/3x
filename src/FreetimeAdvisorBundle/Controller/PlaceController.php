@@ -164,8 +164,9 @@ class PlaceController extends Controller
   }
 
   /**
+  * Génère un form pour la recherche de lieu
   */
-  public function searchPlaceAction(Request $request)
+  public function searchPlaceAction()
   {
     $form = $this->createFormBuilder(null)
     ->add('city', EntityType::class, array(
@@ -183,7 +184,7 @@ class PlaceController extends Controller
       'attr' => ['class'=>''],
 
     ))
-    ->add('name', TextType::class, array('required' => false,'attr' => array('class' => 'autocomplete','placeholder'=>'entrez le lieu recherché')))
+    ->add('name', TextType::class, array('required' => false,'attr' => array('class' => 'autocomplete','placeholder'=>'entrez le lieu recherché (facultatif)')))
     ->add('save', SubmitType::class, array('label' => 'rechercher','attr' => array('class' => 'submit')))
     ->getForm();
 
@@ -204,35 +205,25 @@ class PlaceController extends Controller
     $em = $this->getDoctrine()->getManager();
 
     if (empty($name)) {
+      // si le nom n'est pas spécifié
       $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'city' => $city));
     }
+    elseif (empty($city)) {
+      // si la ville n'est pas spécifié
+      $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'name' => $name));
+    }
+    elseif (empty($category)) {
+      // si la catégorie n'est pas spécifié
+      $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('city' => $city,'name' => $name));
+    }
     else {
+      // si le nom, la catégorie et la ville est spécifié
       $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'city' => $city,'name' => $name));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
       'places' => $places,
     ));
   }
-
-
-
-  // /**
-  // * @Route("place/search/{city_name}/{category_name}", name="searchPlace")
-  // * @Method({"GET","POST"})
-  // * @Template()
-  // * @ParamConverter("category", class="FreetimeAdvisorBundle:Category",options={"mapping":{"category_name":"name"}})
-  // * @ParamConverter("city", class="FreetimeAdvisorBundle:City",options={"mapping":{"city_name":"name"}})
-  // */
-  // public function searchPlaceResult($category,$city)
-  // {
-  //   $category->getName();
-  //   $city->getName();
-  //   $em = $this->getDoctrine()->getManager();
-  //   $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'city' => $city));
-  //   return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
-  //     'places' => $places,
-  //   ));
-  // }
 
   /**
   * @Route("place/by/category/{category_name}", name="searchPlaceByCategory")
@@ -244,7 +235,7 @@ class PlaceController extends Controller
     $category->getName();
     $em = $this->getDoctrine()->getManager();
     $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category),array('id' => 'desc'));
-    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/category/index.html.twig', array(
+    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
       'places' => $places,
     ));
   }
@@ -259,7 +250,7 @@ class PlaceController extends Controller
     $city->getName();
     $em = $this->getDoctrine()->getManager();
     $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('city'=>$city),array('id' => 'desc'));
-    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/category/index.html.twig', array(
+    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
       'places' => $places,
     ));
   }
