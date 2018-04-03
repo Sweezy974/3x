@@ -4,51 +4,47 @@
   <div class="col s12 m12 l12 center">
     <h3>{{place.name|upper}}</h3>
     {% if place.user.id == app.user.id %}
-    <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier ce lieu</a>
-    <a href="{{ path('user_new_favorite', {'id': place.id }) }}">Ajouter aux favoris</a>
-
-  {% endif %}
+    <a href="{{ path('edit_place', { 'name': place.name }) }}"><i class="material-icons">edit</i>Modifier ce lieu</a>
+    {% endif %}
   </div>
 </div>
+<div class="row center">
+    <p><strong>Localisation :</strong> {{place.location}}</p>
+</div>
 <div class="row">
-  <div class="carousel " >
+  <div class="carousel " style="border:1px solid black;height:300px!important;" >
     {% for photo in place.photo %}
     <a data-lightbox="roadtrip"  data-title="Lieu: {{ photo.place.name|upper}} , ajouté par {{ photo.user.username}} " class="carousel-item" href="{{ asset ('uploads/images/places/') }}{{ photo.name }}"><img src="{{ asset ('uploads/images/places/') }}{{ photo.name }}"></a>
     {% endfor %}
   </div>
 
 </div>
-<div class="row left">
-  <div class="col s12 m12 l12 ">
+<div class="">
+  <div class="col s3 m2 left">
+    <div class="chip">
+      <a href="#">#{{place.city.name}}</a>
+    </div>
+  </div>
+  <div class="col s3 m2  left">
     <div class="chip">
       <a href="#">#{{place.category.name}}</a>
-      <!-- <i class="close material-icons">close</i> -->
     </div>
-
   </div>
-
-</div>
-<div class="row">
-  <div class="col s12 m12 l12 center">
-    <h5>Descriptions</h5>
-  </div>
-  <div class="col s12 m12 l12 center">
-    <p>{{place.description}}</p>
-
+  <div class="row col s6 m3 offset-m5 right">
+    {% if favorites.userId is defined %}
+    <a href="{{ path('delete_favorite', {'id': favorites.id }) }}"> <i class="material-icons right red-text">favorite</i>retirer des favoris </a>
+    {% else %}
+    <a href="{{ path('user_new_favorite', {'id': place.id }) }}"><i class="material-icons right">favorite</i>Ajouter aux favoris</a>
+    {% endif %}
   </div>
 </div>
 <div class="row">
   <div class="col s12 m12 l12 center">
-    <h5>Informations</h5>
+    <h5>Description</h5>
   </div>
 </div>
-<div class="row">
-  <div class="col s12 m12 l12">
-    <p><strong>Ville :</strong> {{place.city.name}}</p>
-  </div>
-  <div class="col s12 m12 l12">
-    <p><strong>Location :</strong> {{place.location}}</p>
-  </div>
+<div class="row center">
+  <p>{{place.description}}</p>
 </div>
 <div class="row">
   <div class="col s12 m12 l12">
@@ -63,11 +59,15 @@
       {% for advice in place.advice %}
       <li class="collection-item avatar ">
         <img src="{{ asset ('uploads/images/users/') }}{{ advice.user.avatar }}" alt="" class="circle">
-        <span class="title"><strong>{{advice.title}}</strong></span>
+        <span class="title"><strong>{{advice.title}}</strong>
         <p class="">par : {{advice.user.username}}
           {% if advice.user.id == app.user.id %}
-          <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier mon avis</a>|
-          <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}">Supprimer mon avis</a>
+          <p>
+          <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier </a>|
+          <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}">Supprimer</a>
+          mon avis
+          </p>
+          </span>
           {% endif %}
         </p>
 

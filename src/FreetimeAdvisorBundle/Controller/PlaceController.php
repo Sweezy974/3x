@@ -69,10 +69,16 @@ class PlaceController extends Controller
   {
     $advice = new Advice();
     $comment = $advice->getTitle();
+    $user = $this->getUser();
+    $user->getId();
+    $place->getId();
+    $em = $this->getDoctrine()->getManager()->getRepository('FreetimeAdvisorBundle:Favorites');
+    $favorites = $em->findOneBy(array('userId' => $user ,'placeId' => $place));
 
 
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(
-      'place' => $place
+      'place' => $place,
+      'favorites'=>$favorites
     ));
   }
 

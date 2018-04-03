@@ -133,12 +133,14 @@
           <br><strong>{{advice.title}}</strong>
           <br>{{ advice.comment }}
           <br>    le {{advice.date|date('d/m/Y à h:m')}}
-          <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}" class="secondary-content"><i class="material-icons">edit</i></a></div>
-        </li>
-      </ul>
-      {% else %}
-      <div class="row center">
-        <p>vous n'avez pas encore donné d'avis sur des lieux que vous avez  visité.</br>
+          <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}"class="secondary-content"><i class="material-icons">close</i></a>
+          <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}" class="secondary-content" title="modifier"><i class="material-icons">edit</i></a>
+        </div>
+      </li>
+    </ul>
+    {% else %}
+    <div class="row center">
+      <p>vous n'avez pas encore donné d'avis sur des lieux que vous avez  visité.</br>
         Vos avis apparaîtrons ici quand vous en aurez posté</p>
         <br>
         <a href="{{ path('place_index')}}" class="btn">Voir les lieux </a>
