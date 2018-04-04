@@ -32,6 +32,7 @@
     <a href="/" class="brand-logo animated jackInTheBox vertical-align-center">
       <img width="140"class="vertical-middle" src="{{ asset ('images/logo-plaintext.png') }}">
     </a>
+    <a data-activates="slide-out" class="button-collapse show-on-large center"><i class="material-icons hide-on-large-only left">menu</i></a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       {% if is_granted("ROLE_USER") %}
       <li><a href="{{ path('place_index') }}">découvrir</a></li>
@@ -60,10 +61,25 @@
   <li><a class="waves-effect" href="{{ path('user_dashboard') }}#avis"><i class="material-icons left">assignment_turned_in</i>Mes avis</a></li>
   <li><a class="waves-effect" href="{{ path('user_dashboard') }}#lieux"><i class="material-icons left">location_on</i>Mes lieux</a></li>
   <li><a class="waves-effect" href="{{ path('user_dashboard') }}#favoris"><i class="material-icons left">star</i>Mes favoris</a></li>
+  <li><div class="divider"></div></li>
+  <li><a class="subheader">Action</a></li>
+  <li><a class="waves-effect" href="{{ path('place_index') }}"><i class="material-icons right">filter_hdr</i>Les derniers lieux ajoutés</a></li>
+  <li><a class="waves-effect" href="{{ path('new_place') }}"><i class="material-icons right">add_location</i>Ajouter un lieu</a></li>
+
+</ul>
+
+{% else %}
+<ul id="slide-out" class="side-nav">
+  <li><div class="user-view cyan accent-4">
+    <div class="background">
+    </div>
+    <img width="140"class="vertical-middle " src="{{ asset ('images/logo-plaintext.png') }}">
+    <a href="#!name"><span class="white-text name"><i class="material-icons left"></i>Bienvenue sur 3xAdvisor ! <br>Inscrivez-vous et partagez vos plus belles découvertes !</span></a>
+  </div></li>
+  <li><a href="/login"><i class="material-icons left">exit_to_app</i>Connexion</a></li>
+  <li><a href="/register"><i class="material-icons left">account_circle</i>inscription</a></li>
   <!-- <li><a class="waves-effect" href="#!">Mes lieux</a></li> -->
 </ul>
-<!-- <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a> -->
-{% else %}
 {% endif %}
 {% endblock %}
 <div class="container white">
@@ -110,7 +126,9 @@
 $(document).ready(function(){
   // $('.slider').slider();
   $('.slider').slider({transition: 1000});
-  $(".button-collapse").sideNav();
+  $(".button-collapse").sideNav({
+    closeOnClick: true,
+  });
   $('.materialboxed').materialbox();
   $('.carousel').carousel();
   $('.carousel.carousel-slider').carousel({fullWidth: true});

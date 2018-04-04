@@ -67,11 +67,6 @@ class User extends FosUser
     */
     private $city;
 
-    /**
-    * @ORM\ManyToOne(targetEntity="Category", cascade={"persist"})
-    * @ORM\JoinColumn(name="favorite_categories", referencedColumnName="id")
-    */
-    private $favorite_categories;
 
 
     /**
@@ -183,27 +178,4 @@ class User extends FosUser
         return $this->city;
     }
 
-    /**
-    * Set description
-    *
-    * @param string $description
-    *
-    * @return User
-    */
-    public function setFavoriteCategories($favorite_categories)
-    {
-        $this->favorite_categories = $favorite_categories;
-
-        return $this;
-    }
-
-    /**
-    * Get description
-    *
-    * @return string
-    */
-    public function getFavoriteCategories()
-    {
-        return $this->favorite_categories;
-    }
 }

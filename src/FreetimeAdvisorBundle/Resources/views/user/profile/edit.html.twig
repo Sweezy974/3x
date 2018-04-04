@@ -1,0 +1,37 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<div class="row center">
+  <div class="col s12">
+    <h5>Modifier mon profil</h5>
+  </div>
+  <div class="col s12">
+    <img class="circle" width="120" style="border:3px solid grey;"height="120" src="{{ asset ('uploads/images/users/') }}{{ app.user.avatar }}">
+  </div>
+</div>
+
+
+{{ form_start(edit_form) }}
+
+<div class="center">
+{{ form_widget(edit_form.imageFile, { 'attr': {'class': 'col s12 center'}}) }}
+
+
+  <div class="center row col s12">
+    <label>Pseudo</label> <br>
+  </div>
+  <div class="center row col s12">
+    <strong>{{app.user.username}}</strong>
+  </div>
+
+
+</div>
+
+
+
+{{ form_end(edit_form)}}
+
+
+
+
+{% endblock %}

@@ -121,4 +121,28 @@ class UserController extends Controller
     $em->flush();
     return $this->redirectToRoute('user_dashboard');
   }
+
+  /**
+  * @Route("user/profile/edit", name="user_profile_edit")
+  * @Method({"GET","POST"})
+  */
+  public function editProfile(Request $request)
+  {
+    $user = $this->getUser();
+    $user->getId();
+    $editForm = $this->createForm('FreetimeAdvisorBundle\Form\RegistrationType',$user);
+    $editForm->remove('username');/* retire le champs username car  non modifiable*/
+    $editForm->remove('plainPassword');/* retire le champs password car  non modifiable*/
+    $editForm->handleRequest($request);
+    if ($editForm->isSubmitted() && $editForm->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($user);
+      $em->flush();
+
+      return $this->redirectToRoute('user_dashboard');
+    }
+    return $this->render('@FreetimeAdvisorBundle/Resources/views/user/profile/edit.html.twig', array(
+      'edit_form' => $editForm->createView(),
+    ));
+  }
 }
