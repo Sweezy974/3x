@@ -68,6 +68,8 @@
           mon avis
           </p>
           </span>
+          {% else %}
+
           {% endif %}
         </p>
 
@@ -84,15 +86,17 @@
         <a href="#!" class="secondary-content"><i class="red-text material-icons left">grade</i>{{advice.score}} / 5</a>
         {% endif %}
       </li>
-      {% endfor %}
+    {% else %}
+    <p  class=" center red-text">il n'y a pas encore d'avis pour ce lieu</p>
+    {% endfor %}
+  </ul>
     </div>
   </div>
-  <div class="row">
-    <div class="col s12 m12 l12 center">
-      <a href="{{ path('new_place_advice', {'name': place.name }) }}" class="btn "> écrire un avis</a>
-
-    </div>
+<div class="row">
+  <div class="col s12 m12 l12 center">
+    <a href="{{ path('new_place_advice', {'name': place.name }) }}" class="btn "> écrire un avis</a>
 
   </div>
-</ul>
+
+</div>
 {% endblock %}
