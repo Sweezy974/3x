@@ -10,6 +10,7 @@
 </div>
 <div class="row center">
     <p><strong>Localisation :</strong> {{place.location}}</p>
+        <p>Ajouté par : {{ place.user.username }} le {{ place.date|date('d/m/Y')}}</p>
 </div>
 <div class="row">
   <div class="carousel " style="border:1px solid black;height:300px!important;" >

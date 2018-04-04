@@ -69,14 +69,15 @@ class User extends FosUser
 
 
 
+
     /**
     * Get id
     *
-    * @return int
+    * @return string
     */
-    public function getId()
+    public function getId ()
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     /**

@@ -4,11 +4,12 @@ namespace FreetimeAdvisorBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FreetimeAdvisorBundle\Entity\Place;
 use FreetimeAdvisorBundle\Entity\Advice;
 use FreetimeAdvisorBundle\Entity\Photo;
@@ -85,9 +86,13 @@ class PlaceController extends Controller
   /**
   * @Route("place/{name}/edit", name="edit_place")
   * @Method({"GET","POST"})
+  *
+  * vérifie si c'est bien l'auteur qui modifie*
+  * @Security("user.getUsername() == place.getUser()")
   */
   public function editPlace(Place $place, Request $request)
   {
+
     $editForm = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
     $editForm->handleRequest($request);
     if ($editForm->isSubmitted() && $editForm->isValid()) {

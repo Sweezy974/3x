@@ -4,16 +4,21 @@ namespace FreetimeAdvisorBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 use FreetimeAdvisorBundle\Entity\Advice;
 use FreetimeAdvisorBundle\Entity\Place;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
 
 class AdviceController extends Controller
 {
   /**
   * @Route("place/{name}/advice/{id}/edit", name="edit_advice")
   * @Method({"GET","POST"})
+  *
+  * vérifie si c'est bien l'auteur qui modifie*
+  * @Security("user.getUsername() == advice.getUser()")
   */
   public function editAdvice(Advice $advice, Request $request)
   {
@@ -39,6 +44,9 @@ class AdviceController extends Controller
   *
   * @Route("place/{name}/advice/{id}/delete", name="delete_advice")
   * @Method({"GET", "DELETE"})
+  *
+  * vérifie si c'est bien l'auteur qui supprime*
+  * @Security("user.getUsername() == advice.getUser()")
   */
   public function deleteAdvice(Advice $advice,Request $request)
   {
