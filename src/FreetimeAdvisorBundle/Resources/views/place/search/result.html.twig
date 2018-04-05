@@ -21,11 +21,9 @@ $(".submit").click(function() {
   {% for place in places %}
 
   <div class="col s12 ">
-    <div class="card horizontal">
+    <div class="card horizontal small" style="height:200px!important;">
       <div class="card-image">
-        <img src="{{ asset ('uploads/images/users/') }}" alt="">
-        <p>
-        </p>
+        <img class="responsive-img"src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt="">
       </div>
       <div class="card-stacked">
         <div class="card-content">

@@ -17,9 +17,9 @@ nav ul a {
 }
 
 .nav-wrapper .brand-logo img {
-    height: auto !important;
-    margin-top: -6px;
-    margin-left: 10px;
+  height: auto !important;
+  margin-top: -6px;
+  margin-left: 10px;
 }
 
 body{
@@ -38,14 +38,35 @@ body{
 }
 
 .slider .caption {
-    text-shadow: black 1px 2px;
+  text-shadow: black 1px 2px;
 }
 
 .btn, .btn-large {
-    background-color: #00b8d4!important;
+  background-color: #00b8d4!important;
 
 }
 
 .place_description{
-  border:1px solid black;
+  /* border:1px solid black; */
+}
+
+.card .card-image .card-title{
+  padding:5px!important;
+}
+
+.card .card-content .card-title{
+  font-weight: 400;
+}
+.collapsible-header{
+  font-weight: 500!important;
+}
+/* .card-content .chip{
+font-size: 10px!important;
+} */
+
+.card-action a{
+  color: #00b8d4!important;
+}
+.card-action :hover{
+  color: black!important;
 }

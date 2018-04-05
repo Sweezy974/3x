@@ -16,26 +16,21 @@
   {% for place in places %}
 
   <div class="col s12 m4">
-    <div class="card ">
-        <div class="card-image">
-        <img width="50"src="{{ asset ('uploads/images/places/') }}{{ place.bestPicture }}" alt="">
+    <div class="card small">
+      <div class="card-image">
+        <img src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt="">
+        <span class="card-title">
+          <strong class="chip"><a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a></strong>
+          <strong class="chip">            <a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}" style="color:black;">#{{place.category.name}}</a></strong>
+        </span>
       </div>
       <div class="card-stacked">
         <div class="card-content">
-          <h5><strong>{{place.name|upper}}</strong></h5>
+          <span class="card-title" >{{ place.name|upper }}</span>
 
-          <div class="chip">
-            <a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a>
-          </div>
-          <div class="chip">
-            <a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}">#{{place.category.name}}</a>
-          </div>
-          <div class="chip">
-            <p class="small"> ajouté le {{place.date|date("d/m/Y")}}</p>
-          </div>
         </div>
         <div class="card-action">
-          <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
+          <a href="{{ path('show_place', { 'name': place.name }) }}"><i class="material-icons left">visibility</i>Voir</a>
           {% if app.user.id == place.user.id %}
           <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier</a>
           {% endif %}

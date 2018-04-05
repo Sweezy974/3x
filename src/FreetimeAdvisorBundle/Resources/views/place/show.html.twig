@@ -11,46 +11,59 @@
 <div class="row center">
   <p>Ajouté par : {{ place.user.username }} le {{ place.date|date('d/m/Y')}}</p>
 </div>
+
+{% if place.mainPhoto is defined %}
 <div class="row">
-  <div class="carousel " style="border:1px solid black;height:300px!important;" >
-    {% for photo in place.photo %}
-    <a data-lightbox="roadtrip"  data-title="Lieu: {{ photo.place.name|upper}} , ajouté par {{ photo.user.username}} " class="carousel-item" href="{{ asset ('uploads/images/places/') }}{{ photo.name }}"><img src="{{ asset ('uploads/images/places/') }}{{ photo.name }}"></a>
-    {% endfor %}
-  </div>
+  <img class="col s12 m6 offset-m3 l6 offset-l3 responsive-img" data-caption="photo principale de : {{place.name}}" src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}">
 
 </div>
-<div class="">
-  <div class="col s3 m2 left">
+
+{% endif %}
+<div class="row">
+  <div class="col s12 m7 l5  left">
     <div class="chip">
       <a href="#">#{{place.city.name}}</a>
     </div>
-  </div>
-  <div class="col s3 m2  left">
     <div class="chip">
       <a href="#">#{{place.category.name}}</a>
     </div>
   </div>
-  <div class="row col s6 m3 offset-m5 right">
+  <div class="col s12 m5 offset-l4 l3">
     {% if favorites.userId is defined %}
     <a href="{{ path('delete_favorite', {'id': favorites.id }) }}"> <i class="material-icons right red-text">favorite</i>retirer des favoris </a>
     {% else %}
-    <a href="{{ path('user_new_favorite', {'id': place.id }) }}"><i class="material-icons right">favorite</i>Ajouter aux favoris</a>
+    <a href="{{ path('user_new_favorite', {'id': place.id }) }}"><i class="material-icons left ">favorite</i>Ajouter aux favoris</a>
     {% endif %}
   </div>
 </div>
-<div class="row">
-  <div class="col s12 m12 l12 center">
-    <h5>Description</h5>
-  </div>
-</div>
-<div class="row center">
-  {% if place.description is defined %}
-  <p class="place_description">{{place.description}}</p>
-  {% else %}
-  <p>il n'y a pas de description pour ce lieu</p>
-  {% endif %}
-  <p><strong>Localisation du lieu :</strong> {{place.location}}</p>
-</div>
+
+<ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+  <li>
+    <div class="collapsible-header active"><i class="material-icons">line_weight</i>Description</div>
+    <div class="collapsible-body"><span>{{place.description}}</span></div>
+  </li>
+  <li>
+    <div class="collapsible-header"><i class="material-icons">place</i>Localisation</div>
+    <div class="collapsible-body"><span>{{ place.location}}</span></div>
+  </li>
+  <li>
+    <div class="collapsible-header"><i class="material-icons">collections</i>Galerie</div>
+    <div class="collapsible-body">
+      <div class="row center">
+        <div class="carousel " style="background-color:rgba(213, 213, 213, 0.5);" >
+          {% for photo in place.photo %}
+          <a data-lightbox="roadtrip"  data-title="Lieu: {{ photo.place.name|upper}} , ajouté par {{ photo.user.username}} " class="carousel-item" href="{{ asset ('uploads/images/places/') }}{{ photo.name }}"><img src="{{ asset ('uploads/images/places/') }}{{ photo.name }}"></a>
+          {% else %}
+          <p>il n'y a pas encore de photo pour ce lieu</p>
+          {% endfor %}
+        </div>
+      </div>
+
+
+    </div>
+  </li>
+</ul>
+
 <div class="row">
   <div class="col s12 m12 l12">
     <hr>
@@ -89,6 +102,8 @@
         <a href="#!" class="secondary-content"><i class="orange-text material-icons left">grade</i>{{advice.score}} / 5</a>
         {% elseif advice.score == 1 %}
         <a href="#!" class="secondary-content"><i class="red-text material-icons left">grade</i>{{advice.score}} / 5</a>
+        {% else %}
+        <p>score non valide</p>
         {% endif %}
       </li>
       {% else %}

@@ -3,12 +3,15 @@
 namespace FreetimeAdvisorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
 * Place
 *
 * @ORM\Table(name="place")
 * @ORM\Entity(repositoryClass="FreetimeAdvisorBundle\Repository\PlaceRepository")
+* @Vich\Uploadable
 */
 class Place
 {
@@ -82,6 +85,18 @@ class Place
     * @var \DateTime
     */
     private $date;
+
+    /**
+    * @ORM\Column(type="string", length=255,options={"default":"default.jpg"})
+    * @var string
+    */
+    private $mainPhoto;
+
+    /**
+    * @Vich\UploadableField(mapping="place_images", fileNameProperty="mainPhoto")
+    * @var File
+    */
+    private $imageFile;
 
     /**
     * Constructor
@@ -283,6 +298,34 @@ class Place
     {
         $this->date = new \DateTime();
         return $this;
+    }
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->avatarUpdatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setMainPhoto($mainPhoto)
+    {
+        $this->mainPhoto = $mainPhoto;
+    }
+
+    public function getMainPhoto()
+    {
+        return $this->mainPhoto;
     }
 
 
