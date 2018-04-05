@@ -9,8 +9,7 @@
   </div>
 </div>
 <div class="row center">
-    <p><strong>Localisation :</strong> {{place.location}}</p>
-        <p>Ajouté par : {{ place.user.username }} le {{ place.date|date('d/m/Y')}}</p>
+  <p>Ajouté par : {{ place.user.username }} le {{ place.date|date('d/m/Y')}}</p>
 </div>
 <div class="row">
   <div class="carousel " style="border:1px solid black;height:300px!important;" >
@@ -45,7 +44,12 @@
   </div>
 </div>
 <div class="row center">
-  <p>{{place.description}}</p>
+  {% if place.description is defined %}
+  <p class="place_description">{{place.description}}</p>
+  {% else %}
+  <p>il n'y a pas de description pour ce lieu</p>
+  {% endif %}
+  <p><strong>Localisation du lieu :</strong> {{place.location}}</p>
 </div>
 <div class="row">
   <div class="col s12 m12 l12">
@@ -61,13 +65,13 @@
       <li class="collection-item avatar ">
         <img src="{{ asset ('uploads/images/users/') }}{{ advice.user.avatar }}" alt="" class="circle">
         <span class="title"><strong>{{advice.title}}</strong>
-        <p class="">par : {{advice.user.username}}
-          {% if advice.user.id == app.user.id %}
-          <p>
-          <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier </a>|
-          <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}">Supprimer</a>
-          mon avis
-          </p>
+          <p class="">par : {{advice.user.username}}
+            {% if advice.user.id == app.user.id %}
+            <p>
+              <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier </a>|
+              <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}">Supprimer</a>
+              mon avis
+            </p>
           </span>
           {% else %}
 
@@ -87,12 +91,12 @@
         <a href="#!" class="secondary-content"><i class="red-text material-icons left">grade</i>{{advice.score}} / 5</a>
         {% endif %}
       </li>
-    {% else %}
-    <p  class=" center red-text">il n'y a pas encore d'avis pour ce lieu</p>
-    {% endfor %}
-  </ul>
-    </div>
+      {% else %}
+      <p  class=" center red-text">il n'y a pas encore d'avis pour ce lieu</p>
+      {% endfor %}
+    </ul>
   </div>
+</div>
 <div class="row">
   <div class="col s12 m12 l12 center">
     <a href="{{ path('new_place_advice', {'name': place.name }) }}" class="btn "> écrire un avis</a>

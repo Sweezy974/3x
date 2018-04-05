@@ -1,10 +1,13 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+<div class="row center">
+  <h5>Ajouter un nouveau lieu</h5>
+</div>
 
-      {{ form_start(form) }}
-          {{ form_widget(form) }}
-      {{ form_end(form) }}
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
 
 
 

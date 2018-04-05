@@ -45,3 +45,7 @@ body{
     background-color: #00b8d4!important;
 
 }
+
+.place_description{
+  border:1px solid black;
+}
