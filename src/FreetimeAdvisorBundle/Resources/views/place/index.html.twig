@@ -4,13 +4,16 @@
 <div class="row center">
   <h4>Les derniers lieux</h4>
 </div>
+
 <div class="row">
-  <div class="col s12 m12 l12 center">
-    <h5>rechercher</h5>
-  </div>
-</div>
-<div class="row">
-{{ render(controller('FreetimeAdvisorBundle:Place:searchPlace')) }}
+  <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">search</i>Rechercher</div>
+      <div class="collapsible-body">
+        {{ render(controller('FreetimeAdvisorBundle:Search:searchPlace')) }}
+      </div>
+    </li>
+  </ul>
 </div>
 <div class="row">
   {% for place in places %}

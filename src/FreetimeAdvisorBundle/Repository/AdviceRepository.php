@@ -2,6 +2,7 @@
 
 namespace FreetimeAdvisorBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
 /**
  * AdviceRepository
  *
@@ -10,4 +11,12 @@ namespace FreetimeAdvisorBundle\Repository;
  */
 class AdviceRepository extends \Doctrine\ORM\EntityRepository
 {
+  public function checkIfUserAlreadyPost()
+  {
+    return $this->getEntityManager()
+        ->createQuery(
+            'SELECT a FROM FreetimeAdvisorBundle:Advice a ORDER BY a.title ASC'
+        )
+        ->getResult();
+    }
 }
