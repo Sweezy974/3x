@@ -18,8 +18,44 @@ class PlaceRepository extends \Doctrine\ORM\EntityRepository
     $q = $builder
     ->andWhere(
       $builder->expr()->isNotNull('p.date'))
-    ->getQuery();
+      ->getQuery();
 
       return $q->getResult();
+    }
+
+    public function searchPlace($city,$category,$name)
+    {
+      $q = $this->createQueryBuilder('p')
+      ->innerJoin("p.city", "city")
+      ->innerJoin("p.category", "category")
+      ->where('city.id LIKE :city')
+      ->andWhere('category.id LIKE :category')
+      ->andWhere('p.name LIKE :name')
+      ->setParameter('city', $city)
+      ->setParameter('category', $category)
+      ->setParameter('name', $name.'%')
+      ->orderBy('p.name', 'ASC')
+      ->getQuery();
+
+
+      return $q->getResult();
+
+    }
+
+    public function randomPlace()
+    {
+      // compte le nombre total de lieu
+      $count = $this->createQueryBuilder('p')
+      ->select('COUNT(p)')
+      ->getQuery()
+      ->getSingleScalarResult();
+
+      // retourne un lieu au hasard
+      return $this->createQueryBuilder('p')
+      ->setFirstResult(rand(0, $count - 1))
+      ->setMaxResults(1)
+      ->getQuery()
+      ->getSingleResult();
+
     }
   }

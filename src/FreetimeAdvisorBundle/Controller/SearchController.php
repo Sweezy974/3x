@@ -21,6 +21,7 @@ class SearchController extends Controller
   {
     $form = $this->createFormBuilder(null)
     ->add('city', EntityType::class, array(
+      'label'=>'Ville *',
       'mapped'=>true,
       'class' => 'FreetimeAdvisorBundle:City',
       'choice_label' => 'name',
@@ -28,6 +29,7 @@ class SearchController extends Controller
       'multiple'=>'true'
     ))
     ->add('category', EntityType::class, array(
+      'label'=>'Catégorie *',
       'mapped'=>true,
       'class' => 'FreetimeAdvisorBundle:Category',
       'multiple' => 'true',
@@ -35,7 +37,7 @@ class SearchController extends Controller
       'attr' => ['class'=>''],
 
     ))
-    ->add('name', TextType::class, array('required' => false,'attr' => array('class' => 'autocomplete','placeholder'=>'entrez le lieu recherché (facultatif)')))
+    ->add('name', TextType::class, array('label'=>'Nom du lieu','required' => false,'attr' => array('class' => 'autocomplete','placeholder'=>'entrez le lieu recherché (facultatif)')))
     ->add('save', SubmitType::class, array('label' => 'rechercher','attr' => array('class' => 'submit')))
     ->getForm();
 
@@ -104,5 +106,18 @@ class SearchController extends Controller
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
       'places' => $places,
     ));
+  }
+
+  /**
+  * @Route("discover", name="discover_place")
+  * redirige vers un lieu
+  */
+  public function searchRandomPlace()
+  {
+    $em = $this->getDoctrine()->getManager();
+    $randomPlace = $em->getRepository('FreetimeAdvisorBundle:Place')->randomPlace();
+    // var_dump($randomPlace);
+    $placeName = $randomPlace->getName();
+    return $this->redirectToRoute('show_place', array('name' => $placeName));
   }
 }
