@@ -1,6 +1,5 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-
 <div class="row center">
   <h4>Les derniers lieux</h4>
 </div>
@@ -16,6 +15,7 @@
     </li>
   </ul>
 </div>
+{# {{dump(placeAvgScore)}} #}
 <div class="row">
   {% for place in places %}
 
@@ -24,17 +24,28 @@
       <div class="card-image">
         <img src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt="">
         <span class="card-title">
+
+          {% for placeAvgScore in placeAvgScore if place.id == placeAvgScore.place_id %}
+          <strong class="chip blue lighten-4">
+            <a href="#"title="Moyenne de {{ placeAvgScore.score|round(1, 'floor') }} sur une base de {{placeAvgScore.total}} avis">{{ placeAvgScore.score|round(1, 'floor')}}/5</a>
+          </strong>
+          {% else %}
+          <strong class="chip">
+            <a href="#"title="Il n'y a pas encore d'avis pour ce lieu">~/5</a>
+          </strong>
+          {% endfor %}
           <strong class="chip"><a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a></strong>
-          <strong class="chip">            <a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}" style="color:black;">#{{place.category.name}}</a></strong>
+          <strong class="chip"><a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}" style="color:black;">#{{place.category.name}}</a></strong>
         </span>
       </div>
       <div class="card-stacked">
         <div class="card-content">
-          <span class="card-title" >{{ place.name|upper }}</span>
+          <span class="card-title" >{{ place.name|upper }}|
+          </span>
 
         </div>
         <div class="card-action">
-          <a href="{{ path('show_place', { 'name': place.name }) }}"><i class="material-icons left">visibility</i>Voir</a>
+          <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
           {% if app.user.id == place.user.id %}
           <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier</a>
           {% endif %}

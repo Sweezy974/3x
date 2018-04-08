@@ -31,6 +31,17 @@ class AdviceRepository extends \Doctrine\ORM\EntityRepository
       ->getSingleResult();
 
       return $q;
+    }
 
+    public function allPlaceAverageScore()
+    {
+      // SELECT place_id,AVG(SCORE) as AVG, COUNT(SCORE) as COUNT FROM advice GROUP BY place_id
+      $q = $this->createQueryBuilder('a')
+      ->select("IDENTITY(a.place) as place_id,avg(a.score) as score, count(a.score) as total")
+      ->groupBy('place_id')
+      ->getQuery()
+      ->getResult();
+
+      return $q;
     }
   }

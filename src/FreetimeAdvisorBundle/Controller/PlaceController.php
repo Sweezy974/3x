@@ -28,9 +28,14 @@ class PlaceController extends Controller
   public function index()
   {
     $em = $this->getDoctrine()->getManager();
-    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array(),array('date' => 'desc'),9);/*réccupère les 9 derniers lieux */
+    /*réccupère les 9 derniers lieux */
+    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array(),array('date' => 'desc'),9);
+    /*réccupère la moyenne des avis par rapport au lieu*/
+    $placesAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->allPlaceAverageScore();
+    // var_dump($placesAvgScore);
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/index.html.twig', array(
       'places' => $places,
+      'placeAvgScore'=>$placesAvgScore,
     ));
   }
 
@@ -74,7 +79,9 @@ class PlaceController extends Controller
     $user->getId();
     $place->getId();
     $em = $this->getDoctrine()->getManager();
+    /* vérifie si un user à ajouter un lieu en favoris */
     $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorites')->findOneBy(array('userId' => $user ,'placeId' => $place));
+    /* réccupère la moyenne des avis par rapport au lieu */
     $placeAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->placeAverageScore($place);
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(
       'place' => $place,
