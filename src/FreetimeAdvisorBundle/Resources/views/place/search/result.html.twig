@@ -28,6 +28,15 @@ $(".submit").click(function() {
       <div class="card-stacked">
         <div class="card-content">
           <h5><strong>{{place.name}}</strong></h5>
+          {% for placeAvgScore in placeAvgScore if place.id == placeAvgScore.place_id %}
+          <strong class="chip blue lighten-4">
+            <a href="#"title="Moyenne de {{ placeAvgScore.score|round(1, 'floor') }} sur une base de {{placeAvgScore.total}} avis">{{ placeAvgScore.score|round(1, 'floor')}}/5</a>
+          </strong>
+          {% else %}
+          <strong class="chip">
+            <a href="#"title="Il n'y a pas encore d'avis pour ce lieu">~/5</a>
+          </strong>
+          {% endfor %}
 
           <div class="chip">
             <a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a>

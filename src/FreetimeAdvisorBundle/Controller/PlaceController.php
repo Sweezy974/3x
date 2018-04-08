@@ -32,7 +32,6 @@ class PlaceController extends Controller
     $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array(),array('date' => 'desc'),9);
     /*réccupère la moyenne des avis par rapport au lieu*/
     $placesAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->allPlaceAverageScore();
-    // var_dump($placesAvgScore);
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/index.html.twig', array(
       'places' => $places,
       'placeAvgScore'=>$placesAvgScore,

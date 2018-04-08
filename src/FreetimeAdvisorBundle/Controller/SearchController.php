@@ -73,8 +73,11 @@ class SearchController extends Controller
       // si le nom, la catégorie et la ville est spécifié
       $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'city' => $city,'name' => $name));
     }
+    // réccupère la moyenne des avis pour chaque lieu
+    $placesAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->allPlaceAverageScore();
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
       'places' => $places,
+      'placeAvgScore'=>$placesAvgScore
     ));
   }
 
