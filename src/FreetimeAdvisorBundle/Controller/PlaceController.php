@@ -73,13 +73,13 @@ class PlaceController extends Controller
     $user = $this->getUser();
     $user->getId();
     $place->getId();
-    $em = $this->getDoctrine()->getManager()->getRepository('FreetimeAdvisorBundle:Favorites');
-    $favorites = $em->findOneBy(array('userId' => $user ,'placeId' => $place));
-
-
+    $em = $this->getDoctrine()->getManager();
+    $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorites')->findOneBy(array('userId' => $user ,'placeId' => $place));
+    $placeAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->placeAverageScore($place);
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(
       'place' => $place,
-      'favorites'=>$favorites
+      'favorites'=>$favorites,
+      'placeAvgScore'=>$placeAvgScore,
     ));
   }
 

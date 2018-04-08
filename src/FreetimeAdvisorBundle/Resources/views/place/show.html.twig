@@ -64,12 +64,13 @@
   </li>
 </ul>
 
-<div class="row">
-  <div class="col s12 m12 l12">
-    <hr>
-    <h5>les avis :</h5>
-  </div>
 
+<div class="row">
+  <hr>
+  <div class="col s12 center">
+    <h5>Moyenne des avis : {{placeAvgScore.score|round(1, 'floor')}}/5<i class="material-icons  yellow-text">grade</i></h5>
+    <p>Sur une base de {{placeAvgScore.total}} avis</p>
+  </div>
 </div>
 <div class="row">
   <div class="col s12 m12 l12">
