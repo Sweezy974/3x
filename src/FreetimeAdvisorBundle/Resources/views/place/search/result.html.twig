@@ -23,7 +23,11 @@ $(".submit").click(function() {
   <div class="col s12 ">
     <div class="card horizontal small" style="height:200px!important;">
       <div class="card-image">
+        {% if place.mainPhoto == 'default.jpg' %}
+        <a href="#" title="aucune image disponible" class=""><img class="responsive-img" src="{{ asset ('images/default-no-image.png') }}" alt=""></a>
+        {% else %}
         <img class="responsive-img"src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt="">
+        {% endif %}
       </div>
       <div class="card-stacked">
         <div class="card-content">

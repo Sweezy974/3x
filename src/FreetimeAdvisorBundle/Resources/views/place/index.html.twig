@@ -21,7 +21,11 @@
   <div class="col s12 m4">
     <div class="card small">
       <div class="card-image">
-        <img src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt="">
+        {% if place.mainPhoto == 'default.jpg' %}
+        <a href="#" title="aucune image disponible" class=""><img class="responsive-img" src="{{ asset ('images/default-no-image.png') }}" alt=""></a>
+        {% else %}
+        <img class="responsive-img"src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt="">
+        {% endif %}
         <span class="card-title">
 
           {% for placeAvgScore in placeAvgScore if place.id == placeAvgScore.place_id %}
