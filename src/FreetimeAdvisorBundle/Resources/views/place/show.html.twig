@@ -12,13 +12,14 @@
   <p>Ajouté par : {{ place.user.username }} le {{ place.date|date('d/m/Y')}}</p>
 </div>
 
-{% if place.mainPhoto is defined %}
 <div class="row">
+{% if place.mainPhoto == 'default.jpg' %}
+<img class="col s12 m6 offset-m3 l6 offset-l3 responsive-img" data-caption="photo principale de : {{place.name}}" src="{{ asset ('images/default-no-image.png') }}">
+{% else %}
   <img class="col s12 m6 offset-m3 l6 offset-l3 responsive-img" data-caption="photo principale de : {{place.name}}" src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}">
 
-</div>
-
 {% endif %}
+</div>
 <div class="row">
   <div class="col s12 m7 l5  left">
     <div class="chip">
