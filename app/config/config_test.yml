@@ -1,3 +1,10 @@
+doctrine:
+    # ...
+    dbal:
+        host:     localhost
+        dbname:   3xAdvisortest
+        user:     fred
+        password: 1234
 imports:
     - { resource: config_dev.yml }
 
