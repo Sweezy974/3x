@@ -25,7 +25,7 @@ class UserController extends Controller
     $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('user'=>$user),array('id' => 'desc'));
     $advices = $em->getRepository('FreetimeAdvisorBundle:Advice')->findby(array('user'=>$user),array('id' => 'desc'));
     $hobbies = $em->getRepository('FreetimeAdvisorBundle:Hobbies')->findOneByUser(array('user'=>$user));
-    $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorites')->findby(array('userId'=>$user),array('id' => 'desc'));
+    $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorites')->findby(array('user'=>$user),array('id' => 'desc'));
     return $this->render('@FreetimeAdvisorBundle/Resources/views/user/dashboard/index.html.twig', array(
       'places' => $places,
       'advices' => $advices,
@@ -92,15 +92,15 @@ class UserController extends Controller
       $user->getId();
       $place->getId();
       $em = $this->getDoctrine()->getManager()->getRepository('FreetimeAdvisorBundle:Favorites');
-      $favorites = $em->findBy(array('userId' => $user ,'placeId' => $place));
+      $favorites = $em->findBy(array('user' => $user ,'place' => $place));
       if ($favorites) {
         return $this->redirectToRoute('user_dashboard', array('id' => $place->getId()));
       }
       else {
         $favorites = new Favorites();
         $favorites
-        ->setUserId($user)
-        ->setPlaceId($place);
+        ->setUser($user)
+        ->setPlace($place);
         $em = $this->getDoctrine()->getManager();
         $em->persist($favorites);
         $em->flush();
@@ -117,7 +117,7 @@ class UserController extends Controller
   * @Method({"GET", "DELETE"})
   *
   * vérifie si c'est bien l'auteur qui supprime*
-  * @Security("user.getUsername() == favorites.getUserId()")
+  * @Security("user.getUsername() == favorites.getUser()")
   */
   public function deleteFavorite(Favorites $favorites)
   {

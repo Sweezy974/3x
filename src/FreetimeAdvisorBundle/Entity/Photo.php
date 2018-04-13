@@ -39,7 +39,7 @@ class Photo
 
 
   /**
-  * @ORM\ManyToOne(targetEntity="User", inversedBy="photo")
+  * @ORM\ManyToOne(targetEntity="User",cascade={"persist"})
   * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
   */
   private $user;
@@ -51,7 +51,7 @@ class Photo
   private $place;
 
   /**
-  * @ORM\ManyToOne(targetEntity="Advice", inversedBy="photo")
+  * @ORM\ManyToOne(targetEntity="Advice",cascade={"persist"})
   * @ORM\JoinColumn(name="advice_id", referencedColumnName="id")
   */
   private $advice;

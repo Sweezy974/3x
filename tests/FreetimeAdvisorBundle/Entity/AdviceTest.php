@@ -1,5 +1,5 @@
 <?php
-
+// run test in cmd: ./vendor/bin/simple-phpunit .\tests\FreetimeAdvisorBundle\Entity
 namespace Tests\FreetimeAdvisorBundle\Entity;
 
 use PHPUnit\Framework\TestCase;

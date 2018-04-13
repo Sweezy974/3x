@@ -22,17 +22,17 @@ class Favorites
   private $id;
 
   /**
-  * @ORM\ManyToOne(targetEntity="User", inversedBy="favorites")
+  * @ORM\ManyToOne(targetEntity="User",cascade={"persist"})
   * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
   */
-  private $userId;
+  private $user;
 
 
   /**
-  * @ORM\ManyToOne(targetEntity="Place", inversedBy="favorites")
+  * @ORM\ManyToOne(targetEntity="Place",cascade={"persist"})
   * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
   */
-  private $placeId;
+  private $place;
 
 
   /**
@@ -46,50 +46,50 @@ class Favorites
   }
 
   /**
-  * Set userId
+  * Set user
   *
-  * @param integer $userId
+  * @param integer $user
   *
   * @return Favorites
   */
-  public function setUserId($userId)
+  public function setUser($user)
   {
-    $this->userId = $userId;
+    $this->user = $user;
 
     return $this;
   }
 
   /**
-  * Get userId
+  * Get user
   *
   * @return int
   */
-  public function getUserId()
+  public function getUser()
   {
-    return $this->userId;
+    return $this->user;
   }
 
   /**
-  * Set placeId
+  * Set place
   *
-  * @param integer $placeId
+  * @param integer $place
   *
   * @return Favorites
   */
-  public function setPlaceId($placeId)
+  public function setPlace($place)
   {
-    $this->placeId = $placeId;
+    $this->place = $place;
 
     return $this;
   }
 
   /**
-  * Get placeId
+  * Get place
   *
   * @return int
   */
-  public function getPlaceId()
+  public function getPlace()
   {
-    return $this->placeId;
+    return $this->place;
   }
 }

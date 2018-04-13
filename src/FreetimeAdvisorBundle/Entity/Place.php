@@ -53,19 +53,19 @@ class Place
     private $bestPicture;
 
     /**
-    * @ORM\ManyToOne(targetEntity="City", inversedBy="place")
+    * @ORM\ManyToOne(targetEntity="City", cascade={"persist"})
     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
     */
     private $city;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Category", inversedBy="place")
+    * @ORM\ManyToOne(targetEntity="Category",cascade={"persist"})
     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
     */
     private $category;
 
     /**
-    * @ORM\ManyToOne(targetEntity="User", inversedBy="place")
+    * @ORM\ManyToOne(targetEntity="User",cascade={"persist"})
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
     */
     private $user;

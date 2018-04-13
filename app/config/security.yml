@@ -22,6 +22,7 @@ security:
                 # if you are using Symfony < 2.8, use the following config instead:
                 # csrf_provider: form.csrf_provider
 
+            logout_on_user_change: true
             logout:       true
             anonymous:    true
 
@@ -30,5 +31,7 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/user, role: ROLE_USER }
+        - { path: ^/place, role: ROLE_USER }
         # - { path: ^/commentaire/admin, role: ROLE_ADMIN }
         # - { path: ^/article/admin, role: ROLE_ADMIN }

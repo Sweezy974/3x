@@ -22,19 +22,19 @@ class Hobbies
     private $id;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Category", inversedBy="hobbies")
+    * @ORM\ManyToOne(targetEntity="Category")
     * @ORM\JoinColumn(name="first_category_id", referencedColumnName="id")
     */
     private $first;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Category", inversedBy="hobbies")
+    * @ORM\ManyToOne(targetEntity="Category")
     * @ORM\JoinColumn(name="second_category_id", referencedColumnName="id")
     */
     private $second;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Category", inversedBy="hobbies")
+    * @ORM\ManyToOne(targetEntity="Category")
     * @ORM\JoinColumn(name="third_category_id", referencedColumnName="id")
     */
     private $third;

@@ -39,7 +39,7 @@ class PlaceController extends Controller
   }
 
   /**
-  * @Route("/new/place", name="new_place")
+  * @Route("/place/new", name="new_place")
   * @Method({"GET","POST"})
   */
   public function newPlace(Request $request)
@@ -79,7 +79,7 @@ class PlaceController extends Controller
     $place->getId();
     $em = $this->getDoctrine()->getManager();
     /* vérifie si un user à ajouter un lieu en favoris */
-    $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorites')->findOneBy(array('userId' => $user ,'placeId' => $place));
+    $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorites')->findOneBy(array('user' => $user ,'place' => $place));
     /* réccupère la moyenne des avis par rapport au lieu */
     $placeAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->placeAverageScore($place);
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(

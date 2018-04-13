@@ -49,7 +49,7 @@ class Advice
   private $place;
 
   /**
-  * @ORM\ManyToOne(targetEntity="User", inversedBy="advice")
+  * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
   * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
   */
   private $user;

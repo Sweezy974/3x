@@ -30,10 +30,10 @@
     </div>
   </div>
   <div class="col s12 m5 offset-l4 l3">
-    {% if favorites.userId is defined %}
-    <a href="{{ path('delete_favorite', {'id': favorites.id }) }}"> <i class="material-icons right red-text">favorite</i>retirer des favoris </a>
+    {% if favorites.user is defined %}
+    <a class="right" href="{{ path('delete_favorite', {'id': favorites.id }) }}"> <i class="material-icons right red-text">favorite</i>retirer des favoris </a>
     {% else %}
-    <a href="{{ path('user_new_favorite', {'id': place.id }) }}"><i class="material-icons left ">favorite</i>Ajouter aux favoris</a>
+    <a class="right"href="{{ path('user_new_favorite', {'id': place.id }) }}"><i class="material-icons left ">favorite</i>Ajouter aux favoris</a>
     {% endif %}
   </div>
 </div>
