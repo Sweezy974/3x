@@ -16,3 +16,9 @@
 /vendor/
 /web/bundles/
 /web/uploads
+!/web/uploads/piton.jpg
+!/web/uploads/anse.jpg
+!/web/uploads/kazinso.jpg
+!/web/uploads/stella.jpg
+!/web/uploads/chaudron.jpg
+!/web/uploads/grand-tour.jpg

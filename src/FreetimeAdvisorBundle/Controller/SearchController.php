@@ -91,8 +91,10 @@ class SearchController extends Controller
     $category->getName();
     $em = $this->getDoctrine()->getManager();
     $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category),array('id' => 'desc'));
+    $placesAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->allPlaceAverageScore();
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
       'places' => $places,
+      'placeAvgScore'=>$placesAvgScore
     ));
   }
 
@@ -106,8 +108,10 @@ class SearchController extends Controller
     $city->getName();
     $em = $this->getDoctrine()->getManager();
     $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('city'=>$city),array('id' => 'desc'));
+    $placesAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->allPlaceAverageScore();
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
       'places' => $places,
+      'placeAvgScore'=>$placesAvgScore
     ));
   }
 
