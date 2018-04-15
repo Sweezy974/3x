@@ -15,10 +15,4 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-/web/uploads
-!/web/uploads/images/places/piton.jpg
-!/web/uploads/images/places/anse.jpg
-!/web/uploads/images/places/kazinso.jpg
-!/web/uploads/images/places/stella.jpg
-!/web/uploads/images/places/chaudron.jpg
-!/web/uploads/images/places/grand-tour.jpg
+
