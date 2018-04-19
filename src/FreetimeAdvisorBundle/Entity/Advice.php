@@ -58,7 +58,7 @@ class Advice
   * @ORM\Column(type="datetime",options={"default":0})
   * @var \DateTime
   */
-  private $date;
+  private $createdAt;
 
 
   /**
@@ -180,14 +180,15 @@ class Advice
     return $this->user;
   }
 
-  public function getDate()
-  {
-    return $this->date;
-  }
 
-  public function setDate($date)
+  public function setCreatedAt($createdAt)
   {
-    $this->date = new \DateTime();
+    $this->createdAt = new \DateTime();
     return $this;
+  }
+  
+  public function getCreatedAt()
+  {
+    return $this->createdAt;
   }
 }

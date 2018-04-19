@@ -60,7 +60,7 @@ class Photo
   * @ORM\Column(type="datetime",options={"default":0})
   * @var \DateTime
   */
-  private $date;
+  private $createdAt;
 
 
   /**
@@ -168,16 +168,17 @@ class Photo
     return $this->advice;
   }
 
-  public function getDate()
+  public function setCreatedAt()
   {
-    return $this->date;
-  }
-
-  public function setDate()
-  {
-    $this->date = new \DateTime();
+    $this->createdAt = new \DateTime();
     return $this;
   }
+  
+  public function getCreatedAt()
+  {
+    return $this->createdAt;
+  }
+
 
 
 }

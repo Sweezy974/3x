@@ -20,7 +20,7 @@ class RegistrationType extends AbstractType
 
   {
     $builder
-    ->add('age', BirthdayType::class, array('attr' => array('class' => 'date'),'label'=>false,'required' => true,'widget' => 'single_text','html5' => true))
+    ->add('birthDate', BirthdayType::class, array('attr' => array('class' => 'date'),'label'=>false,'required' => true,'widget' => 'single_text','html5' => true))
     ->add('city', EntityType::class, array(
       'mapped'=>true,
       'class' => 'FreetimeAdvisorBundle:City',

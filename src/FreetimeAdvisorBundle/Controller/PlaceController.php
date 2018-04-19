@@ -29,7 +29,7 @@ class PlaceController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     /*réccupère les 9 derniers lieux */
-    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array(),array('date' => 'desc'),9);
+    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array(),array('createdAt' => 'desc'),9);
     /*réccupère la moyenne des avis par rapport au lieu*/
     $placesAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->allPlaceAverageScore();
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/index.html.twig', array(
@@ -50,7 +50,7 @@ class PlaceController extends Controller
     $form = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
     $form->handleRequest($request);
     $place->setUser($user)
-    ->setDate("now");
+    ->setCreatedAt("now");
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
       $em->persist($place);
@@ -103,7 +103,7 @@ class PlaceController extends Controller
     $editForm->handleRequest($request);
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $place->setDate("now");
+      $place->setCreatedAt("now");
       $em->persist($place);
       $em->flush();
 
@@ -128,7 +128,7 @@ class PlaceController extends Controller
     $form->handleRequest($request);
     $advice
     ->setUser($user)
-    ->setDate("now")
+    ->setCreatedAt("now")
     ->setPlace($place);
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
@@ -163,7 +163,7 @@ class PlaceController extends Controller
     $form->handleRequest($request);
     $photo
     ->setUser($user)
-    ->setDate("now")
+    ->setCreatedAt("now")
     ->setAdvice($advice)
     ->setPlace($place);
     if ($form->isSubmitted() && $form->isValid()) {

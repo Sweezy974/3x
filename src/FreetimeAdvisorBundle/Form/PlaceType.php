@@ -33,7 +33,6 @@ class PlaceType extends AbstractType
         ))
         ->add('description')
         ->add('location')
-        // ->add('date', DateType::class, array('years' => range(1940,2016),))
         ->add('save', SubmitType::class, array('label' => 'envoyer','attr' => array('class' => '')));
         }/**
         * {@inheritdoc}

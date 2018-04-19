@@ -87,7 +87,7 @@
     <p><strong>Date de naissance</strong></p>
   </div>
   <div class="col s12">
-    <p>{{app.user.age|date('d/m/Y')}}</p>
+    <p>{{app.user.birthDate|date('d/m/Y')}}</p>
   </div>
   <div class="col s12">
     <p><strong>Ville</strong></p>
@@ -154,7 +154,7 @@
           <strong><a href="{{ path('show_place', {'name': advice.place.name }) }}">{{ advice.place.name|upper }}</a></strong>
           <br><strong>{{advice.title}}</strong>
           <br>{{ advice.comment }}
-          <br>    le {{advice.date|date('d/m/Y à h:m')}}
+          <br>    le {{advice.createdAt|date('d/m/Y à h:m')}}
           <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}"class="secondary-content"><i class="material-icons red-text">close</i></a>
           <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}" class="secondary-content" title="modifier"><i class="material-icons">edit</i></a>
         </div>

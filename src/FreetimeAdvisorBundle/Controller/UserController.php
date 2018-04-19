@@ -45,7 +45,8 @@ class UserController extends Controller
     $hobbies = new Hobbies();
     $form = $this->createForm('FreetimeAdvisorBundle\Form\HobbiesType', $hobbies);
     $form->handleRequest($request);
-    $hobbies->setUser($user);
+    $hobbies->setUser($user)
+            ->setUpdatedAt("now");
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
       $em->persist($hobbies);
@@ -67,6 +68,7 @@ class UserController extends Controller
     $user = $this->getUser();
     $user->getId();
     $editForm = $this->createForm('FreetimeAdvisorBundle\Form\HobbiesType', $hobbies);
+    $hobbies->setUpdatedAt("now");
     $editForm->handleRequest($request);
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $em = $this->getDoctrine()->getManager();
@@ -100,7 +102,8 @@ class UserController extends Controller
         $favorites = new Favorites();
         $favorites
         ->setUser($user)
-        ->setPlace($place);
+        ->setPlace($place)
+        ->setCreatedAt("now");
         $em = $this->getDoctrine()->getManager();
         $em->persist($favorites);
         $em->flush();

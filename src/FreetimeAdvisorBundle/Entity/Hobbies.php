@@ -45,6 +45,12 @@ class Hobbies
     */
     private $user;
 
+    /**
+    * @ORM\Column(type="datetime",options={"default":0})
+    * @var \DateTime
+    */
+    private $updatedAt;
+
 
     /**
      * Get id
@@ -150,5 +156,15 @@ class Hobbies
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt= new \DateTime();
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

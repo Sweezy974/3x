@@ -34,6 +34,12 @@ class Favorites
   */
   private $place;
 
+  /**
+  * @ORM\Column(type="datetime",options={"default":0})
+  * @var \DateTime
+  */
+  private $createdAt;
+
 
   /**
   * Get id
@@ -91,5 +97,15 @@ class Favorites
   public function getPlace()
   {
     return $this->place;
+  }
+
+  public function setCreatedAt($createdAt)
+  {
+      $this->createdAt= new \DateTime();
+  }
+
+  public function getCreatedAt()
+  {
+      return $this->createdAt;
   }
 }

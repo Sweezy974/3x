@@ -46,13 +46,6 @@ class Place
     private $description;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="bestPicture", type="string", length=255, nullable=true,options={"default":"default.jpg"})
-    */
-    private $bestPicture;
-
-    /**
     * @ORM\ManyToOne(targetEntity="City", cascade={"persist"})
     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
     */
@@ -84,7 +77,7 @@ class Place
     * @ORM\Column(type="datetime",options={"default":0})
     * @var \DateTime
     */
-    private $date;
+    private $createdAt;
 
     /**
     * @ORM\Column(type="string", length=255,options={"default":"default.jpg"})
@@ -190,17 +183,6 @@ class Place
         return $this->description;
     }
 
-    public function setBestPicture($bestPicture)
-    {
-        $this->bestPicture = $bestPicture;
-    }
-
-    public function getBestPicture()
-    {
-        return $this->bestPicture;
-    }
-
-
     /**
     * Set City
     *
@@ -289,28 +271,21 @@ class Place
         return $this->photo;
     }
 
-    public function getDate()
+    public function setCreatedAt($createdAt)
     {
-        return $this->date;
-    }
-
-    public function setDate($date)
-    {
-        $this->date = new \DateTime();
+        $this->createdAt = new \DateTime();
         return $this;
     }
+    
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
 
     public function setImageFile(File $image = null)
     {
         $this->imageFile = $image;
-
-        // VERY IMPORTANT:
-        // It is required that at least one field changes if you are using Doctrine,
-        // otherwise the event listeners won't be called and the file is lost
-        if ($image) {
-            // if 'updatedAt' is not defined in your entity, use another property
-            $this->avatarUpdatedAt = new \DateTime('now');
-        }
     }
 
     public function getImageFile()
