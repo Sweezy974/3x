@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class PlaceController extends Controller
 {
   /**
+  * AFFICHE LES LIEUX SUR UNE PAGE
   *
   * @Route("/place/index", name="place_index")
   * @Method("GET")
@@ -28,9 +29,9 @@ class PlaceController extends Controller
   public function index()
   {
     $em = $this->getDoctrine()->getManager();
-    /*réccupère les 9 derniers lieux */
+    //réccupère les 9 derniers lieux
     $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array(),array('createdAt' => 'desc'),9);
-    /*réccupère la moyenne des avis par rapport au lieu*/
+    //réccupère la moyenne des avis de chaque lieux
     $placesAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->allPlaceAverageScore();
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/index.html.twig', array(
       'places' => $places,
@@ -39,23 +40,27 @@ class PlaceController extends Controller
   }
 
   /**
+  * AJOUTER UN LIEU
+  *
   * @Route("/place/new", name="new_place")
   * @Method({"GET","POST"})
   */
   public function newPlace(Request $request)
   {
     $user = $this->getUser();
-    $user->getId();
-    $place = new Place();
+    $user->getId(); //réccupère l'id de l'utilisateur actuel
+    $place = new Place(); //instancie le lieu
+    //créé un formulaire
     $form = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
     $form->handleRequest($request);
-    $place->setUser($user)
-    ->setCreatedAt("now");
+    $place->setUser($user) //ajoute l'id du créateur
+          ->setCreatedAt("now");// ajoute la date du jour
+    // si le formulaire envoie les infos et est valide
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $em->persist($place);
-      $em->flush();
-
+      $em->persist($place);//sauvegarde des données
+      $em->flush(); //ajout en base
+      //redirection vers la vue du lieu précédemment créé
       return $this->redirectToRoute('new_place_advice', array('name' => $place->getName()));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/new.html.twig', array(
@@ -67,6 +72,8 @@ class PlaceController extends Controller
 
 
   /**
+  * PAGE D'UN LIEU
+  *
   * @Route("place/{name}", name="show_place")
   * @Method({"GET","POST"})
   */
@@ -90,6 +97,8 @@ class PlaceController extends Controller
   }
 
   /**
+  * MODIFIER UN LIEU
+  *
   * @Route("place/{name}/edit", name="edit_place")
   * @Method({"GET","POST"})
   *
@@ -116,6 +125,8 @@ class PlaceController extends Controller
   }
 
   /**
+  * AJOUTE UN AVIS POUR UN LIEU
+  *
   * @Route("place/{name}/new/advice", name="new_place_advice")
   * @Method({"GET","POST"})
   */
@@ -146,6 +157,8 @@ class PlaceController extends Controller
   }
 
   /**
+  * AJOUT DE PHOTO POUR UN AVIS
+  *
   * @Route("place/{place_name}/advice/{advice_id}/new/photo", name="new_place_photo")
   * @Template()
   * @ParamConverter("place", class="FreetimeAdvisorBundle:Place",options={"mapping":{"place_name":"name"}})

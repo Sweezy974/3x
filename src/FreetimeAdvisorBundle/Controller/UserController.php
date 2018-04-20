@@ -15,6 +15,8 @@ use FreetimeAdvisorBundle\Entity\Place;
 class UserController extends Controller
 {
   /**
+  * PAGE TABLEAU DE BORD UTILISATEUR
+  *
   * @Route("user/dashboard", name="user_dashboard")
   */
   public function dashboard()
@@ -35,6 +37,8 @@ class UserController extends Controller
   }
 
   /**
+  * CHOIX DES LOISIRS PREFERES D'UN UTILISATEUR
+  *
   * @Route("/user/hobbies/select", name="user_select_hobbies")
   * @Method({"GET","POST"})
   */
@@ -60,6 +64,8 @@ class UserController extends Controller
   }
 
   /**
+  * MODIFIE LES LOISIRS PREFERES D'UN UTILISATEUR
+  *
   * @Route("user/{pseudo}/hobbies/{id}/edit", name="user_edit_hobbies")
   * @Method({"GET","POST"})
   */
@@ -84,6 +90,8 @@ class UserController extends Controller
   }
 
   /**
+  * AJOUTER UN LIEU EN FAVORIS
+  *
   * @Route("/place/{id}/new/favorite", name="user_new_favorite")
   * @Method({"GET","POST"})
   */
@@ -114,7 +122,7 @@ class UserController extends Controller
   }
 
   /**
-  * delete a favorite place
+  * SUPPRIMER UN FAVORIS
   *
   * @Route("user/favorites/{id}/delete", name="delete_favorite")
   * @Method({"GET", "DELETE"})
@@ -131,6 +139,8 @@ class UserController extends Controller
   }
 
   /**
+  * MODIFIER UN PROFIL
+  *
   * @Route("user/profile/edit", name="user_profile_edit")
   * @Method({"GET","POST"})
   */
