@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use FreetimeAdvisorBundle\Entity\Category;
 
-class HobbiesType extends AbstractType
+class HobbiesListType extends AbstractType
 {
     /**
     * {@inheritdoc}
@@ -45,7 +45,7 @@ class HobbiesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'FreetimeAdvisorBundle\Entity\Hobbies'
+            'data_class' => 'FreetimeAdvisorBundle\Entity\HobbiesList'
         ));
     }
 

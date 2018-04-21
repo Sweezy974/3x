@@ -123,10 +123,10 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_favorites` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user_hobbies`
+-- Structure de la table `user_hobbies_list`
 --
 
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_hobbies` (
+CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_hobbies_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `first_category_id` int(11) DEFAULT NULL,
   `second_category_id` int(11) DEFAULT NULL,
@@ -177,13 +177,13 @@ ADD CONSTRAINT `fk_user_favorites_user_id` FOREIGN KEY (`user_id`) REFERENCES `u
 ADD CONSTRAINT `fk_user_favorites_place_id` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`);
 
 --
--- Contraintes pour la table `user_hobbies`
+-- Contraintes pour la table `user_hobbies_list`
 --
-ALTER TABLE `3xAdvisor`.`user_hobbies`
-ADD CONSTRAINT `fk_user_hobbies_third_category_id` FOREIGN KEY (`third_category_id`) REFERENCES `place_categories` (`id`),
-ADD CONSTRAINT `fk_user_hobbies_second_category_id` FOREIGN KEY (`second_category_id`) REFERENCES `place_categories` (`id`),
-ADD CONSTRAINT `fk_user_hobbies_first_category_id` FOREIGN KEY (`first_category_id`) REFERENCES `place_categories` (`id`),
-ADD CONSTRAINT `fk_user_hobbies_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ALTER TABLE `3xAdvisor`.`user_hobbies_list`
+ADD CONSTRAINT `fk_user_hobbies_list_third_category_id` FOREIGN KEY (`third_category_id`) REFERENCES `place_categories` (`id`),
+ADD CONSTRAINT `fk_user_hobbies_list_second_category_id` FOREIGN KEY (`second_category_id`) REFERENCES `place_categories` (`id`),
+ADD CONSTRAINT `fk_user_hobbies_list_first_category_id` FOREIGN KEY (`first_category_id`) REFERENCES `place_categories` (`id`),
+ADD CONSTRAINT `fk_user_hobbies_list_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 COMMIT;
 
 --
@@ -278,8 +278,8 @@ INSERT INTO `3xAdvisor`.`place_advices_photos` (`id`, `user_id`, `place_id`, `ad
 INSERT INTO `3xAdvisor`.`user_favorites` (`id`, `user_id`, `place_id`,`created_at`) VALUES
 (2, 1, 4,'2018-04-16 11:21:33');
 --
--- Déchargement des données de la table `user_hobbies`
+-- Déchargement des données de la table `user_hobbies_list`
 --
 
-INSERT INTO `3xAdvisor`.`user_hobbies` (`id`, `first_category_id`, `second_category_id`, `third_category_id`, `user_id`,`updated_at`) VALUES
+INSERT INTO `3xAdvisor`.`user_hobbies_list` (`id`, `first_category_id`, `second_category_id`, `third_category_id`, `user_id`,`updated_at`) VALUES
 (1, 1, 3, 10, 1,'2018-04-16 11:21:33');

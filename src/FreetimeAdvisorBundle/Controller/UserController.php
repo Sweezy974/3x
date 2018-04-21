@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
-use FreetimeAdvisorBundle\Entity\Hobbies;
+use FreetimeAdvisorBundle\Entity\HobbiesList;
 use FreetimeAdvisorBundle\Entity\Favorites;
 use FreetimeAdvisorBundle\Entity\Place;
 
@@ -26,7 +26,7 @@ class UserController extends Controller
     $em = $this->getDoctrine()->getManager();
     $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('user'=>$user),array('id' => 'desc'));
     $advices = $em->getRepository('FreetimeAdvisorBundle:Advice')->findby(array('user'=>$user),array('id' => 'desc'));
-    $hobbies = $em->getRepository('FreetimeAdvisorBundle:Hobbies')->findOneByUser(array('user'=>$user));
+    $hobbies = $em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findOneByUser(array('user'=>$user));
     $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorites')->findby(array('user'=>$user),array('id' => 'desc'));
     return $this->render('@FreetimeAdvisorBundle/Resources/views/user/dashboard/index.html.twig', array(
       'places' => $places,
@@ -46,13 +46,19 @@ class UserController extends Controller
   {
     $user = $this->getUser();
     $user->getId();
-    $hobbies = new Hobbies();
-    $form = $this->createForm('FreetimeAdvisorBundle\Form\HobbiesType', $hobbies);
+    $em = $this->getDoctrine()->getManager();
+    // vérifie si l'utilisateur a déjà séléctionné ses loisirs préférés
+    $hobbiesExist = $em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findOneByUser(array('user'=>$user));
+    if ($hobbiesExist) {
+      return $this->redirectToRoute('user_dashboard');
+    }
+    //
+    $hobbies = new HobbiesList();
+    $form = $this->createForm('FreetimeAdvisorBundle\Form\HobbiesListType', $hobbies);
     $form->handleRequest($request);
     $hobbies->setUser($user)
-            ->setUpdatedAt("now");
+    ->setUpdatedAt("now");
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
       $em->persist($hobbies);
       $em->flush();
 
@@ -61,6 +67,8 @@ class UserController extends Controller
     return $this->render('@FreetimeAdvisorBundle/Resources/views/user/hobbies/new.html.twig', array(
       'form' => $form->createView(),
     ));
+
+
   }
 
   /**
@@ -68,12 +76,15 @@ class UserController extends Controller
   *
   * @Route("user/{pseudo}/hobbies/{id}/edit", name="user_edit_hobbies")
   * @Method({"GET","POST"})
+  *
+  * vérifie si c'est bien l'auteur qui modifie
+  * @Security("user.getUsername() == hobbies.getUser()")
   */
-  public function editHobbies(Hobbies $hobbies ,Request $request)
+  public function editHobbies(HobbiesList $hobbies ,Request $request)
   {
     $user = $this->getUser();
     $user->getId();
-    $editForm = $this->createForm('FreetimeAdvisorBundle\Form\HobbiesType', $hobbies);
+    $editForm = $this->createForm('FreetimeAdvisorBundle\Form\HobbiesListType', $hobbies);
     $hobbies->setUpdatedAt("now");
     $editForm->handleRequest($request);
     if ($editForm->isSubmitted() && $editForm->isValid()) {

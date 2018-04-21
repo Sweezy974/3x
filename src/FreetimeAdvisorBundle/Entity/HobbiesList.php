@@ -5,12 +5,12 @@ namespace FreetimeAdvisorBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Hobbies
+ * HobbiesList
  *
- * @ORM\Table(name="user_hobbies")
- * @ORM\Entity(repositoryClass="FreetimeAdvisorBundle\Repository\HobbiesRepository")
+ * @ORM\Table(name="user_hobbies_list")
+ * @ORM\Entity(repositoryClass="FreetimeAdvisorBundle\Repository\HobbiesListRepository")
  */
-class Hobbies
+class HobbiesList
 {
     /**
      * @var int
@@ -22,25 +22,25 @@ class Hobbies
     private $id;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Category")
+    * @ORM\OneToOne(targetEntity="Category")
     * @ORM\JoinColumn(name="first_category_id", referencedColumnName="id")
     */
     private $first;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Category")
+    * @ORM\OneToOne(targetEntity="Category")
     * @ORM\JoinColumn(name="second_category_id", referencedColumnName="id")
     */
     private $second;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Category")
+    * @ORM\OneToOne(targetEntity="Category")
     * @ORM\JoinColumn(name="third_category_id", referencedColumnName="id")
     */
     private $third;
 
     /**
-    * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
+    * @ORM\OneToOne(targetEntity="User")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
     */
     private $user;
@@ -67,7 +67,7 @@ class Hobbies
      *
      * @param string $first
      *
-     * @return Hobbies
+     * @return HobbiesList
      */
     public function setFirst($first)
     {
@@ -91,7 +91,7 @@ class Hobbies
      *
      * @param string $second
      *
-     * @return Hobbies
+     * @return HobbiesList
      */
     public function setSecond($second)
     {
@@ -115,7 +115,7 @@ class Hobbies
      *
      * @param string $third
      *
-     * @return Hobbies
+     * @return HobbiesList
      */
     public function setThird($third)
     {
@@ -139,7 +139,7 @@ class Hobbies
      *
      * @param integer $userId
      *
-     * @return Hobbies
+     * @return HobbiesList
      */
     public function setUser($user)
     {

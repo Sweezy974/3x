@@ -102,7 +102,7 @@ class PlaceController extends Controller
   * @Route("place/{name}/edit", name="edit_place")
   * @Method({"GET","POST"})
   *
-  * vérifie si c'est bien l'auteur qui modifie*
+  * vérifie si c'est bien l'auteur qui modifie
   * @Security("user.getUsername() == place.getUser()")
   */
   public function editPlace(Place $place, Request $request)
@@ -132,8 +132,15 @@ class PlaceController extends Controller
   */
   public function newPlaceAdvice(Place $place, Request $request)
   {
+    $em = $this->getDoctrine()->getManager();
     $user = $this->getUser();
     $user->getId();
+    // si l'utilisateur a déjà posté un avis
+    $adviceExist = $em->getRepository('FreetimeAdvisorBundle:Advice')->findby(array('user'=>$user,'place'=>$place));
+    if ($adviceExist) {
+      return $this->redirectToRoute('show_place', array('name' => $place->getName()));
+    }
+    //
     $advice = new Advice();
     $form = $this->createForm('FreetimeAdvisorBundle\Form\AdviceType', $advice);
     $form->handleRequest($request);
@@ -142,7 +149,6 @@ class PlaceController extends Controller
     ->setCreatedAt("now")
     ->setPlace($place);
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
       $em->persist($advice);
       $em->flush();
 
