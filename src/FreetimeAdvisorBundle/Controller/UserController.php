@@ -9,8 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use FreetimeAdvisorBundle\Entity\HobbiesList;
-use FreetimeAdvisorBundle\Entity\Favorites;
-use FreetimeAdvisorBundle\Entity\Place;
+
 
 class UserController extends Controller
 {
@@ -74,7 +73,7 @@ class UserController extends Controller
   /**
   * MODIFIE LES LOISIRS PREFERES D'UN UTILISATEUR
   *
-  * @Route("user/{pseudo}/hobbies/{id}/edit", name="user_edit_hobbies")
+  * @Route("user/hobbies/{id}/edit", name="user_edit_hobbies")
   * @Method({"GET","POST"})
   *
   * vérifie si c'est bien l'auteur qui modifie
