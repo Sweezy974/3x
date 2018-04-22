@@ -16,7 +16,7 @@
 {% if place.mainPhoto == 'default.jpg' %}
 <img class="col s12 m6 offset-m3 l6 offset-l3 responsive-img" data-caption="photo principale de : {{place.name}}" src="{{ asset ('images/default-no-image.png') }}">
 {% else %}
-  <img class="col s12 m6 offset-m3 l6 offset-l3 responsive-img" data-caption="photo principale de : {{place.name}}" src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}">
+<img class="col s12 m6 offset-m3 l6 offset-l3 responsive-img" data-caption="photo principale de : {{place.name}}" src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}">
 
 {% endif %}
 </div>
@@ -81,19 +81,9 @@
         <img src="{{ asset ('uploads/images/users/') }}{{ advice.user.avatar }}" alt="" class="circle">
         <span class="title"><strong>{{advice.title}}</strong>
           <p class="">par : {{advice.user.username}}
-            {% if advice.user.id == app.user.id %}
-            <p>
-              <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier </a>|
-              <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}">Supprimer</a>
-              mon avis
-            </p>
-          </span>
-          {% else %}
-
-          {% endif %}
+            <p class="truncate"> {{advice.comment}}</p>
         </p>
 
-        <p class="truncate"> {{advice.comment}}</p>
         {% if advice.score == 5 %}
         <a href="#!" class="secondary-content"><i class="yellow-text material-icons left">grade</i>{{advice.score}} / 5</a>
         {% elseif advice.score == 4 %}
@@ -107,6 +97,26 @@
         {% else %}
         <p>score non valide</p>
         {% endif %}
+        {% if advice.photo is not null %}
+        <p>photos :</p>
+        {% for photo in advice.photo %}
+        {% if photo.advice.id == advice.id %}
+        <div class="" style="display:inline-block;">
+          <img width="30" height="30" class="materialboxed" src="{{ asset ('uploads/images/places/') }}{{ photo.name }}">
+        </div>
+        {% endif %}
+        {% else %}
+            <p><strong>pas de photos </strong></p>
+        {% endfor %}
+        {% endif %}
+        {% if advice.user.id == app.user.id %}
+        <br>
+        <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier </a>|
+        <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}">Supprimer</a>
+        mon avis
+      </span>
+      {% else %}
+      {% endif %}
       </li>
       {% else %}
       <p  class=" center red-text">il n'y a pas encore d'avis pour ce lieu</p>
@@ -114,11 +124,13 @@
     </ul>
   </div>
 </div>
+{% if adviceExist is not null %}
+{% else %}
 <div class="row">
   <div class="col s12 m12 l12 center">
-    <a href="{{ path('new_place_advice', {'name': place.name }) }}" class="btn "> écrire un avis</a>
-
+    <a href="{{ path('new_advice', {'name': place.name }) }}" class="btn "> écrire un avis</a>
   </div>
-
 </div>
+
+{% endif %}
 {% endblock %}

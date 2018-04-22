@@ -70,3 +70,7 @@ font-size: 10px!important;
 .card-action :hover{
   color: black!important;
 }
+
+.tabs.tabs-transparent .tab a.active {
+    color: #000!important;
+}

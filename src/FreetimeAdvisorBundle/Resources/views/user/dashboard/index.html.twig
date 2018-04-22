@@ -1,7 +1,6 @@
 {% extends "::base.html.twig" %}
 
 {% block header %}
-{% if is_granted("ROLE_USER") %}
 <ul id="slide-out" class="side-nav">
   <li><div class="user-view cyan accent-4">
     <div class="background">
@@ -11,7 +10,7 @@
     <a href="#!name"><span class="white-text name"><i class="material-icons left">account_circle</i>{{ app.user.username }}</span></a>
     <a href="#!email"><span class="white-text email"><i class="material-icons left">email</i>{{ app.user.email }}</span></a>
   </div></li>
-  <li><a href="/logout"><i class="material-icons left">exit_to_app</i>Déconnexion</a></li>
+  <li><a href="{{ path('fos_user_security_logout') }}"><i class="material-icons left">exit_to_app</i>Déconnexion</a></li>
   <li><div class="divider"></div></li>
   <li><a class="subheader">Tableau de bord</a></li>
   <li><a class="waves-effect" href="{{ path('user_dashboard') }}#profil"><i class="material-icons left">perm_contact_calendar</i>Voir profil</a></li>
@@ -29,25 +28,20 @@
 <!-- <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a> -->
 <nav class="black cyan accent-4 navbar-fixed nav-extended ">
   <div class="nav-wrapper">
-    <a href="/" class="brand-logo animated jackInTheBox vertical-align-center hide-on-med-and-down" >
+    <a href="{{ path('home') }}" class="brand-logo animated jackInTheBox vertical-align-center hide-on-med-and-down" >
       <img width="140"class="vertical-middle" src="{{ asset ('images/logo-plaintext.png') }}">
     </a>
     <a data-activates="slide-out" class="button-collapse show-on-large brand-logo center" style="font-size:1em;"><i class="material-icons hide-on-large-only left">menu</i> Tableau de bord</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-      {% if is_granted("ROLE_USER") %}
       <li><a href="{{ path('discover_place') }}"><i class="material-icons left">navigation</i>découvrir</a></li>
       <li><a data-activates="slide-out" class="button-collapse show-on-large">Menu<i class="material-icons right">menu</i></a></li>
-      {% else %}
-      <li><a href="/login"><i class="material-icons left">input</i>connexion</a></li>
-      <li><a href="/register"><i class="material-icons left">account_circle</i> inscription</a></li>
-      {% endif %}
     </ul>
   </div>
   <!-- for desktop -->
   <div class="nav-content white darken-1 hide-on-med-and-down">
     <ul class="tabs tabs-transparent">
       <li class="tab"><a href="{{ path('user_dashboard') }}#profil"><i class="material-icons left">account_circle</i>Voir profil</a></li>
-      <li class="tab"><a class="active" href="{{ path('user_dashboard') }}#avis"><i class="material-icons left">assignment_turned_in</i>Mes avis</a></li>
+      <li class="tab"><a href="{{ path('user_dashboard') }}#avis"><i class="material-icons left">assignment_turned_in</i>Mes avis</a></li>
       <li class="tab"><a href="{{ path('user_dashboard') }}#lieux"><i class="material-icons left medium">location_on</i>Mes lieux</a></li>
       <li class="tab"><a href="{{ path('user_dashboard') }}#favoris"><i class="material-icons left medium">star</i>Mes favoris</a></li>
     </ul>
@@ -55,8 +49,8 @@
   <!-- for mobile -->
   <div class="nav-content white darken-1 hide-on-large-only">
     <ul class="tabs tabs-transparent">
-      <li class="tab"><a href="{{ path('user_dashboard') }}#profil"><i class="material-icons left">account_circle</i>profil</a></li>
-      <li class="tab"><a class="active" href="{{ path('user_dashboard') }}#avis"><i class="material-icons left">assignment_turned_in</i>avis</a></li>
+      <li class="tab"><a class="active" href="{{ path('user_dashboard') }}#profil"><i class="material-icons left">account_circle</i>profil</a></li>
+      <li class="tab"><a href="{{ path('user_dashboard') }}#avis"><i class="material-icons left">assignment_turned_in</i>avis</a></li>
       <li class="tab"><a href="{{ path('user_dashboard') }}#lieux"><i class="material-icons left medium">location_on</i>lieux</a></li>
       <li class="tab"><a href="{{ path('user_dashboard') }}#favoris"><i class="material-icons left medium">star</i>favoris</a></li>
     </ul>
@@ -178,7 +172,7 @@
     <div class="row">
       {% for place in places %}
 
-      <div class="col s12 m4">
+      <div class="col s12 m8 offset-m2">
         <div class="card blue-grey darken-1">
           <div class="card-image">
             <!-- <img class="responsive-img"src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt=""> -->
@@ -212,7 +206,7 @@
     <div class="row">
       {% for favorite in favorites %}
 
-      <div class="col s12 m4">
+      <div class="col s12 m8 offset-m2">
         <div class="card blue-grey darken-1">
           <div class="card-content white-text">
             <span class="card-title">{{ favorite.place.name|upper }}</span>
@@ -231,9 +225,6 @@
       {% endfor %}
     </div>
   </div>
-
-  {% else %}
-  {% endif %}
 {% endblock %}
 
 {% block body %}

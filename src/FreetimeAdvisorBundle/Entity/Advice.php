@@ -60,6 +60,11 @@ class Advice
   */
   private $createdAt;
 
+  /**
+  * @ORM\OneToMany(targetEntity="Photo", mappedBy="advice", cascade={"remove", "persist"}))
+  */
+  private $photo;
+
 
   /**
   * Get id
@@ -186,9 +191,25 @@ class Advice
     $this->createdAt = new \DateTime();
     return $this;
   }
-  
+
   public function getCreatedAt()
   {
     return $this->createdAt;
+  }
+
+  public function setPhoto($photo)
+  {
+      $this->photo = $photo;
+      return $this;
+  }
+
+  /**
+  * Get Category
+  *
+  * @return \FreetimeAdvisorBundle\Entity\Photo
+  */
+  public function getPhoto()
+  {
+      return $this->photo;
   }
 }

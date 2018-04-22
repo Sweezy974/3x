@@ -85,14 +85,17 @@ class PlaceController extends Controller
     $user->getId();
     $place->getId();
     $em = $this->getDoctrine()->getManager();
-    /* vérifie si un user à ajouter un lieu en favoris */
+    // vérifie si l'utilisateur a déjà posté un avis pour le lieu
+    $adviceExist = $em->getRepository('FreetimeAdvisorBundle:Advice')->findOneBy(array('user'=>$user,'place'=>$place));
+    // vérifie si l'utilisateur a ajouter le lieu en favoris
     $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorites')->findOneBy(array('user' => $user ,'place' => $place));
-    /* réccupère la moyenne des avis par rapport au lieu */
+    // réccupère la moyenne des avis par rapport au lieu
     $placeAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->placeAverageScore($place);
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(
       'place' => $place,
       'favorites'=>$favorites,
       'placeAvgScore'=>$placeAvgScore,
+      'adviceExist'=>$adviceExist
     ));
   }
 

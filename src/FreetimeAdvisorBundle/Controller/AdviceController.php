@@ -18,10 +18,10 @@ class AdviceController extends Controller
   /**
   * AJOUTE UN AVIS POUR UN LIEU
   *
-  * @Route("place/{name}/new/advice", name="new_place_advice")
+  * @Route("place/{name}/new/advice", name="new_advice")
   * @Method({"GET","POST"})
   */
-  public function newPlaceAdvice(Place $place, Request $request)
+  public function newAdvice(Place $place, Request $request)
   {
     $em = $this->getDoctrine()->getManager();
     $user = $this->getUser();
@@ -43,7 +43,7 @@ class AdviceController extends Controller
       $em->persist($advice);
       $em->flush();
 
-      return $this->redirectToRoute('new_place_photo', array('place_name' => $place->getName(),'advice_id' => $advice->getId()));
+      return $this->redirectToRoute('new_photo_advice', array('place_name' => $place->getName(),'advice_id' => $advice->getId()));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/advice/new.html.twig', array(
       'place'=> $place,
@@ -112,12 +112,12 @@ class AdviceController extends Controller
   /**
   * AJOUT DE PHOTO POUR UN AVIS
   *
-  * @Route("place/{place_name}/advice/{advice_id}/new/photo", name="new_place_photo")
+  * @Route("place/{place_name}/advice/{advice_id}/new/photo", name="new_photo_advice")
   * @Template()
   * @ParamConverter("place", class="FreetimeAdvisorBundle:Place",options={"mapping":{"place_name":"name"}})
   * @ParamConverter("advice", class="FreetimeAdvisorBundle:Advice",options={"mapping":{"advice_id":"id"}})
   */
-  public function newPlacePhoto( $place, $advice, Request $request)
+  public function newPhoto( $place, $advice, Request $request)
   {
     // $advice = $this->getAdvice();
     $advice->getId();
