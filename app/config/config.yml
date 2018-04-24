@@ -10,6 +10,7 @@ parameters:
     locale: en
     app.path.user_images: /uploads/images/users
     app.path.place_images: /uploads/images/places
+    app.path.advice_images: /uploads/images/advices
 
 framework:
     templating:
@@ -89,8 +90,21 @@ vich_uploader:
     mappings:
         place_images:
             uri_prefix:         '%app.path.place_images%'
+            #dossier de destination
             upload_destination: '%kernel.root_dir%/../web/uploads/images/places'
+            # fichier avec nom unique
+            namer:
+              service: vich_uploader.namer_uniqid
 
         user_images:
             uri_prefix:         '%app.path.user_images%'
             upload_destination: '%kernel.root_dir%/../web/uploads/images/users'
+            namer:
+              service: vich_uploader.namer_uniqid
+
+
+        advice_images:
+            uri_prefix:         '%app.path.advice_images%'
+            upload_destination: '%kernel.root_dir%/../web/uploads/images/advices'
+            namer:
+              service: vich_uploader.namer_uniqid

@@ -32,7 +32,7 @@ class Photo
   private $name;
 
   /**
-  * @Vich\UploadableField(mapping="place_images", fileNameProperty="name")
+  * @Vich\UploadableField(mapping="advice_images", fileNameProperty="name")
   * @var File
   */
   private $imageFile;
