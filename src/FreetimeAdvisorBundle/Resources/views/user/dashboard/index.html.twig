@@ -58,18 +58,15 @@
 
 </nav>
 <!-- PROFIL -->
-<div id="profil" class="row center">
+<div id="profil" class="row center ">
   <div class="col s12 m12 l12">
     <h3>Mon profil</h3>
   </div>
   <div class="col s12">
+    <h5>{{app.user.username}}</h5>
+  </div>
+  <div class="col s12">
     <img class="circle" style="border:3px solid grey;" width="120" height="120" src="{{ asset ('uploads/images/users/') }}{{ app.user.avatar }}">
-  </div>
-  <div class="col s12">
-    <p><strong>Pseudo</strong></p>
-  </div>
-  <div class="col s12">
-    <p>{{app.user.username}}</p>
   </div>
   <div class="col s12">
     <p><strong>Email</strong></p>
@@ -149,8 +146,20 @@
           <br><strong>{{advice.title}}</strong>
           <br>{{ advice.comment }}
           <br>    le {{advice.createdAt|date('d/m/Y à h:m')}}
-          <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}"class="secondary-content"><i class="material-icons red-text">close</i></a>
-          <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}" class="secondary-content" title="modifier"><i class="material-icons">edit</i></a>
+          <br>
+          {% for photo in advice.photo %}
+          {% if photo.advice.id == advice.id %}
+          <div class="" style="display:inline-block;">
+            <img width="30" height="30" class="materialboxed" src="{{ asset ('uploads/images/places/') }}{{ photo.name }}">
+          </div>
+          {% endif %}
+          {% else %}
+              <p><strong>pas de photos </strong></p>
+          {% endfor %}
+          <br>
+          <a class="secondary-content" href="{{ path('new_photo_advice', {'place_name': advice.place.name,'advice_id': advice.id }) }}"><i class="material-icons teal-text text-lighten-2">add_a_photo</i> </a>
+          <a  class="secondary-content"href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}"><i class="material-icons">edit</i>  </a>
+          <a  class="secondary-content"href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}"><i class="material-icons red-text">delete</i>  </a>
         </div>
       </li>
     </ul>

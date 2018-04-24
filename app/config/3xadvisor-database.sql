@@ -263,15 +263,14 @@ INSERT INTO `3xAdvisor`.`place_advices` (`id`, `place_id`, `user_id`, `title`, `
 (3, 3, 1, 'dormir sous une nuit étoilé c\'est magique !', 'In diam ante, pharetra eu rhoncus vitae, vehicula non odio. In imperdiet, lorem mollis venenatis pellentesque, ligula odio aliquam purus, fermentum molestie diam sapien quis dui. Aliquam ac augue malesuada nunc venenatis ullamcorper. Pellentesque lacinia', 5, '2018-04-15 18:33:07'),
 (4, 4, 1, 'majestueux', 'jamais vu un truc pareil !', 5, '2018-04-15 18:43:44'),
 (5, 5, 1, 'endroit agréable', 'dapibus ullamcorper felis fermentum quis. Curabitur at mi vestibulum, fermentum eros in, tempus ipsum. Praesent ut ex elit. Fusce diam dolor, iaculis sit amet elit non, sagittis mattis erat. Mauris eget iaculis massa. Donec in facilisis tellus. Nullam sit', 4, '2018-04-15 18:57:15'),
-(6, 6, 1, 'parcours assez difficile', 'Aliquam sit amet felis facilisis urna eleifend ullamcorper ac nec risus. Morbi sodales diam eget eleifend pharetra. Pellentesque faucibus nisi gravida ex ultricies pretium quis vitae nunc. Morbi odio ante, ornare at porttitor sagittis, semper sed nisi. Nu', 2, '2018-04-16 11:21:15'),
-(7, 6, 1, 'kllk', 'lkkl', 1, '2018-04-16 11:21:33');
+(6, 6, 1, 'parcours assez difficile', 'Aliquam sit amet felis facilisis urna eleifend ullamcorper ac nec risus. Morbi sodales diam eget eleifend pharetra. Pellentesque faucibus nisi gravida ex ultricies pretium quis vitae nunc. Morbi odio ante, ornare at porttitor sagittis, semper sed nisi. Nu', 2, '2018-04-16 11:21:15');
 
 --
 -- Déchargement des données de la table `place_advices_photos`
 --
 
 INSERT INTO `3xAdvisor`.`place_advices_photos` (`id`, `user_id`, `place_id`, `advice_id`, `name`, `created_at`) VALUES
-(1, 1, 6, 7, 'kk.jpg', '2018-04-16 11:21:53');
+(1, 1, 6, 6, 'kk.jpg', '2018-04-16 11:21:53');
 -- Déchargement des données de la table `user_favorites`
 --
 

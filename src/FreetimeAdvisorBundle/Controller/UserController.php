@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use FreetimeAdvisorBundle\Entity\HobbiesList;
+use FreetimeAdvisorBundle\Entity\Favorites;
+use FreetimeAdvisorBundle\Entity\Place;
 
 
 class UserController extends Controller

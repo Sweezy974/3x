@@ -61,7 +61,7 @@ class PlaceController extends Controller
       $em->persist($place);//sauvegarde des données
       $em->flush(); //ajout en base
       //redirection vers la vue du lieu précédemment créé
-      return $this->redirectToRoute('new_place_advice', array('name' => $place->getName()));
+      return $this->redirectToRoute('new_advice', array('name' => $place->getName()));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/new.html.twig', array(
       'place' => $place,
@@ -125,6 +125,24 @@ class PlaceController extends Controller
       'place' => $place,
       'edit_form' => $editForm->createView(),
     ));
+  }
+
+  /**
+  * SUPPRIMER UN LIEU
+  *
+  * @Route("place/{name}/delete", name="delete_place")
+  * @Method({"GET", "DELETE"})
+  *
+  * vérifie si c'est bien l'auteur qui supprime *
+  * @Security("user.getUsername() == place.getUser()")
+  */
+  public function deletePlace(Place $place,Request $request)
+  {
+    $em = $this->getDoctrine()->getManager(); // instancie l'entity manager
+    $em->remove($place);//supprime l'avis
+    $em->flush();
+    return $this->redirectToRoute('user_dashboard'); //redirection vers tableau de bord
+
   }
 
 

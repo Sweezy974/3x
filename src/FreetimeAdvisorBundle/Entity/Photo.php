@@ -51,7 +51,7 @@ class Photo
   private $place;
 
   /**
-  * @ORM\ManyToOne(targetEntity="Advice",cascade={"persist"})
+  * @ORM\ManyToOne(targetEntity="Advice",inversedBy="photo")
   * @ORM\JoinColumn(name="advice_id", referencedColumnName="id")
   */
   private $advice;
@@ -173,7 +173,7 @@ class Photo
     $this->createdAt = new \DateTime();
     return $this;
   }
-  
+
   public function getCreatedAt()
   {
     return $this->createdAt;

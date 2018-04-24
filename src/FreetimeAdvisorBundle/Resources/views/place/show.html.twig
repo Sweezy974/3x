@@ -22,12 +22,8 @@
 </div>
 <div class="row">
   <div class="col s12 m7 l5  left">
-    <div class="chip">
-      <a href="#">#{{place.city.name}}</a>
-    </div>
-    <div class="chip">
-      <a href="#">#{{place.category.name}}</a>
-    </div>
+      <strong class="chip"><a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a></strong>
+      <strong class="chip"><a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}" style="color:black;">#{{place.category.name}}</a></strong>
   </div>
   <div class="col s12 m5 offset-l4 l3">
     {% if favorites.user is defined %}
@@ -50,17 +46,22 @@
   <li>
     <div class="collapsible-header"><i class="material-icons">collections</i>Galerie</div>
     <div class="collapsible-body">
-      <div class="row center">
-        <div class="carousel " style="background-color:rgba(213, 213, 213, 0.5);" >
+      <div class="slider">
+      <ul class="slides">
+
           {% for photo in place.photo %}
-          <a data-lightbox="roadtrip"  data-title="Lieu: {{ photo.place.name|upper}} , ajouté par {{ photo.user.username}} " class="carousel-item" href="{{ asset ('uploads/images/places/') }}{{ photo.name }}"><img src="{{ asset ('uploads/images/places/') }}{{ photo.name }}"></a>
+          <li>
+            <a data-lightbox="roadtrip"  data-title="Lieu: {{ photo.place.name|upper}} , ajouté par {{ photo.user.username}} " class="carousel-item" href="{{ asset ('uploads/images/places/') }}{{ photo.name }}"><img src="{{ asset ('uploads/images/places/') }}{{ photo.name }}"></a>
+            <div class="caption center-align v-align ">
+              <h5 class="light grey-text text-lighten-3">{{ photo.advice.title|upper}}</h5>
+            </div>
+          </li>
           {% else %}
           <p>il n'y a pas encore de photo pour ce lieu</p>
           {% endfor %}
-        </div>
-      </div>
 
-
+    </ul>
+  </div>
     </div>
   </li>
 </ul>
@@ -79,11 +80,8 @@
       {% for advice in place.advice %}
       <li class="collection-item avatar ">
         <img src="{{ asset ('uploads/images/users/') }}{{ advice.user.avatar }}" alt="" class="circle">
-        <span class="title"><strong>{{advice.title}}</strong>
-          <p class="">par : {{advice.user.username}}
+        <span class="title"> {{advice.user.username}} |<strong>{{advice.title}} </strong>
             <p class="truncate"> {{advice.comment}}</p>
-        </p>
-
         {% if advice.score == 5 %}
         <a href="#!" class="secondary-content"><i class="yellow-text material-icons left">grade</i>{{advice.score}} / 5</a>
         {% elseif advice.score == 4 %}
@@ -111,9 +109,9 @@
         {% endif %}
         {% if advice.user.id == app.user.id %}
         <br>
-        <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier </a>|
-        <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}">Supprimer</a>
-        mon avis
+        <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}"><i class="material-icons red-text">delete</i> |</a>
+        <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}"><i class="material-icons">edit</i> |</a>
+        <a href="{{ path('new_photo_advice', {'place_name': advice.place.name,'advice_id': advice.id }) }}"><i class="material-icons teal-text text-lighten-2">add_a_photo</i></a>
       </span>
       {% else %}
       {% endif %}
