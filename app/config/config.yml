@@ -95,12 +95,18 @@ vich_uploader:
             # fichier avec nom unique
             namer:
               service: vich_uploader.namer_uniqid
+            # supprime le fichier si l'original est modifié
+            delete_on_update:   true
+            # supprime le fichier si supprimé de la base de données
+            delete_on_remove:   true
 
         user_images:
             uri_prefix:         '%app.path.user_images%'
             upload_destination: '%kernel.root_dir%/../web/uploads/images/users'
             namer:
               service: vich_uploader.namer_uniqid
+            delete_on_update:   true
+            delete_on_remove:   true
 
 
         advice_images:
@@ -108,3 +114,5 @@ vich_uploader:
             upload_destination: '%kernel.root_dir%/../web/uploads/images/advices'
             namer:
               service: vich_uploader.namer_uniqid
+            delete_on_update:   true
+            delete_on_remove:   true

@@ -221,7 +221,7 @@ INSERT INTO `3xAdvisor`.`city` (`id`, `name`, `zipcode`, `area`) VALUES
 --
 
 INSERT INTO `3xAdvisor`.`user` (`id`, `city_id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `confirmation_token`, `password_requested_at`, `roles`, `description`, `birth_date`, `avatar`, `avatar_updated_at`) VALUES
-(1, 1, 'user974', 'user974', 'user@test.fr', 'user@test.fr', 1, NULL, '$2y$13$cSIuTklm56v5f/TjbaEhROPvh.iBy11.gTrbhlJRQW1JbHAVcxhui', '2018-04-16 11:07:59', NULL, NULL, 'a:0:{}', 'Bonjour, je suis un simple utilisateur !', '1983-04-06', 'default-user-img.png', '2018-04-15 17:37:00');
+(1, 1, 'user974', 'user974', 'user@test.fr', 'user@test.fr', 1, NULL, '$2y$13$cSIuTklm56v5f/TjbaEhROPvh.iBy11.gTrbhlJRQW1JbHAVcxhui', '2018-04-16 11:07:59', NULL, NULL, 'a:0:{}', 'Bonjour, je suis un simple utilisateur !', '1983-04-06', '5adeff34ea6c7.jpg', '2018-04-15 17:37:00');
 
 -- --------------------------------------------------------
 --
@@ -270,7 +270,11 @@ INSERT INTO `3xAdvisor`.`place_advices` (`id`, `place_id`, `user_id`, `title`, `
 --
 
 INSERT INTO `3xAdvisor`.`place_advices_photos` (`id`, `user_id`, `place_id`, `advice_id`, `name`, `created_at`) VALUES
-(1, 1, 6, 6, 'kk.jpg', '2018-04-16 11:21:53');
+(1, 1, 6, 6, 'kk.jpg', '2018-04-16 11:21:53'),
+(2, 1, 5, 5, '5adf01457abd3.jpg', '2018-04-24 10:04:53'),
+(3, 1, 4, 4, '5adf01b640e92.jpg', '2018-04-24 10:06:46'),
+(4, 1, 3, 3, '5adf020075aab.jpg', '2018-04-24 10:08:00'),
+(5, 1, 2, 2, '5adf022cc6603.jpg', '2018-04-24 10:08:44');
 -- Déchargement des données de la table `user_favorites`
 --
 
