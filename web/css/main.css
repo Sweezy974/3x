@@ -37,9 +37,11 @@ body{
   color: black!important;
 }
 
-.slider .caption {
+
+.slider .shadow {
   text-shadow: black 1px 2px;
 }
+
 
 .btn, .btn-large {
   background-color: #00b8d4!important;

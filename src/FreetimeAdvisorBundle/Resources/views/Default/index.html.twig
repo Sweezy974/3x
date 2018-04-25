@@ -1,6 +1,58 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+{% if is_granted("ROLE_USER") %}
+<div class="row ">
+  <div class="col s12 center">
+    <h5>Accueil</h5>
+  </div>
+  <div class="col s12 right ">
+    <p><strong>Les derniers lieux</strong></p>
+    <hr>
+  </div>
+</div>
+
+<div class="slider">
+  <ul class="slides">
+    {% for place in places %}
+    <li>
+      <a href=""><img src="{{ asset ('uploads/images/places/') }}{{place.mainPhoto}}"></a>
+      <div class="caption center-align v-align">
+        <h3 class="light grey-text text-lighten-3 shadow">{{place.name}}</h3>
+        <strong class="chip"><a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}">#{{place.city.name}}</a></strong>
+        <strong class="chip"><a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}">#{{place.category.name}}</a></strong>
+        <br><br>
+        <a class="btn" href="{{ path('show_place', { 'name': place.name }) }}">DÉCOUVRIR</a>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% else %}
 <div class="row">
   <div class="col s12 m12 l12 center">
     <h3>Bienvenue sur FreetimeAdvisor !</h3>
@@ -12,26 +64,26 @@
       <li>
         <img src="{{ asset ('images/place1.jpg') }}"> <!-- random image -->
         <div class="caption center-align">
-          <h3>Découvrez et faites découvrir </h3>
-          <h5 class="light grey-text text-lighten-3">FreetimeAdvisor c'est d'abord un lieu où on partage ses experiences !</h5>
+          <h3 class="shadow">Découvrez et faites découvrir </h3>
+          <h5 class="light grey-text text-lighten-3 shadow">FreetimeAdvisor c'est d'abord un lieu où on partage ses experiences !</h5>
         </div>
       </li>
       <li>
         <img src="{{ asset ('images/place2.jpg') }}"> <!-- random image -->
         <div class="caption left-align vertical-middle">
-          <h3>Chaque lieu à une histoire</h3>
-          <h5 class="light grey-text text-lighten-3">Découvrons ou redécouvrons ensemble de nouveaux lieux !</h5>
+          <h3 class="shadow">Chaque lieu à une histoire</h3>
+          <h5 class="light grey-text text-lighten-3 shadow">Découvrons ou redécouvrons ensemble de nouveaux lieux !</h5>
         </div>
       </li>
       <li>
         <img src="{{ asset ('images/place3.jpg') }}"> <!-- random image -->
         <div class="caption right-align">
-          <h3>Ne vous ennuyez plus pendant vôtre temps libre </h3>
-          <h5 class="light grey-text text-lighten-3">FreetimeAdvisor vous aidera selon vos préférence</h5>
+          <h3 class="shadow">Ne vous ennuyez plus pendant vôtre temps libre </h3>
+          <h5 class="light grey-text text-lighten-3 shadow">FreetimeAdvisor vous aidera selon vos préférence</h5>
         </div>
       </li>
     </ul>
   </div>
 </div>
-
+{% endif %}
 {% endblock %}
