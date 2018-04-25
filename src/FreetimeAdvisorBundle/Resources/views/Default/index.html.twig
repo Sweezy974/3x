@@ -3,15 +3,11 @@
 {% block body %}
 {% if is_granted("ROLE_USER") %}
 <div class="row ">
-  <div class="col s12 center">
-    <h5>Accueil</h5>
-  </div>
-  <div class="col s12 right ">
-    <p><strong>Les derniers lieux</strong></p>
+  <div class="col s12 center ">
+    <p><strong><a style="color:inherit;"href="{{path('place_index')}}">Les derniers lieux</a></strong></p>
     <hr>
   </div>
 </div>
-
 <div class="slider">
   <ul class="slides">
     {% for place in places %}
@@ -27,6 +23,98 @@
     </li>
     {% endfor %}
   </ul>
+</div>
+<div class="row ">
+  <div class="col s12 left-align">
+    <p><strong>Lieux qui pourrait vous intéressé</strong></p>
+    <hr>
+  </div>
+</div>
+<div class="row">
+  {% for place in hobbiesPlaces %}
+
+  <div class="col s12 m4">
+    <div class="card small">
+      <div class="card-image">
+        {% if place.mainPhoto == 'default.jpg' %}
+        <a href="#" title="aucune image disponible" class=""><img class="responsive-img" src="{{ asset ('images/default-no-image.png') }}" alt=""></a>
+        {% else %}
+        <img class="responsive-img"src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt="">
+        {% endif %}
+        <span class="card-title">
+
+          {% for placeAvgScore in placeAvgScore if place.id == placeAvgScore.place_id %}
+          <strong class="chip blue lighten-4">
+            <a href="#"title="Moyenne de {{ placeAvgScore.score|round(1, 'floor') }} sur une base de {{placeAvgScore.total}} avis">{{ placeAvgScore.score|round(1, 'floor')}}/5</a>
+          </strong>
+          {% else %}
+          <strong class="chip">
+            <a href="#"title="Il n'y a pas encore d'avis pour ce lieu">~/5</a>
+          </strong>
+          {% endfor %}
+          <strong class="chip"><a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a></strong>
+          <strong class="chip"><a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}" style="color:black;">#{{place.category.name}}</a></strong>
+        </span>
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          <span class="card-title" >{{ place.name|upper }}
+          </span>
+
+        </div>
+        <div class="card-action">
+          <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+<div class="row left-align">
+  <p><strong>Près de chez vous</strong></p>
+  <hr>
+</div>
+<div class="row">
+  {% for place in areaPlaces %}
+
+  <div class="col s12 m4">
+    <div class="card small">
+      <div class="card-image">
+        {% if place.mainPhoto == 'default.jpg' %}
+        <a href="#" title="aucune image disponible" class=""><img class="responsive-img" src="{{ asset ('images/default-no-image.png') }}" alt=""></a>
+        {% else %}
+        <img class="responsive-img"src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt="">
+        {% endif %}
+        <span class="card-title">
+
+          {% for placeAvgScore in placeAvgScore if place.id == placeAvgScore.place_id %}
+          <strong class="chip blue lighten-4">
+            <a href="#"title="Moyenne de {{ placeAvgScore.score|round(1, 'floor') }} sur une base de {{placeAvgScore.total}} avis">{{ placeAvgScore.score|round(1, 'floor')}}/5</a>
+          </strong>
+          {% else %}
+          <strong class="chip">
+            <a href="#"title="Il n'y a pas encore d'avis pour ce lieu">~/5</a>
+          </strong>
+          {% endfor %}
+          <strong class="chip"><a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a></strong>
+          <strong class="chip"><a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}" style="color:black;">#{{place.category.name}}</a></strong>
+        </span>
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          <span class="card-title" >{{ place.name|upper }}
+          </span>
+
+        </div>
+        <div class="card-action">
+          <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
 </div>
 
 

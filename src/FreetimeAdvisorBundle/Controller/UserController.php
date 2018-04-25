@@ -16,6 +16,37 @@ use FreetimeAdvisorBundle\Entity\Place;
 class UserController extends Controller
 {
   /**
+  * @Route("home",name="user_home")
+  */
+  public function index()
+  {
+      $user = $this->getUser();
+      $user->getId();
+      $em = $this->getDoctrine()->getManager();
+      // réccupère les 3 derniers lieux
+      $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array(),array('createdAt' => 'desc'),3);
+      // cherche la liste de l'utilisateur
+      $hobbies = $em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findOneByUser(array('user'=>$user));
+      // stocke les 3 catégories dans un tableau
+      $hobbiesList = array($hobbies->getFirst(),$hobbies->getSecond(),$hobbies->getThird());
+      // réccupère 3 lieux correspondant à la liste de loisir de l'utilisateur
+      $hobbiesPlaces = $em->getRepository('FreetimeAdvisorBundle:Place')->findBy(array('category' => $hobbiesList),array(),3);
+      // réccupère 3 lieux se trouvant dans la même zone de l'utilisateur
+      $userArea = $user->getCity()->getArea();
+      $cityInArea = $em->getRepository('FreetimeAdvisorBundle:City')->findBy(array('area' => $userArea));
+      $areaPlaces = $em->getRepository('FreetimeAdvisorBundle:Place')->findBy(array('city' => $cityInArea),array(),3);
+
+      //réccupère la moyenne des avis de chaque lieux
+      $placesAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->allPlaceAverageScore();
+      return $this->render('@FreetimeAdvisorBundle/Resources/views/default/index.html.twig', array(
+          'places' => $places,
+          'placeAvgScore'=>$placesAvgScore,
+          'hobbiesPlaces'=>$hobbiesPlaces,
+          'areaPlaces'=>$areaPlaces
+      ));
+  }
+
+  /**
   * PAGE TABLEAU DE BORD UTILISATEUR
   *
   * @Route("user/dashboard", name="user_dashboard")
