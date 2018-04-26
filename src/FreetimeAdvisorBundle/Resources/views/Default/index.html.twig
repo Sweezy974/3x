@@ -116,6 +116,20 @@
 
   {% endfor %}
 </div>
+<div class="row">
+  <div class="col s12">
+
+  <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">search</i>Rechercher</div>
+      <div class="collapsible-body">
+        {{ render(controller('FreetimeAdvisorBundle:Search:searchPlace')) }}
+        <p>obligatoire * </p>
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
 
 
 
