@@ -12,7 +12,7 @@
   <ul class="slides">
     {% for place in places %}
     <li>
-      <a href=""><img src="{{ asset ('uploads/images/places/') }}{{place.mainPhoto}}"></a>
+      <a href="{{ path('show_place', { 'name': place.name }) }}"><img src="{{ asset ('uploads/images/places/') }}{{place.mainPhoto}}"></a>
       <div class="caption center-align v-align">
         <h3 class="light grey-text text-lighten-3 shadow">{{place.name}}</h3>
         <strong class="chip"><a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}">#{{place.city.name}}</a></strong>

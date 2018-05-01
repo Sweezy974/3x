@@ -51,7 +51,7 @@
 
           {% for photo in place.photo %}
           <li>
-            <a data-lightbox="roadtrip"  data-title="Lieu: {{ photo.place.name|upper}} , ajouté par {{ photo.user.username}} " class="carousel-item" href="{{ asset ('uploads/images/places/') }}{{ photo.name }}"><img src="{{ asset ('uploads/images/places/') }}{{ photo.name }}"></a>
+            <a data-lightbox="roadtrip"  data-title="Lieu: {{ photo.place.name|upper}} , ajouté par {{ photo.user.username}} " class="carousel-item" href="{{ asset ('uploads/images/advices/') }}{{ photo.name }}"><img  src="{{ asset ('uploads/images/advices/') }}{{ photo.name }}"></a>
             <div class="caption center-align v-align ">
               <h5 class="light grey-text text-lighten-3">{{ photo.advice.title|upper}}</h5>
             </div>
@@ -100,7 +100,7 @@
         {% for photo in advice.photo %}
         {% if photo.advice.id == advice.id %}
         <div class="" style="display:inline-block;">
-          <img width="30" height="30" class="materialboxed" src="{{ asset ('uploads/images/advices/') }}{{ photo.name }}">
+          <img width="30"  class="materialboxed" src="{{ asset ('uploads/images/advices/') }}{{ photo.name }}">
         </div>
         {% endif %}
         {% else %}

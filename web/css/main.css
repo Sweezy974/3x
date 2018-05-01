@@ -7,6 +7,9 @@
 nav ul a {
   padding: 0 40px!important;
 }
+nav a:hover{
+  color: black;
+}
 
 #dropdown1 {
   top: 64px!important;

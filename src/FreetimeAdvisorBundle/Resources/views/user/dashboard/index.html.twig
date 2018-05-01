@@ -10,6 +10,7 @@
     <a href="#!name"><span class="white-text name"><i class="material-icons left">account_circle</i>{{ app.user.username }}</span></a>
     <a href="#!email"><span class="white-text email"><i class="material-icons left">email</i>{{ app.user.email }}</span></a>
   </div></li>
+  <li><a href="{{ path('home') }}"><i class="material-icons left">home</i>Accueil</a></li>
   <li><a href="{{ path('fos_user_security_logout') }}"><i class="material-icons left">exit_to_app</i>Déconnexion</a></li>
   <li><div class="divider"></div></li>
   <li><a class="subheader">Tableau de bord</a></li>
@@ -154,7 +155,7 @@
           </div>
           {% endif %}
           {% else %}
-              <p><strong>pas de photos </strong></p>
+          <p><strong>pas de photos </strong></p>
           {% endfor %}
           <br>
           <a class="secondary-content" href="{{ path('new_photo_advice', {'place_name': advice.place.name,'advice_id': advice.id }) }}"><i class="material-icons teal-text text-lighten-2">add_a_photo</i> </a>
