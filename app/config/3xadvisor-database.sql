@@ -1,5 +1,7 @@
 -- créé la bdd 3xAdvisor
 CREATE DATABASE IF NOT EXISTS 3xAdvisor CHARACTER SET 'utf8';
+-- utilise la bdd 33xAdvisor
+USE `3xAdvisor`;
 -- --------------------------------------------------------
 
 --
@@ -7,7 +9,7 @@ CREATE DATABASE IF NOT EXISTS 3xAdvisor CHARACTER SET 'utf8';
 --
 CREATE TABLE IF NOT EXISTS `3xAdvisor`.`city` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45)  NOT NULL,
+  `name` varchar(80)  NOT NULL,
   `zipcode` int(11) NOT NULL,
   `area` varchar(5)  NOT NULL,
   PRIMARY KEY (`id`)
@@ -22,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`city` (
 
 CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45)  NOT NULL,
+  `name` varchar(50)  NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -69,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place` (
   `location` varchar(255)  NOT NULL,
   `description` longtext  NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `main_photo` varchar(255)  NOT NULL DEFAULT 'default.jpg',
+  `main_photo` varchar(100)  NOT NULL DEFAULT 'default.jpg',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -82,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `place_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `title` varchar(50)  NOT NULL,
+  `title` varchar(80)  NOT NULL,
   `comment` varchar(255)  NOT NULL,
   `score` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -100,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices_photos` (
   `user_id` int(11) DEFAULT NULL,
   `place_id` int(11) DEFAULT NULL,
   `advice_id` int(11) DEFAULT NULL,
-  `name` varchar(255)  NOT NULL DEFAULT 'default.jpg',
+  `name` varchar(100)  NOT NULL DEFAULT 'default.jpg',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
