@@ -27,15 +27,15 @@ class PhotoTest extends TestCase
     $this->photo->setPlace(new Place());
     $this->photo->setAdvice(new Advice());
     $this->photo->setUser(new User());
-    $this->photo->setDate(new \DateTime());
+    $this->photo->setCreatedAt(new \DateTime());
 
 
-    /* Verifying if the getters equals the setters */
+    /* Vérifie si les données obtenues en sortie sont égales à ceux inscrites en entrée  */
     $this->assertEquals($this->photo->getName(),'place-image.jpg');
     $this->assertInstanceOf(Place::class,$this->photo->getPlace());
     $this->assertInstanceOf(Advice::class,$this->photo->getAdvice());
     $this->assertInstanceOf(User::class,$this->photo->getUser());
-    $this->assertInstanceOf(\DateTime::class,$this->photo->getDate());
+    $this->assertInstanceOf(\DateTime::class,$this->photo->getCreatedAt());
 
   }
 

@@ -4,21 +4,21 @@ namespace Tests\FreetimeAdvisorBundle\Entity;
 
 use PHPUnit\Framework\TestCase;
 // use Symfony\Component\HttpFoundation\File\File;
-use FreetimeAdvisorBundle\Entity\Hobbies;
+use FreetimeAdvisorBundle\Entity\HobbiesList;
 use FreetimeAdvisorBundle\Entity\Category;
 
 
-class HobbiesTest extends TestCase
+class HobbiesListTest extends TestCase
 {
   protected $hobbies;
 
   public function setUp()
   {
-    $this->hobbies = new Hobbies();
+    $this->hobbies = new HobbiesList();
   }
 
   /** @test */
-  public function hobbies()
+  public function hobbiesList()
   {
     /* Setters */
     $this->hobbies->setFirst(new Category());
@@ -26,7 +26,7 @@ class HobbiesTest extends TestCase
     $this->hobbies->setThird(new Category());
 
 
-    /* Verifying if the getters equals the setters */
+    /* Vérifie si les données obtenues en sortie sont égales à ceux inscrites en entrée  */
     $this->assertInstanceOf(Category::class,$this->hobbies->getFirst());
     $this->assertInstanceOf(Category::class,$this->hobbies->getSecond());
     $this->assertInstanceOf(Category::class,$this->hobbies->getThird());

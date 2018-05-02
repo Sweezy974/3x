@@ -21,25 +21,24 @@ class UserTest extends TestCase
   public function User()
   {
     /* Setters */
-    // $this->user->setUsername('Fred');
-    // $this->user->setEmail('frederic@gmail.com');
-    // $this->user->setPassword('pwd');
-
+    $this->user->setUsername('Fred');
+    $this->user->setEmail('frederic@gmail.com');
+    $this->user->setPassword('pwd');
     $this->user->setDescription('Ma description');
-    $this->user->setAge(new \DateTime);
+    $this->user->setBirthdate(new \DateTime);
     $this->user->setAvatar('avatar.jpg');
     $this->user->setCity(new City());
     // $this->user->setAvatarUpdatedAt(new \DateTime);
 
-    /* Verifying if the getters equals the setters */
-    // $this->assertEquals($this->user->getUsername(),'Fred');
-    // $this->assertEquals($this->user->getEmail(),'frederic@gmail.com');
-    // $this->assertEquals($this->user->getPassword(),'pwd');
+    /* Vérifie si les données obtenues en sortie sont égales à ceux inscrites en entrée  */
 
+    $this->assertEquals($this->user->getUsername(),'Fred');
+    $this->assertEquals($this->user->getEmail(),'frederic@gmail.com');
+    $this->assertEquals($this->user->getPassword(),'pwd');
     $this->assertEquals($this->user->getDescription(),'Ma description');
     $this->assertEquals($this->user->getAvatar(),'avatar.jpg');
     $this->assertInstanceOf(City::class,$this->user->getCity());
-    $this->assertInstanceOf(\DateTime::class,$this->user->getAge());
+    $this->assertInstanceOf(\DateTime::class,$this->user->getBirthdate());
     // $this->assertInstanceOf('DateTime',$this->user->getAvatarUpdateAt());
 
   }

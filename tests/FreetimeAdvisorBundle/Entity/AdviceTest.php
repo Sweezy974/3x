@@ -27,16 +27,16 @@ class AdviceTest extends TestCase
     $this->advice->setScore(5);
     $this->advice->setPlace(new Place());
     $this->advice->setUser(new User());
-    $this->advice->setDate(new \DateTime());
+    $this->advice->setCreatedAt(new \DateTime());
 
 
-    /* Verifying if the getters equals the setters */
+    /* Vérifie si les données obtenues en sortie sont égales à ceux inscrites en entrée  */
     $this->assertEquals($this->advice->getTitle(),'Très bien');
     $this->assertEquals($this->advice->getComment(),'Mon commentaire');
     $this->assertEquals($this->advice->getScore(),5);
     $this->assertInstanceOf(Place::class,$this->advice->getPlace());
     $this->assertInstanceOf(User::class,$this->advice->getUser());
-    $this->assertInstanceOf(\DateTime::class,$this->advice->getDate());
+    $this->assertInstanceOf(\DateTime::class,$this->advice->getCreatedAt());
 
   }
 

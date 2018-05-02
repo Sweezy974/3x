@@ -24,7 +24,7 @@ class CategoryTest extends TestCase
 
 
 
-    /* Verifying if the getters equals the setters */
+    /* Vérifie si les données obtenues en sortie sont égales à ceux inscrites en entrée  */
     $this->assertEquals($this->category->getName(),'CANYONNING');
 
 

@@ -22,13 +22,13 @@ class FavoritesTest extends TestCase
   public function favorites()
   {
     /* Setters */
-    $this->favorites->setPlaceId(new Place());
-    $this->favorites->setUserId(new User());
+    $this->favorites->setPlace(new Place());
+    $this->favorites->setUser(new User());
 
 
-    /* Verifying if the getters equals the setters */
-    $this->assertInstanceOf(Place::class,$this->favorites->getPlaceId());
-    $this->assertInstanceOf(User::class,$this->favorites->getUserId());
+    /* Vérifie si les données obtenues en sortie sont égales à ceux inscrites en entrée  */
+    $this->assertInstanceOf(Place::class,$this->favorites->getPlace());
+    $this->assertInstanceOf(User::class,$this->favorites->getUser());
 
 
   }
