@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use FreetimeAdvisorBundle\Entity\Advice;
 use FreetimeAdvisorBundle\Entity\Place;
 use FreetimeAdvisorBundle\Entity\User;
+use FreetimeAdvisorBundle\Entity\Photo;
 
 
 class AdviceTest extends TestCase
@@ -28,6 +29,7 @@ class AdviceTest extends TestCase
     $this->advice->setPlace(new Place());
     $this->advice->setUser(new User());
     $this->advice->setCreatedAt(new \DateTime());
+    $this->advice->setPhoto(new Photo());
 
 
     /* Vérifie si les données obtenues en sortie sont égales à ceux inscrites en entrée  */
@@ -37,6 +39,7 @@ class AdviceTest extends TestCase
     $this->assertInstanceOf(Place::class,$this->advice->getPlace());
     $this->assertInstanceOf(User::class,$this->advice->getUser());
     $this->assertInstanceOf(\DateTime::class,$this->advice->getCreatedAt());
+    $this->assertInstanceOf(Photo::class,$this->advice->getPhoto());
 
   }
 

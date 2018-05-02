@@ -28,7 +28,7 @@ class UserTest extends TestCase
     $this->user->setBirthdate(new \DateTime);
     $this->user->setAvatar('avatar.jpg');
     $this->user->setCity(new City());
-    // $this->user->setAvatarUpdatedAt(new \DateTime);
+    $this->user->setAvatarUpdatedAt(new \DateTime);
 
     /* Vérifie si les données obtenues en sortie sont égales à ceux inscrites en entrée  */
 
@@ -39,7 +39,7 @@ class UserTest extends TestCase
     $this->assertEquals($this->user->getAvatar(),'avatar.jpg');
     $this->assertInstanceOf(City::class,$this->user->getCity());
     $this->assertInstanceOf(\DateTime::class,$this->user->getBirthdate());
-    // $this->assertInstanceOf('DateTime',$this->user->getAvatarUpdateAt());
+    $this->assertInstanceOf(\DateTime::class,$this->user->getAvatarUpdateAt());
 
   }
 

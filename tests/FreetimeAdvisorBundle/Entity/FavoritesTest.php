@@ -24,11 +24,13 @@ class FavoritesTest extends TestCase
     /* Setters */
     $this->favorites->setPlace(new Place());
     $this->favorites->setUser(new User());
+    $this->favorites->setCreatedAt(new \DateTime());
 
 
     /* Vérifie si les données obtenues en sortie sont égales à ceux inscrites en entrée  */
     $this->assertInstanceOf(Place::class,$this->favorites->getPlace());
     $this->assertInstanceOf(User::class,$this->favorites->getUser());
+    $this->assertInstanceOf(\DateTime::class,$this->favorites->getCreatedAt());
 
 
   }
