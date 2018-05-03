@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_categories` (
 
 CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `city_id` int(11) DEFAULT NULL,
+  `city_id` int(11) NOT NULL,
   `username` varchar(180)  NOT NULL,
   `username_canonical` varchar(180)  NOT NULL,
   `email` varchar(180)  NOT NULL,
@@ -64,9 +64,9 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user` (
 
 CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `city_id` int(11) DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `city_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `name` varchar(80)  NOT NULL,
   `location` varchar(255)  NOT NULL,
   `description` longtext  NOT NULL,
@@ -82,8 +82,8 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place` (
 
 CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `place_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `place_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `title` varchar(80)  NOT NULL,
   `comment` varchar(255)  NOT NULL,
   `score` int(11) NOT NULL,
@@ -99,9 +99,9 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices` (
 
 CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices_photos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `place_id` int(11) DEFAULT NULL,
-  `advice_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `place_id` int(11) NOT NULL,
+  `advice_id` int(11) NOT NULL,
   `name` varchar(100)  NOT NULL DEFAULT 'default.jpg',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -115,8 +115,8 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices_photos` (
 
 CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_favorites` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `place_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `place_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -130,10 +130,10 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_favorites` (
 
 CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_hobbies_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_category_id` int(11) DEFAULT NULL,
-  `second_category_id` int(11) DEFAULT NULL,
-  `third_category_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `first_category_id` int(11) NOT NULL,
+  `second_category_id` int(11) NOT NULL,
+  `third_category_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
