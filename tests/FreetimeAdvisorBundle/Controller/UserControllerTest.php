@@ -31,29 +31,28 @@ class DefauControllerTest extends WebTestCase
   /** @test */
   public function newUser()
   {
-    $expected = array();
-    $actual = array();
+    // $expected = array();
+    // $actual = array();
 
-    $city= new City();
-    $expected['city'] = count($this->em->getRepository('FreetimeAdvisorBundle:City')->findAll()) + 1;
-    $city->setName('LE PORT')
-    ->setZipCode('97420')
-    ->setArea('OUEST');
-    $this->em->persist($city);
-    $this->em->flush();
-    $actual['city'] = count($this->em->getRepository('FreetimeAdvisorBundle:City')->findAll());
-
+    // $city= new City();
+    // $expected['city'] = count($this->em->getRepository('FreetimeAdvisorBundle:City')->findAll()) + 1;
+    // $city->setName('LE PORT')
+    // ->setZipCode('97420')
+    // ->setArea('OUEST');
+    // $this->em->persist($city);
+    // $this->em->flush();
+    // $actual['city'] = count($this->em->getRepository('FreetimeAdvisorBundle:City')->findAll());
+    //
     $user= new User();
     $expected['user'] = count($this->em->getRepository('FreetimeAdvisorBundle:User')->findAll()) + 1;
     /* Setters */
     $user->setUsername('Fred');
     $user->setEmail('frederic@gmail.com');
-
     $user->setPassword(password_hash("pwd", PASSWORD_DEFAULT));
     $user->setDescription('Ma description');
     $user->setBirthdate(new \DateTime('1995-01-01'));
     $user->setAvatar('avatar.jpg');
-    $user->setCity($city);
+    $user->setCity($this->em->getRepository('FreetimeAdvisorBundle:City')->findOneBy(array('name'=>'LE PORT')));
     $user->setAvatarUpdatedAt(new \DateTime('now'));
     $this->em->persist($user);
     $this->em->flush();
@@ -61,7 +60,7 @@ class DefauControllerTest extends WebTestCase
 
     $this->assertEquals($expected, $actual);
     $this->em->remove($user);
-    $this->em->remove($city);
+    // $this->em->remove($city);
     $this->em->flush();
 
 

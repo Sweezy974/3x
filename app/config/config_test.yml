@@ -2,7 +2,7 @@ doctrine:
     # ...
     dbal:
         host:     localhost
-        dbname:   3xadvisortest
+        dbname:   3xadvisor_test
         user:     fred
         password: 1234
 imports:
