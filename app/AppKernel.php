@@ -19,7 +19,8 @@ class AppKernel extends Kernel
             new FreetimeAdvisorBundle\FreetimeAdvisorBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
-            
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

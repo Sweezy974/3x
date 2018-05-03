@@ -141,6 +141,15 @@ class User extends FosUser
         }
     }
 
+    public function setAvatarUpdatedAt($avatarUpdatedAt)
+    {
+        $this->avatarUpdatedAt = $avatarUpdatedAt;
+    }
+    public function getAvatarUpdatedAt()
+    {
+        return $this->avatarUpdatedAt;
+    }
+
     public function getImageFile()
     {
         return $this->imageFile;
