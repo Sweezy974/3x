@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FreetimeAdvisorBundle\Entity\User;
 use FreetimeAdvisorBundle\Entity\City;
 use FreetimeAdvisorBundle\Entity\HobbiesList;
+use FreetimeAdvisorBundle\Entity\Favorites;
 use Symfony\Component\HttpFoundation\Request;
 /**
 *
@@ -35,7 +36,7 @@ class DefauControllerTest extends WebTestCase
     $user= new User();
     $expected['user'] = count($this->em->getRepository('FreetimeAdvisorBundle:User')->findAll()) + 1;
     /* Setters */
-    $user->setUsername('Fred');
+    $user->setUsername('fred424');
     $user->setEmail('frederic@gmail.com');
     $user->setPassword(password_hash("pwd", PASSWORD_DEFAULT));
     $user->setDescription('Ma description');
@@ -43,54 +44,36 @@ class DefauControllerTest extends WebTestCase
     $user->setAvatar('avatar.jpg');
     $user->setCity($this->em->getRepository('FreetimeAdvisorBundle:City')->findOneBy(array('name'=>'LE PORT')));
     $user->setAvatarUpdatedAt(new \DateTime('now'));
+    $user->setCreatedAt(new \DateTime('now'));
     $this->em->persist($user);
     $this->em->flush();
     $actual['user'] = count($this->em->getRepository('FreetimeAdvisorBundle:User')->findAll());
 
     $this->assertEquals($expected, $actual);
-    // $this->em->remove($user);
-    // $this->em->flush();
-
-
-  }
-
-  /** @test */
-  public function selectHobbies()
-  {
-    $hobbiesList = new hobbiesList();
-    $expected['hobbies'] = count($this->em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findAll()) + 1;
-    /* Setters */
-    $hobbiesList->setFirst($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'NATURE')));
-    $hobbiesList->setSecond($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'DIVERTISSEMENT')));
-    $hobbiesList->setThird($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'RESTAURATION')));
-    $hobbiesList->setUpdatedAt(new \DateTime('now'));
-    $hobbiesList->SetUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
-    $this->em->persist($hobbiesList);
+    $this->em->remove($user);
     $this->em->flush();
-    $actual['hobbies'] = count($this->em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findAll());
-
-    $this->assertEquals($expected, $actual);
-    // $this->em->remove($hobbiesList);
-    // $this->em->flush();
 
 
   }
 
   /** @test */
-  public function editHobbies()
+  public function editProfile()
   {
     $user = $this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974'));
-    $hobbiesList = $this->em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findOneBy(array('user'=>$user));
-    $ActualHobbiesListDate = $hobbiesList->getUpdatedAt();
-    $ExpectedHobbiesList = $this->em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findOneBy(array('id'=>$hobbiesList));
-    $ExpectedHobbiesList->setUpdatedAt(new \DateTime('now'));
-    $this->em->persist($ExpectedHobbiesList);
+    $actualUserDate = $user->getCreatedAt();
+    $editUser = $user;
+    $editUser
+    ->setCreatedAt(new \DateTime('now'));
+    // ->setUpdatedAt(new \DateTime('now'));
+    $this->em->persist($editUser);
     $this->em->flush();
 
-    $ExpectedHobbiesListDate = $ExpectedHobbiesList->getUpdatedAt();
 
-    $this->assertNotEquals($ExpectedHobbiesListDate, $ActualHobbiesListDate);
-    $this->em->remove($ExpectedHobbiesList);
+    $editUserDate = $editUser->getCreatedAt();
+    // dump($actualUserMail,$editUserMail);
+
+    $this->assertNotEquals($editUserDate, $actualUserDate);
+    // $this->em->remove($editUser);
     $this->em->flush();
 
 
@@ -115,6 +98,66 @@ class DefauControllerTest extends WebTestCase
   //
   //   $this->assertEquals($expected, $client);
   // }
+
+  /** @test */
+  public function selectHobbies()
+  {
+    $hobbiesList = new hobbiesList();
+    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findAll()) + 1;
+    /* Setters */
+    $hobbiesList->setFirst($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'NATURE')));
+    $hobbiesList->setSecond($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'DIVERTISSEMENT')));
+    $hobbiesList->setThird($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'RESTAURATION')));
+    $hobbiesList->setUpdatedAt(new \DateTime('now'));
+    $hobbiesList->SetUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
+    $this->em->persist($hobbiesList);
+    $this->em->flush();
+    $actual = count($this->em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findAll());
+
+    $this->assertEquals($expected, $actual);
+    // $this->em->remove($hobbiesList);
+    // $this->em->flush();
+  }
+
+  /** @test */
+  public function editHobbies()
+  {
+    $user = $this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974'));
+    $hobbiesList = $this->em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findOneBy(array('user'=>$user));
+    $actualHobbiesListDate = $hobbiesList->getUpdatedAt();
+    $editHobbiesList = $hobbiesList;
+    $editHobbiesList
+    ->setFirst($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'SPORT')))
+    ->setUpdatedAt(new \DateTime('now'));
+    $this->em->persist($editHobbiesList);
+    $this->em->flush();
+
+    $editHobbiesListDate = $editHobbiesList->getUpdatedAt();
+
+    $this->assertNotEquals($editHobbiesListDate, $actualHobbiesListDate);
+    $this->em->remove($hobbiesList);
+    $this->em->flush();
+
+
+  }
+
+  /** @test */
+  public function newFavorite()
+  {
+    $favorites = new Favorites();
+    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll()) + 1;
+    /* Setters */
+    $favorites->SetUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
+    $favorites->setPlace($this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CINEPALMES')));
+    $favorites->setCreatedAt(new \DateTime('now'));
+    $this->em->persist($favorites);
+    $this->em->flush();
+    $actual = count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll());
+
+    $this->assertEquals($expected, $actual);
+    $this->em->remove($favorites);
+    $this->em->flush();
+  }
 
   public function tearDown()
   {

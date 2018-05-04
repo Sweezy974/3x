@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `3xadvisor_test`.`user` (
   `birth_date` date NOT NULL,
   `avatar` varchar(255)  NOT NULL DEFAULT 'default.jpg',
   `avatar_updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -222,9 +223,8 @@ INSERT INTO `3xadvisor_test`.`city` (`id`, `name`, `zipcode`, `area`) VALUES
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `3xadvisor_test`.`user` (`id`, `city_id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `confirmation_token`, `password_requested_at`, `roles`, `description`, `birth_date`, `avatar`, `avatar_updated_at`) VALUES
-(1, 1, 'user974', 'user974', 'user@test.fr', 'user@test.fr', 1, NULL, '$2y$13$cSIuTklm56v5f/TjbaEhROPvh.iBy11.gTrbhlJRQW1JbHAVcxhui', '2018-04-16 11:07:59', NULL, NULL, 'a:0:{}', 'Bonjour, je suis un simple utilisateur !', '1983-04-06', '5ae0d15ee5f25.jpg', '2018-04-15 17:37:00');
-
+INSERT INTO `3xAdvisor_test`.`user` (`id`, `city_id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `confirmation_token`, `password_requested_at`, `roles`, `description`, `birth_date`, `avatar`, `avatar_updated_at`,`created_at`) VALUES
+(1, 1, 'user974', 'user974', 'user@test.fr', 'user@test.fr', 1, NULL, '$2y$13$cSIuTklm56v5f/TjbaEhROPvh.iBy11.gTrbhlJRQW1JbHAVcxhui', '2018-04-16 11:07:59', NULL, NULL, 'a:0:{}', 'Bonjour, je suis un simple utilisateur !', '1983-04-06', '5ae0d15ee5f25.jpg', '2018-04-15 17:37:00','2018-04-15 17:37:00');
 -- --------------------------------------------------------
 --
 -- Déchargement des données de la table `place_categories`
