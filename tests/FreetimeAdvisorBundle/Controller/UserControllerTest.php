@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
 *
 */
-class DefauControllerTest extends WebTestCase
+class UserControllerTest extends WebTestCase
 {
   protected $em;
 
@@ -64,13 +64,11 @@ class DefauControllerTest extends WebTestCase
     $editUser = $user;
     $editUser
     ->setCreatedAt(new \DateTime('now'));
-    // ->setUpdatedAt(new \DateTime('now'));
     $this->em->persist($editUser);
     $this->em->flush();
 
 
     $editUserDate = $editUser->getCreatedAt();
-    // dump($actualUserMail,$editUserMail);
 
     $this->assertNotEquals($editUserDate, $actualUserDate);
     // $this->em->remove($editUser);
