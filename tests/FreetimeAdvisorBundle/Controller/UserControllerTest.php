@@ -153,8 +153,27 @@ class UserControllerTest extends WebTestCase
     $actual = count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll());
 
     $this->assertEquals($expected, $actual);
+    // $this->em->remove($favorites);
+    // $this->em->flush();
+  }
+
+
+  /** @test */
+  public function deleteFavorite()
+  {
+    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll()) - 1;
+
+    $user = $this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974'));
+    $place = $this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CINEPALMES'));
+    $favorites = $this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findOneBy(array('user'=>$user,'place'=>$place));
+
     $this->em->remove($favorites);
     $this->em->flush();
+
+    $actual =count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll());
+
+
+    $this->assertEquals($expected, $actual);
   }
 
   public function tearDown()

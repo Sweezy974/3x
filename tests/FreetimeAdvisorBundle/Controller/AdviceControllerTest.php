@@ -3,7 +3,8 @@
 namespace Tests\FreetimeAdvisorBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use FreetimeAdvisorBundle\Entity\Place;
+use FreetimeAdvisorBundle\Entity\Advice;
+use FreetimeAdvisorBundle\Entity\Photo;
 
 /**
 *
@@ -22,72 +23,99 @@ class AdviceControllerTest extends WebTestCase
 
 
   /** @test */
-  public function newPlace()
+  public function newAdvice()
   {
-    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Place')->findAll()) + 1;
+    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Advice')->findAll()) + 1;
 
-    $place= new Place();
+    $advice= new Advice();
     /* Setters */
-    $place->setName('AEROPORT DE LA REUNION');
-    $place->setDescription('Ma description');
-    $place->setLocation('non loin du port de Sainte-Marie');
-    $place->setCity($this->em->getRepository('FreetimeAdvisorBundle:City')->findOneBy(array('name'=>'SAINTE-MARIE')));
-    $place->setCategory($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'DECOUVERTE')));
-    $place->setUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
-    $place->setCreatedAt(new \DateTime('now'));
-    $place->setMainPhoto('default.jpg');
-    $this->em->persist($place);
+    $advice->setTitle('Merveilleux!');
+    $advice->setComment('Ma description');
+    $advice->setScore('5');
+    $advice->setPlace($this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CASCADE DU CHAUDRON')));
+    $advice->setUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
+    $advice->setCreatedAt(new \DateTime('now'));
+    $this->em->persist($advice);
     $this->em->flush();
-    $actual = count($this->em->getRepository('FreetimeAdvisorBundle:Place')->findAll());
+    $actual = count($this->em->getRepository('FreetimeAdvisorBundle:Advice')->findAll());
 
     $this->assertEquals($expected, $actual);
-    // $this->em->remove($place);
+    // $this->em->remove($advice);
     // $this->em->flush();
 
 
   }
 
   /** @test */
-  public function editPlace()
+  public function editAdvice()
   {
     $user = $this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974'));
-    $category = $this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'DECOUVERTE'));
-    $city  = $this->em->getRepository('FreetimeAdvisorBundle:City')->findOneBy(array('name'=>'SAINTE-MARIE'));
-
-    $place = $this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('user'=>$user,'city'=>$city,'category'=>$category,'name'=>'AEROPORT DE LA REUNION'));
-    $placeCreatedAt = $place->getCreatedAt();
-    $editPlace = $place;
-    $editPlace
-    ->setName('AEROPORT DE GILLOT')
+    $place = $this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CASCADE DU CHAUDRON'));
+    $advice = $this->em->getRepository('FreetimeAdvisorBundle:Advice')->findOneBy(array('user'=>$user,'place'=>$place));
+    $adviceCreatedAt = $advice->getCreatedAt();
+    $editAdvice = $advice;
+    $editAdvice
+    ->setTitle('Encore plus Merveilleux!')
     ->setCreatedAt(new \DateTime('now'));
-    $this->em->persist($editPlace);
+    $this->em->persist($editAdvice);
     $this->em->flush();
-    $placeUpdatedAt = $editPlace->getCreatedAt();
+    $adviceUpdatedAt = $editAdvice->getCreatedAt();
 
 
-    $this->assertNotEquals($placeUpdatedAt, $placeCreatedAt);
-    // $this->em->remove($editPlace);
+    $this->assertNotEquals($adviceUpdatedAt, $adviceCreatedAt);
+    // $this->em->remove($editAdvice);
     // $this->em->flush();
   }
-  /** @test */
 
-  public function deletePlace()
+
+  /** @test */
+  public function newPhoto()
   {
-    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Place')->findAll()) - 1;
+    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Photo')->findAll()) + 1;
 
     $user = $this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974'));
-    $category = $this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'DECOUVERTE'));
-    $city  = $this->em->getRepository('FreetimeAdvisorBundle:City')->findOneBy(array('name'=>'SAINTE-MARIE'));
+    $place = $this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CASCADE DU CHAUDRON'));
 
-    $place = $this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('user'=>$user,'city'=>$city,'category'=>$category,'name'=>'AEROPORT DE GILLOT'));
+    $advice = $this->em->getRepository('FreetimeAdvisorBundle:Advice')->findOneBy(array('user'=>$user,'place'=>$place));
 
-    $this->em->remove($place);
+    $photo = new Photo();
+
+    /* Setters */
+    $photo->setName('default.jpg');
+    $photo->setUser($user);
+    $photo->setPlace($place);
+    $photo->setAdvice($advice);
+    $photo->setCreatedAt(new \DateTime('now'));
+
+    $this->em->persist($photo);
+    $this->em->flush();
+    $actual = count($this->em->getRepository('FreetimeAdvisorBundle:Photo')->findAll());
+
+    $this->assertEquals($expected, $actual);
+    // $this->em->remove($advice);
+    // $this->em->flush();
+
+
+  }
+  
+  /** @test */
+  public function deleteAdvice()
+  {
+    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Advice')->findAll()) - 1;
+
+    $user = $this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974'));
+    $place = $this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CASCADE DU CHAUDRON'));
+
+    $advice = $this->em->getRepository('FreetimeAdvisorBundle:Advice')->findOneBy(array('user'=>$user,'place'=>$place));
+
+    $this->em->remove($advice);
     $this->em->flush();
 
-    $actual =count($this->em->getRepository('FreetimeAdvisorBundle:Place')->findAll());
+    $actual = count($this->em->getRepository('FreetimeAdvisorBundle:Advice')->findAll());
 
 
     $this->assertEquals($expected, $actual);
   }
+
 
 }

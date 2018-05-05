@@ -69,8 +69,8 @@ class PlaceControllerTest extends WebTestCase
     // $this->em->remove($editPlace);
     // $this->em->flush();
   }
+  
   /** @test */
-
   public function deletePlace()
   {
     $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Place')->findAll()) - 1;
@@ -83,7 +83,7 @@ class PlaceControllerTest extends WebTestCase
 
     $this->em->remove($place);
     $this->em->flush();
-    
+
     $actual =count($this->em->getRepository('FreetimeAdvisorBundle:Place')->findAll());
 
 
