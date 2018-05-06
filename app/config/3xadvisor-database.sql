@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place` (
   `description` longtext  NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `main_photo` varchar(100)  NOT NULL DEFAULT 'default.jpg',
+  `updated_at` datetime  DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -88,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices` (
   `comment` varchar(255)  NOT NULL,
   `score` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime  DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

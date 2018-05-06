@@ -80,6 +80,12 @@ class Place
     private $createdAt;
 
     /**
+    * @ORM\Column(type="datetime",options={"default":0})
+    * @var \DateTime
+    */
+    private $updatedAt;
+
+    /**
     * @ORM\Column(type="string", length=255,options={"default":"default.jpg"})
     * @var string
     */
@@ -276,10 +282,21 @@ class Place
         $this->createdAt = new \DateTime();
         return $this;
     }
-    
+
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function setUpdatedAt($updatedAt)
+    {
+      $this->updatedAt = new \DateTime();
+      return $this;
+    }
+
+    public function getUpdatedAt()
+    {
+      return $this->updatedAt;
     }
 
 

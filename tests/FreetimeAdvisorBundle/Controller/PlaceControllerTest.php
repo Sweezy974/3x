@@ -64,13 +64,13 @@ class PlaceControllerTest extends WebTestCase
     $editPlace = $place;
     $editPlace
     ->setName('AEROPORT DE GILLOT')
-    ->setCreatedAt(new \DateTime('now'));
+    ->setUpdatedAt(new \DateTime('now'));
     // modifie le lieu en bdd
     $this->em->persist($editPlace);
     $this->em->flush();
 
     // date de modification
-    $placeUpdatedAt = $editPlace->getCreatedAt();
+    $placeUpdatedAt = $editPlace->getUpdatedAt();
 
     // test passe si les valeurs comparés ne sont pas égales
     $this->assertNotEquals($placeUpdatedAt, $placeCreatedAt);

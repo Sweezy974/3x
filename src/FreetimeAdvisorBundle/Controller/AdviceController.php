@@ -69,7 +69,7 @@ class AdviceController extends Controller
     $editForm->handleRequest($request);
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $advice->setCreatedAt("now"); //date de création
+      $advice->setUpdatedAt("now"); //date de création
       $em->persist($advice);
       $em->flush();
 

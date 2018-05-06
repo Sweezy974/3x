@@ -62,13 +62,13 @@ class AdviceControllerTest extends WebTestCase
     $editAdvice = $advice;
     $editAdvice
     ->setTitle('Encore plus Merveilleux!')
-    ->setCreatedAt(new \DateTime('now'));
+    ->setUpdatedAt(new \DateTime('now'));
     // modification de l'avis en bdd
     $this->em->persist($editAdvice);
     $this->em->flush();
 
     // date de modification
-    $adviceUpdatedAt = $editAdvice->getCreatedAt();
+    $adviceUpdatedAt = $editAdvice->getUpdatedAt();
 
     // test passe si les valeurs comparés ne sont pas égales
     $this->assertNotEquals($adviceUpdatedAt, $adviceCreatedAt);

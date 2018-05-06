@@ -61,6 +61,12 @@ class Advice
   private $createdAt;
 
   /**
+  * @ORM\Column(type="datetime",options={"default":0})
+  * @var \DateTime
+  */
+  private $updatedAt;
+
+  /**
   * @ORM\OneToMany(targetEntity="Photo", mappedBy="advice", cascade={"remove", "persist"}))
   */
   private $photo;
@@ -195,6 +201,17 @@ class Advice
   public function getCreatedAt()
   {
     return $this->createdAt;
+  }
+
+  public function setUpdatedAt($updatedAt)
+  {
+    $this->updatedAt = new \DateTime();
+    return $this;
+  }
+
+  public function getUpdatedAt()
+  {
+    return $this->updatedAt;
   }
 
   public function setPhoto($photo)

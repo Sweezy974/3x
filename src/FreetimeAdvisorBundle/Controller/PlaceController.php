@@ -115,7 +115,7 @@ class PlaceController extends Controller
     $editForm->handleRequest($request);
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $place->setCreatedAt("now");
+      $place->setUpdatedAt("now");
       $em->persist($place);
       $em->flush();
 
