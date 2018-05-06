@@ -67,11 +67,6 @@ class User extends FosUser
     */
     private $city;
 
-    /**
-    * @ORM\Column(type="datetime",options={"default":0})
-    * @var \DateTime
-    */
-    private $createdAt;
 
 
 
@@ -193,14 +188,5 @@ class User extends FosUser
         return $this->city;
     }
 
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt= new \DateTime();
-    }
-
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
 
 }

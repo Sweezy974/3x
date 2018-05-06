@@ -30,8 +30,8 @@ class UserControllerTest extends WebTestCase
   }
 
 
-  /** @test */
-  public function registration()
+  /* test l'inscription d'un utilisateur */
+  public function testRegistration()
   {
     $user= new User();
     $expected['user'] = count($this->em->getRepository('FreetimeAdvisorBundle:User')->findAll()) + 1;
@@ -44,34 +44,43 @@ class UserControllerTest extends WebTestCase
     $user->setAvatar('avatar.jpg');
     $user->setCity($this->em->getRepository('FreetimeAdvisorBundle:City')->findOneBy(array('name'=>'LE PORT')));
     $user->setAvatarUpdatedAt(new \DateTime('now'));
-    $user->setCreatedAt(new \DateTime('now'));
     $this->em->persist($user);
     $this->em->flush();
     $actual['user'] = count($this->em->getRepository('FreetimeAdvisorBundle:User')->findAll());
 
+    // le test passe si les valeur sont égales
     $this->assertEquals($expected, $actual);
+
+    // suppression en bdd - permet de relancer le test sans échec
     $this->em->remove($user);
     $this->em->flush();
 
 
   }
 
-  /** @test */
-  public function editProfile()
+  /* test la modification d'un profil utilisateur */
+  public function testEditProfile()
   {
+    // recherche l'utilisateur à modifier
     $user = $this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974'));
-    $actualUserDate = $user->getCreatedAt();
+    // email de l'utilisateur avant modification
+    $actualUserMail = $user->getEmail();
+    // modification de l'email de l'utilisateur
     $editUser = $user;
     $editUser
-    ->setCreatedAt(new \DateTime('now'));
+    ->setEmail('user974@mail.com');
+    // modification en bdd
     $this->em->persist($editUser);
     $this->em->flush();
+    $editUserMail = $editUser->getEmail();
 
+    // le test passe si les valeurs comparés ne sont pas égales
+    $this->assertNotEquals($editUserMail, $actualUserMail);
 
-    $editUserDate = $editUser->getCreatedAt();
-
-    $this->assertNotEquals($editUserDate, $actualUserDate);
-    // $this->em->remove($editUser);
+    // remet les infos d'origine avant modif - permet de relancer le test sans échec
+    $editUser
+    ->setEmail($actualUserMail);
+    $this->em->persist($editUser);
     $this->em->flush();
 
 
@@ -97,10 +106,12 @@ class UserControllerTest extends WebTestCase
   //   $this->assertEquals($expected, $client);
   // }
 
-  /** @test */
-  public function selectHobbies()
+  /* test la sélection de la liste de loisirs d'un utilisateur */
+  public function testSelectHobbies()
   {
+    // instancie une nouvelle liste de loisirs
     $hobbiesList = new hobbiesList();
+    // compte les listes en bdd et s'attend à avoir un favoris en +
     $expected = count($this->em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findAll()) + 1;
     /* Setters */
     $hobbiesList->setFirst($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'NATURE')));
@@ -108,71 +119,87 @@ class UserControllerTest extends WebTestCase
     $hobbiesList->setThird($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'RESTAURATION')));
     $hobbiesList->setUpdatedAt(new \DateTime('now'));
     $hobbiesList->SetUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
+    // ajoute la liste de loisirs en bdd
     $this->em->persist($hobbiesList);
     $this->em->flush();
+
+    // compte les liste de loisirs après ajout en bdd
     $actual = count($this->em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findAll());
 
+    // test passe si les valeurs comparés sont égales
     $this->assertEquals($expected, $actual);
-    // $this->em->remove($hobbiesList);
-    // $this->em->flush();
   }
 
-  /** @test */
-  public function editHobbies()
+  /* test la modification de la liste de loisirs d'un utilisateur */
+  public function testEditHobbies()
   {
     $user = $this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974'));
+    // recherche la liste de loisirs à modifier
     $hobbiesList = $this->em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findOneBy(array('user'=>$user));
+    // date avant modification
     $actualHobbiesListDate = $hobbiesList->getUpdatedAt();
+    // modification de la liste de loisirs
     $editHobbiesList = $hobbiesList;
     $editHobbiesList
     ->setFirst($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'SPORT')))
     ->setUpdatedAt(new \DateTime('now'));
+    // modification en bdd
     $this->em->persist($editHobbiesList);
     $this->em->flush();
-
+    // date après modification
     $editHobbiesListDate = $editHobbiesList->getUpdatedAt();
 
+    // test passe si les valeurs comparés ne sont pas égales
     $this->assertNotEquals($editHobbiesListDate, $actualHobbiesListDate);
+    // suppression en bdd - permet de relancer le test sans erreur
     $this->em->remove($hobbiesList);
     $this->em->flush();
 
 
   }
 
-  /** @test */
-  public function newFavorite()
+  /* test l'ajout d'un lieu favoris en tant qu'utilisateur */
+  public function testNewFavorite()
   {
-    $favorites = new Favorites();
+    // compte les favoris en bdd et s'attend à avoir un favoris en +
     $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll()) + 1;
+
+    // instancie un favoris
+    $favorites = new Favorites();
     /* Setters */
     $favorites->SetUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
     $favorites->setPlace($this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CINEPALMES')));
     $favorites->setCreatedAt(new \DateTime('now'));
+    // ajoute un favoris en bdd
     $this->em->persist($favorites);
     $this->em->flush();
+    // compte les favoris après l'ajout en bdd
     $actual = count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll());
 
+    // test passe si les valeurs comparés sont égales
     $this->assertEquals($expected, $actual);
-    // $this->em->remove($favorites);
-    // $this->em->flush();
   }
 
 
-  /** @test */
-  public function deleteFavorite()
+  /* test la suppression d'un lieu favoris en tant qu'utilisateur */
+  public function testDeleteFavorite()
   {
+    // compte les favoris en bdd et s'attend à avoir un favoris en -
     $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll()) - 1;
 
     $user = $this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974'));
     $place = $this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CINEPALMES'));
+    // recherche du favoris à supprimer
     $favorites = $this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findOneBy(array('user'=>$user,'place'=>$place));
 
+    // suppression du favoris en bdd
     $this->em->remove($favorites);
     $this->em->flush();
 
+    // compte les favoris après la suppression en bdd
     $actual =count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll());
 
-
+    // test passe si les valeurs comparés sont égales
     $this->assertEquals($expected, $actual);
   }
 
