@@ -39,7 +39,7 @@ class UserTest extends TestCase
     $this->assertEquals($this->user->getAvatar(),'avatar.jpg');
     $this->assertInstanceOf(City::class,$this->user->getCity());
     $this->assertInstanceOf(\DateTime::class,$this->user->getBirthdate());
-    $this->assertInstanceOf(\DateTime::class,$this->user->getAvatarUpdateAt());
+    $this->assertInstanceOf(\DateTime::class,$this->user->getAvatarUpdatedAt());
 
   }
 

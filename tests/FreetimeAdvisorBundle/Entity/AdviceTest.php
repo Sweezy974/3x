@@ -29,6 +29,7 @@ class AdviceTest extends TestCase
     $this->advice->setPlace(new Place());
     $this->advice->setUser(new User());
     $this->advice->setCreatedAt(new \DateTime());
+    $this->advice->setUpdatedAt(new \DateTime());
     $this->advice->setPhoto(new Photo());
 
 
@@ -39,6 +40,7 @@ class AdviceTest extends TestCase
     $this->assertInstanceOf(Place::class,$this->advice->getPlace());
     $this->assertInstanceOf(User::class,$this->advice->getUser());
     $this->assertInstanceOf(\DateTime::class,$this->advice->getCreatedAt());
+        $this->assertInstanceOf(\DateTime::class,$this->advice->getUpdatedAt());
     $this->assertInstanceOf(Photo::class,$this->advice->getPhoto());
 
   }

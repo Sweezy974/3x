@@ -26,8 +26,8 @@
       <strong class="chip"><a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}" style="color:black;">#{{place.category.name}}</a></strong>
   </div>
   <div class="col s12 m5 offset-l4 l3">
-    {% if favorites.user is defined %}
-    <a class="right" href="{{ path('delete_favorite', {'id': favorites.id }) }}"> <i class="material-icons right red-text">favorite</i>retirer des favoris </a>
+    {% if favorite.user is defined %}
+    <a class="right" href="{{ path('delete_favorite', {'id': favorite.id }) }}"> <i class="material-icons right red-text">favorite</i>retirer des favoris </a>
     {% else %}
     <a class="right"href="{{ path('user_new_favorite', {'id': place.id }) }}"><i class="material-icons left ">favorite</i>Ajouter aux favoris</a>
     {% endif %}

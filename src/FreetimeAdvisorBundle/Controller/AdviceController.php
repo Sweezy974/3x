@@ -38,6 +38,7 @@ class AdviceController extends Controller
     $advice
     ->setUser($user)
     ->setCreatedAt("now")
+    ->setUpdatedAt("now")
     ->setPlace($place);
     if ($form->isSubmitted() && $form->isValid()) {
       $em->persist($advice);

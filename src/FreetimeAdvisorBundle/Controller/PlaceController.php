@@ -54,7 +54,8 @@ class PlaceController extends Controller
     $form = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
     $form->handleRequest($request);
     $place->setUser($user) //ajoute l'id du créateur
-          ->setCreatedAt("now");// ajoute la date du jour
+          ->setCreatedAt("now")// date de création
+          ->setUpdatedAt("now");// date de dernière modification
     // si le formulaire envoie les infos et est valide
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
@@ -88,12 +89,12 @@ class PlaceController extends Controller
     // vérifie si l'utilisateur a déjà posté un avis pour le lieu
     $adviceExist = $em->getRepository('FreetimeAdvisorBundle:Advice')->findOneBy(array('user'=>$user,'place'=>$place));
     // vérifie si l'utilisateur a ajouter le lieu en favoris
-    $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorites')->findOneBy(array('user' => $user ,'place' => $place));
+    $favorite = $em->getRepository('FreetimeAdvisorBundle:Favorite')->findOneBy(array('user' => $user ,'place' => $place));
     // réccupère la moyenne des avis par rapport au lieu
     $placeAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->placeAverageScore($place);
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(
       'place' => $place,
-      'favorites'=>$favorites,
+      'favorite'=>$favorite,
       'placeAvgScore'=>$placeAvgScore,
       'adviceExist'=>$adviceExist
     ));

@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 * Favorites
 *
 * @ORM\Table(name="user_favorites")
-* @ORM\Entity(repositoryClass="FreetimeAdvisorBundle\Repository\FavoritesRepository")
+* @ORM\Entity(repositoryClass="FreetimeAdvisorBundle\Repository\FavoriteRepository")
 */
-class Favorites
+class Favorite
 {
   /**
   * @var int
@@ -30,7 +30,7 @@ class Favorites
 
   /**
   * @ORM\ManyToOne(targetEntity="Place",cascade={"persist"})
-  * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
+  * @ORM\JoinColumn(name="place_id", referencedColumnName="id",onDelete="CASCADE")
   */
   private $place;
 

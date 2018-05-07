@@ -37,6 +37,7 @@ class AdviceControllerTest extends WebTestCase
     $advice->setPlace($this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CASCADE DU CHAUDRON')));
     $advice->setUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
     $advice->setCreatedAt(new \DateTime('now'));
+    $advice->setUpdatedAt(new \DateTime('now'));
     // ajout de l'avis en bdd
     $this->em->persist($advice);
     $this->em->flush();

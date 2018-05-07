@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place` (
   `description` longtext  NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `main_photo` varchar(100)  NOT NULL DEFAULT 'default.jpg',
-  `updated_at` datetime  DEFAULT NULL,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -178,7 +178,7 @@ ADD CONSTRAINT `fk_place_advices_photos_place_id` FOREIGN KEY (`place_id`) REFER
 --
 ALTER TABLE `3xAdvisor`.`user_favorites`
 ADD CONSTRAINT `fk_user_favorites_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-ADD CONSTRAINT `fk_user_favorites_place_id` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`);
+ADD CONSTRAINT `fk_user_favorites_place_id` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `user_hobbies_list`

@@ -34,6 +34,7 @@ class PlaceTest extends TestCase
     $this->place->setAdvice(new Advice());
     $this->place->setPhoto(new Photo());
     $this->place->setCreatedAt(new \DateTime());
+    $this->place->setUpdatedAt(new \DateTime());
     $this->place->setMainPhoto('default.jpg');
 
 
@@ -47,6 +48,7 @@ class PlaceTest extends TestCase
     $this->assertInstanceOf(User::class,$this->place->getUser());
     $this->assertInstanceOf(Advice::class,$this->place->getAdvice());
     $this->assertInstanceOf(\DateTime::class,$this->place->getCreatedAt());
+    $this->assertInstanceOf(\DateTime::class,$this->place->getUpdatedAt());
     $this->assertInstanceOf(Photo::class,$this->place->getPhoto());
 
   }

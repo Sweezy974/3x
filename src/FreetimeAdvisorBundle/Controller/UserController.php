@@ -9,13 +9,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use FreetimeAdvisorBundle\Entity\HobbiesList;
-use FreetimeAdvisorBundle\Entity\Favorites;
+use FreetimeAdvisorBundle\Entity\Favorite;
 use FreetimeAdvisorBundle\Entity\Place;
 
 
 class UserController extends Controller
 {
   /**
+  * ACCUEIL UTILISATEUR
+  *
   * @Route("home",name="user_home")
   */
   public function index()
@@ -59,7 +61,7 @@ class UserController extends Controller
     $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('user'=>$user),array('id' => 'desc'));
     $advices = $em->getRepository('FreetimeAdvisorBundle:Advice')->findby(array('user'=>$user),array('id' => 'desc'));
     $hobbies = $em->getRepository('FreetimeAdvisorBundle:HobbiesList')->findOneByUser(array('user'=>$user));
-    $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorites')->findby(array('user'=>$user),array('id' => 'desc'));
+    $favorites = $em->getRepository('FreetimeAdvisorBundle:Favorite')->findby(array('user'=>$user),array('id' => 'desc'));
     return $this->render('@FreetimeAdvisorBundle/Resources/views/user/dashboard/index.html.twig', array(
       'places' => $places,
       'advices' => $advices,
@@ -144,19 +146,19 @@ class UserController extends Controller
       $user = $this->getUser();
       $user->getId();
       $place->getId();
-      $em = $this->getDoctrine()->getManager()->getRepository('FreetimeAdvisorBundle:Favorites');
-      $favorites = $em->findBy(array('user' => $user ,'place' => $place));
-      if ($favorites) {
+      $em = $this->getDoctrine()->getManager()->getRepository('FreetimeAdvisorBundle:Favorite');
+      $favorite = $em->findBy(array('user' => $user ,'place' => $place));
+      if ($favorite) {
         return $this->redirectToRoute('user_dashboard', array('id' => $place->getId()));
       }
       else {
-        $favorites = new Favorites();
-        $favorites
+        $favorite = new Favorite();
+        $favorite
         ->setUser($user)
         ->setPlace($place)
         ->setCreatedAt("now");
         $em = $this->getDoctrine()->getManager();
-        $em->persist($favorites);
+        $em->persist($favorite);
         $em->flush();
         return $this->redirectToRoute('user_dashboard');
       }
@@ -167,16 +169,16 @@ class UserController extends Controller
   /**
   * SUPPRIMER UN FAVORIS
   *
-  * @Route("user/favorites/{id}/delete", name="delete_favorite")
+  * @Route("user/favorite/{id}/delete", name="delete_favorite")
   * @Method({"GET", "DELETE"})
   *
   * vérifie si c'est bien l'auteur qui supprime*
-  * @Security("user.getUsername() == favorites.getUser()")
+  * @Security("user.getUsername() == favorite.getUser()")
   */
-  public function deleteFavorite(Favorites $favorites)
+  public function deleteFavorite(Favorite $favorite)
   {
     $em = $this->getDoctrine()->getManager();
-    $em->remove($favorites);
+    $em->remove($favorite);
     $em->flush();
     return $this->redirectToRoute('user_dashboard');
   }

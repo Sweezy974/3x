@@ -37,6 +37,7 @@ class PlaceControllerTest extends WebTestCase
     $place->setCategory($this->em->getRepository('FreetimeAdvisorBundle:Category')->findOneBy(array('name'=>'DECOUVERTE')));
     $place->setUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
     $place->setCreatedAt(new \DateTime('now'));
+    $place->setUpdatedAt(new \DateTime('now'));
     $place->setMainPhoto('default.jpg');
     // ajout du lieu en bdd
     $this->em->persist($place);

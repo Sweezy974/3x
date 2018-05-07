@@ -4,33 +4,33 @@ namespace Tests\FreetimeAdvisorBundle\Entity;
 
 use PHPUnit\Framework\TestCase;
 // use Symfony\Component\HttpFoundation\File\File;
-use FreetimeAdvisorBundle\Entity\Favorites;
+use FreetimeAdvisorBundle\Entity\Favorite;
 use FreetimeAdvisorBundle\Entity\Place;
 use FreetimeAdvisorBundle\Entity\User;
 
 
-class FavoritesTest extends TestCase
+class FavoriteTest extends TestCase
 {
-  protected $favorites;
+  protected $favorite;
 
   public function setUp()
   {
-    $this->favorites = new Favorites();
+    $this->favorite = new Favorite();
   }
 
   /** @test */
-  public function favorites()
+  public function favorite()
   {
     /* Setters */
-    $this->favorites->setPlace(new Place());
-    $this->favorites->setUser(new User());
-    $this->favorites->setCreatedAt(new \DateTime());
+    $this->favorite->setPlace(new Place());
+    $this->favorite->setUser(new User());
+    $this->favorite->setCreatedAt(new \DateTime());
 
 
     /* Vérifie si les données obtenues en sortie sont égales à ceux inscrites en entrée  */
-    $this->assertInstanceOf(Place::class,$this->favorites->getPlace());
-    $this->assertInstanceOf(User::class,$this->favorites->getUser());
-    $this->assertInstanceOf(\DateTime::class,$this->favorites->getCreatedAt());
+    $this->assertInstanceOf(Place::class,$this->favorite->getPlace());
+    $this->assertInstanceOf(User::class,$this->favorite->getUser());
+    $this->assertInstanceOf(\DateTime::class,$this->favorite->getCreatedAt());
 
 
   }

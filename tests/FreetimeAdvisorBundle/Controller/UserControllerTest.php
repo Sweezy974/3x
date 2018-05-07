@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use FreetimeAdvisorBundle\Entity\User;
 use FreetimeAdvisorBundle\Entity\City;
 use FreetimeAdvisorBundle\Entity\HobbiesList;
-use FreetimeAdvisorBundle\Entity\Favorites;
+use FreetimeAdvisorBundle\Entity\Favorite;
 use Symfony\Component\HttpFoundation\Request;
 /**
 *
@@ -162,19 +162,19 @@ class UserControllerTest extends WebTestCase
   public function testNewFavorite()
   {
     // compte les favoris en bdd et s'attend à avoir un favoris en +
-    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll()) + 1;
+    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Favorite')->findAll()) + 1;
 
     // instancie un favoris
-    $favorites = new Favorites();
+    $favorite = new Favorite();
     /* Setters */
-    $favorites->SetUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
-    $favorites->setPlace($this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CINEPALMES')));
-    $favorites->setCreatedAt(new \DateTime('now'));
+    $favorite->SetUser($this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974')));
+    $favorite->setPlace($this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CINEPALMES')));
+    $favorite->setCreatedAt(new \DateTime('now'));
     // ajoute un favoris en bdd
-    $this->em->persist($favorites);
+    $this->em->persist($favorite);
     $this->em->flush();
     // compte les favoris après l'ajout en bdd
-    $actual = count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll());
+    $actual = count($this->em->getRepository('FreetimeAdvisorBundle:Favorite')->findAll());
 
     // test passe si les valeurs comparés sont égales
     $this->assertEquals($expected, $actual);
@@ -185,19 +185,19 @@ class UserControllerTest extends WebTestCase
   public function testDeleteFavorite()
   {
     // compte les favoris en bdd et s'attend à avoir un favoris en -
-    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll()) - 1;
+    $expected = count($this->em->getRepository('FreetimeAdvisorBundle:Favorite')->findAll()) - 1;
 
     $user = $this->em->getRepository('FreetimeAdvisorBundle:User')->findOneBy(array('username'=>'user974'));
     $place = $this->em->getRepository('FreetimeAdvisorBundle:Place')->findOneBy(array('name'=>'CINEPALMES'));
     // recherche du favoris à supprimer
-    $favorites = $this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findOneBy(array('user'=>$user,'place'=>$place));
+    $favorite = $this->em->getRepository('FreetimeAdvisorBundle:Favorite')->findOneBy(array('user'=>$user,'place'=>$place));
 
     // suppression du favoris en bdd
-    $this->em->remove($favorites);
+    $this->em->remove($favorite);
     $this->em->flush();
 
     // compte les favoris après la suppression en bdd
-    $actual =count($this->em->getRepository('FreetimeAdvisorBundle:Favorites')->findAll());
+    $actual =count($this->em->getRepository('FreetimeAdvisorBundle:Favorite')->findAll());
 
     // test passe si les valeurs comparés sont égales
     $this->assertEquals($expected, $actual);
