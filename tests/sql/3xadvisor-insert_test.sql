@@ -1,200 +1,12 @@
--- créé la bdd 3xAdvisor
-CREATE DATABASE IF NOT EXISTS 3xAdvisor CHARACTER SET 'utf8';
--- utilise la bdd 33xAdvisor
-USE `3xAdvisor`;
--- --------------------------------------------------------
+-- utilise la bdd 33xadvisor_test
+USE `3xadvisor_test`;
 
---
--- Structure de la table `city`
---
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`city` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(80)  NOT NULL,
-  `zipcode` int(11) NOT NULL,
-  `area` varchar(5)  NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
--- --------------------------------------------------------
-
---
--- Structure de la table `place_categories`
---
-
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50)  NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
--- --------------------------------------------------------
-
---
--- Structure de la table `user`
---
-
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `city_id` int(11) NOT NULL,
-  `username` varchar(180)  NOT NULL,
-  `username_canonical` varchar(180)  NOT NULL,
-  `email` varchar(180)  NOT NULL,
-  `email_canonical` varchar(180)  NOT NULL,
-  `enabled` tinyint(1) NOT NULL,
-  `salt` varchar(255)  DEFAULT NULL,
-  `password` varchar(255)  NOT NULL,
-  `last_login` datetime DEFAULT NULL,
-  `confirmation_token` varchar(180)  DEFAULT NULL,
-  `password_requested_at` datetime DEFAULT NULL,
-  `roles` longtext  NOT NULL COMMENT '(DC2Type:array)',
-  `description` varchar(255)  DEFAULT NULL,
-  `birth_date` date NOT NULL,
-  `avatar` varchar(255)  NOT NULL DEFAULT 'default.jpg',
-  `avatar_updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-
---
--- Structure de la table `place`
---
-
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `city_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `name` varchar(80)  NOT NULL,
-  `location` varchar(255)  NOT NULL,
-  `description` longtext  NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `main_photo` varchar(100)  NOT NULL DEFAULT 'default.jpg',
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
---
--- Structure de la table `place_advices`
---
-
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `place_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `title` varchar(80)  NOT NULL,
-  `comment` varchar(255)  NOT NULL,
-  `score` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime  DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `place_advices_photos`
---
-
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices_photos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `place_id` int(11) NOT NULL,
-  `advice_id` int(11) NOT NULL,
-  `name` varchar(100)  NOT NULL DEFAULT 'default.jpg',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-
---
--- Structure de la table `user_favorites`
---
-
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_favorites` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `place_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
--- --------------------------------------------------------
-
---
--- Structure de la table `user_hobbies_list`
---
-
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_hobbies_list` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_category_id` int(11) NOT NULL,
-  `second_category_id` int(11) NOT NULL,
-  `third_category_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `user`
---
-ALTER TABLE `3xAdvisor`.`user`
-ADD CONSTRAINT `fk_user` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`);
---
--- Contraintes pour la table `place`
---
-ALTER TABLE `3xAdvisor`.`place`
-ADD CONSTRAINT `fk_place_category` FOREIGN KEY (`category_id`) REFERENCES `place_categories` (`id`),
-ADD CONSTRAINT `fk_place_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
-ADD CONSTRAINT `fk_place_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
-
---
--- Contraintes pour la table `place_advices`
---
-ALTER TABLE `3xAdvisor`.`place_advices`
-ADD CONSTRAINT `fk_place_advices_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-ADD CONSTRAINT `fk_place_advices_place` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`);
-
---
--- Contraintes pour la table `place_advices_photos`
---
-ALTER TABLE `3xAdvisor`.`place_advices_photos`
-ADD CONSTRAINT `fk_place_advices_photos_advice_id` FOREIGN KEY (`advice_id`) REFERENCES `place_advices` (`id`),
-ADD CONSTRAINT `fk_place_advices_photos_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-ADD CONSTRAINT `fk_place_advices_photos_place_id` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`);
-
-
---
--- Contraintes pour la table `user_favorites`
---
-ALTER TABLE `3xAdvisor`.`user_favorites`
-ADD CONSTRAINT `fk_user_favorites_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-ADD CONSTRAINT `fk_user_favorites_place_id` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`) ON DELETE CASCADE;
-
---
--- Contraintes pour la table `user_hobbies_list`
---
-ALTER TABLE `3xAdvisor`.`user_hobbies_list`
-ADD CONSTRAINT `fk_user_hobbies_list_third_category_id` FOREIGN KEY (`third_category_id`) REFERENCES `place_categories` (`id`),
-ADD CONSTRAINT `fk_user_hobbies_list_second_category_id` FOREIGN KEY (`second_category_id`) REFERENCES `place_categories` (`id`),
-ADD CONSTRAINT `fk_user_hobbies_list_first_category_id` FOREIGN KEY (`first_category_id`) REFERENCES `place_categories` (`id`),
-ADD CONSTRAINT `fk_user_hobbies_list_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
-COMMIT;
 
 --
 -- Déchargement des données de la table `city`
 --
 
-INSERT INTO `3xAdvisor`.`city` (`id`, `name`, `zipcode`, `area`) VALUES
+INSERT INTO `3xadvisor_test`.`city` (`id`, `name`, `zipcode`, `area`) VALUES
 (1, 'SAINT-DENIS', 97400, 'NORD'),
 (2, 'SAINT-PIERRE', 97410, 'SUD'),
 (3, 'BRAS-PANON', 97412, 'EST'),
@@ -224,7 +36,7 @@ INSERT INTO `3xAdvisor`.`city` (`id`, `name`, `zipcode`, `area`) VALUES
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `3xAdvisor`.`user` (`id`, `city_id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `confirmation_token`, `password_requested_at`, `roles`, `description`, `birth_date`, `avatar`, `avatar_updated_at`) VALUES
+INSERT INTO `3xadvisor_test`.`user` (`id`, `city_id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `confirmation_token`, `password_requested_at`, `roles`, `description`, `birth_date`, `avatar`, `avatar_updated_at`) VALUES
 (1, 1, 'user974', 'user974', 'user@test.fr', 'user@test.fr', 1, NULL, '$2y$13$cSIuTklm56v5f/TjbaEhROPvh.iBy11.gTrbhlJRQW1JbHAVcxhui', '2018-04-16 11:07:59', NULL, NULL, 'a:0:{}', 'Bonjour, je suis un simple utilisateur !', '1983-04-06', '5ae0d15ee5f25.jpg', '2018-04-15 17:37:00');
 
 -- --------------------------------------------------------
@@ -232,7 +44,7 @@ INSERT INTO `3xAdvisor`.`user` (`id`, `city_id`, `username`, `username_canonical
 -- Déchargement des données de la table `place_categories`
 --
 
-INSERT INTO `3xAdvisor`.`place_categories` (`id`, `name`) VALUES
+INSERT INTO `3xadvisor_test`.`place_categories` (`id`, `name`) VALUES
 (12, 'CULTURE'),
 (11, 'DÉCOUVERTE'),
 (3, 'DIVERTISSEMENT'),
@@ -247,7 +59,7 @@ INSERT INTO `3xAdvisor`.`place_categories` (`id`, `name`) VALUES
 -- Déchargement des données de la table `place`
 --
 
-INSERT INTO `3xAdvisor`.`place` (`id`, `city_id`, `category_id`, `user_id`, `name`, `location`, `description`, `created_at`, `main_photo`) VALUES
+INSERT INTO `3xadvisor_test`.`place` (`id`, `city_id`, `category_id`, `user_id`, `name`, `location`, `description`, `created_at`, `main_photo`) VALUES
 (1, 1, 1, 1, 'CASCADE DU CHAUDRON', 'Depuis Saint-Denis, montez en direction de La Bretagne que l\'on traverse. 500 mètres après la fin de l\'agglomération, prenez à droite le Chemin de Bois Rouge. Continuez 600 mètres puis montez à gauche dans le Chemin des Fougères.', 'La Cascade du Chaudron est juste au-dessus de chez nous. Cette cascade est impressionnante après de fortes pluies, mais il vaut mieux que le terrain soit sec pour entreprendre cette marche. Cette balade se fait dans la fraîcheur, le long d\'un rempart abrupt et encaissé, d\'où quelques passages étroits et vertigineux. Il faut compter 1 h pour l\'aller et autant pour le retour.', '2018-04-15 18:03:25', 'chaudron.JPG'),
 (2, 15, 12, 1, 'MUSÉE DE STELLA', 'Si vous êtes en voiture, le musée dispose d’un parking. Si vous venez en bus, prenez le bus Kar’Ouest Littoral 2 ou la ligne 48 ou bien le Car Jaune S4 et descendez à l’arrêt École Stella ou Stella. (prévoir entre 3 € et 4 € pour le car/bus aller/retour).', 'Le Musée Stella Matutina, installé dans l\'ancienne usine sucrière du même nom, a ouvert ses portes en 1991. \r\nPendant 20 ans, le public y a découvert les techniques industrielles de la fabrication du sucre de canne, ainsi que des informations sur l\'histoire de La Réunion et de sa population. \r\nLa Région Réunion a entrepris en 2011 une réhabilitation totale du Musée et du site, fondée sur un nouveau projet scientifique et culturel. Stella Matutina dispose de l\'appellation « Musée de France ».', '2018-04-15 18:13:05', 'stella.jpg'),
 (3, 21, 5, 1, 'KAZ INSOLITE', 'Kaz Insolite est situé à 1500 mètres d’altitude, au coeur du Parc national de la Réunion dans les Hauts de Saint-Louis. Les bulles sont entourées de la forêt des Makes qui surplombe le cirque naturel de Cilaos.', 'L’hébergement insolite est intégré sur un site d’un hectare dans le sous bois forestier des Hauts de la Réunion. Les quatre suites bulles sont labellisées Gîte de France.\r\n\r\nSous les étoiles, les bulles se fondent dans la forêt de cryptomeria telle la rosée matinale. Implanté sur une parcelle gérée par l’Office National des Forêts, Kaz Insolite est situé à deux pas du coeur du Parc National de la Réunion, site naturel classé au patrimoine mondial de l’UNESCO.\r\n\r\nChacune des bulles repose sur une plateforme sur pilotis. Elle vous offre le plaisir de flâner sous les cryptomerias et les plantes endémiques, tout en respectant leur zone de confort.', '2018-04-15 18:31:54', 'kazinso.jpg'),
@@ -264,7 +76,7 @@ INSERT INTO `3xAdvisor`.`place` (`id`, `city_id`, `category_id`, `user_id`, `nam
 -- Déchargement des données de la table `place_advices`
 --
 
-INSERT INTO `3xAdvisor`.`place_advices` (`id`, `place_id`, `user_id`, `title`, `comment`, `score`, `created_at`) VALUES
+INSERT INTO `3xadvisor_test`.`place_advices` (`id`, `place_id`, `user_id`, `title`, `comment`, `score`, `created_at`) VALUES
 (1, 1, 1, 'lieu magnifique', 'Suspendisse vestibulum metus vel libero hendrerit, eu lacinia diam molestie. Vestibulum nunc velit, tincidunt non rutrum ac, laoreet id mi. Curabitur eget augue consectetur, sollicitudin urna in, tempus felis. Cras in mauris quis purus consequat condiment', 5, '2018-04-15 18:04:28'),
 (2, 2, 1, 'passable..', 'Sed nec placerat arcu, quis varius ligula. Donec eget sapien bibendum, mollis neque et, venenatis sapien. Aenean vitae augue non risus mattis scelerisque. Nunc viverra, massa sit amet finibus sollicitudin, dolor sapien tincidunt tellus, ac congue magna me', 3, '2018-04-15 18:14:00'),
 (3, 3, 1, 'dormir sous une nuit étoilé c\'est magique !', 'In diam ante, pharetra eu rhoncus vitae, vehicula non odio. In imperdiet, lorem mollis venenatis pellentesque, ligula odio aliquam purus, fermentum molestie diam sapien quis dui. Aliquam ac augue malesuada nunc venenatis ullamcorper. Pellentesque lacinia', 5, '2018-04-15 18:33:07'),
@@ -281,7 +93,7 @@ INSERT INTO `3xAdvisor`.`place_advices` (`id`, `place_id`, `user_id`, `title`, `
 -- Déchargement des données de la table `place_advices_photos`
 --
 
-INSERT INTO `3xAdvisor`.`place_advices_photos` (`id`, `user_id`, `place_id`, `advice_id`, `name`, `created_at`) VALUES
+INSERT INTO `3xadvisor_test`.`place_advices_photos` (`id`, `user_id`, `place_id`, `advice_id`, `name`, `created_at`) VALUES
 (1, 1, 6, 6, 'kk.jpg', '2018-04-16 11:21:53'),
 (2, 1, 5, 5, '5adf01457abd3.jpg', '2018-04-24 10:04:53'),
 (3, 1, 4, 4, '5adf01b640e92.jpg', '2018-04-24 10:06:46'),
@@ -295,11 +107,11 @@ INSERT INTO `3xAdvisor`.`place_advices_photos` (`id`, `user_id`, `place_id`, `ad
 -- Déchargement des données de la table `user_favorites`
 --
 
-INSERT INTO `3xAdvisor`.`user_favorites` (`id`, `user_id`, `place_id`,`created_at`) VALUES
+INSERT INTO `3xadvisor_test`.`user_favorites` (`id`, `user_id`, `place_id`,`created_at`) VALUES
 (2, 1, 4,'2018-04-16 11:21:33');
 --
 -- Déchargement des données de la table `user_hobbies_list`
 --
 
-INSERT INTO `3xAdvisor`.`user_hobbies_list` (`id`, `first_category_id`, `second_category_id`, `third_category_id`, `user_id`,`updated_at`) VALUES
+INSERT INTO `3xadvisor_test`.`user_hobbies_list` (`id`, `first_category_id`, `second_category_id`, `third_category_id`, `user_id`,`updated_at`) VALUES
 (1, 1, 3, 10, 1,'2018-04-16 11:21:33');
