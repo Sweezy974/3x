@@ -39,10 +39,10 @@ INSERT INTO `3xAdvisor`.`user` (`id`, `city_id`, `username`, `username_canonical
 
 -- --------------------------------------------------------
 --
--- Déchargement des données de la table `place_categories`
+-- Déchargement des données de la table `category`
 --
 
-INSERT INTO `3xAdvisor`.`place_categories` (`id`, `name`) VALUES
+INSERT INTO `3xAdvisor`.`category` (`id`, `name`) VALUES
 (12, 'CULTURE'),
 (11, 'DÉCOUVERTE'),
 (3, 'DIVERTISSEMENT'),
@@ -71,10 +71,10 @@ INSERT INTO `3xAdvisor`.`place` (`id`, `city_id`, `category_id`, `user_id`, `nam
 (11, 16, 3, 1, 'CINEPALMES', 'près de jumbo score', 'endroit convivial pour regarder des films dans une totale immersion', '2018-04-26 19:52:15', '5ae22def13497.jpg');
 
 --
--- Déchargement des données de la table `place_advices`
+-- Déchargement des données de la table `advice`
 --
 
-INSERT INTO `3xAdvisor`.`place_advices` (`id`, `place_id`, `user_id`, `title`, `comment`, `score`, `created_at`) VALUES
+INSERT INTO `3xAdvisor`.`advice` (`id`, `place_id`, `user_id`, `title`, `comment`, `score`, `created_at`) VALUES
 (1, 1, 1, 'lieu magnifique', 'Suspendisse vestibulum metus vel libero hendrerit, eu lacinia diam molestie. Vestibulum nunc velit, tincidunt non rutrum ac, laoreet id mi. Curabitur eget augue consectetur, sollicitudin urna in, tempus felis. Cras in mauris quis purus consequat condiment', 5, '2018-04-15 18:04:28'),
 (2, 2, 1, 'passable..', 'Sed nec placerat arcu, quis varius ligula. Donec eget sapien bibendum, mollis neque et, venenatis sapien. Aenean vitae augue non risus mattis scelerisque. Nunc viverra, massa sit amet finibus sollicitudin, dolor sapien tincidunt tellus, ac congue magna me', 3, '2018-04-15 18:14:00'),
 (3, 3, 1, 'dormir sous une nuit étoilé c\'est magique !', 'In diam ante, pharetra eu rhoncus vitae, vehicula non odio. In imperdiet, lorem mollis venenatis pellentesque, ligula odio aliquam purus, fermentum molestie diam sapien quis dui. Aliquam ac augue malesuada nunc venenatis ullamcorper. Pellentesque lacinia', 5, '2018-04-15 18:33:07'),
@@ -88,10 +88,10 @@ INSERT INTO `3xAdvisor`.`place_advices` (`id`, `place_id`, `user_id`, `title`, `
 (12, 11, 1, 'le son dolby atmos !', 'plongé comme si on était dans le film !', 5, '2018-04-26 19:53:14');
 
 --
--- Déchargement des données de la table `place_advices_photos`
+-- Déchargement des données de la table `photo`
 --
 
-INSERT INTO `3xAdvisor`.`place_advices_photos` (`id`, `user_id`, `place_id`, `advice_id`, `name`, `created_at`) VALUES
+INSERT INTO `3xAdvisor`.`photo` (`id`, `user_id`, `place_id`, `advice_id`, `name`, `created_at`) VALUES
 (1, 1, 6, 6, 'kk.jpg', '2018-04-16 11:21:53'),
 (2, 1, 5, 5, '5adf01457abd3.jpg', '2018-04-24 10:04:53'),
 (3, 1, 4, 4, '5adf01b640e92.jpg', '2018-04-24 10:06:46'),
@@ -105,11 +105,11 @@ INSERT INTO `3xAdvisor`.`place_advices_photos` (`id`, `user_id`, `place_id`, `ad
 -- Déchargement des données de la table `user_favorites`
 --
 
-INSERT INTO `3xAdvisor`.`user_favorites` (`id`, `user_id`, `place_id`,`created_at`) VALUES
+INSERT INTO `3xAdvisor`.`favorite` (`id`, `user_id`, `place_id`,`created_at`) VALUES
 (2, 1, 4,'2018-04-16 11:21:33');
 --
 -- Déchargement des données de la table `user_hobbies_list`
 --
 
-INSERT INTO `3xAdvisor`.`user_hobbies_list` (`id`, `first_category_id`, `second_category_id`, `third_category_id`, `user_id`,`updated_at`) VALUES
+INSERT INTO `3xAdvisor`.`hobbies_list` (`id`, `first_category_id`, `second_category_id`, `third_category_id`, `user_id`,`updated_at`) VALUES
 (1, 1, 3, 10, 1,'2018-04-16 11:21:33');

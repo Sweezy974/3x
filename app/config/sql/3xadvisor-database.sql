@@ -19,10 +19,10 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`city` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `place_categories`
+-- Structure de la table `category`
 --
 
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_categories` (
+CREATE TABLE IF NOT EXISTS `3xAdvisor`.`category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50)  NOT NULL,
   PRIMARY KEY (`id`)
@@ -78,10 +78,10 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place` (
 
 
 --
--- Structure de la table `place_advices`
+-- Structure de la table `advice`
 --
 
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices` (
+CREATE TABLE IF NOT EXISTS `3xAdvisor`.`advice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `place_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -96,10 +96,10 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `place_advices_photos`
+-- Structure de la table `photo`
 --
 
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices_photos` (
+CREATE TABLE IF NOT EXISTS `3xAdvisor`.`photo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `place_id` int(11) NOT NULL,
@@ -112,10 +112,10 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`place_advices_photos` (
 
 
 --
--- Structure de la table `user_favorites`
+-- Structure de la table `favorite`
 --
 
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_favorites` (
+CREATE TABLE IF NOT EXISTS `3xAdvisor`.`favorite` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `place_id` int(11) NOT NULL,
@@ -127,10 +127,10 @@ CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_favorites` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user_hobbies_list`
+-- Structure de la table `hobbies_list`
 --
 
-CREATE TABLE IF NOT EXISTS `3xAdvisor`.`user_hobbies_list` (
+CREATE TABLE IF NOT EXISTS `3xAdvisor`.`hobbies_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `first_category_id` int(11) NOT NULL,
   `second_category_id` int(11) NOT NULL,
@@ -153,39 +153,39 @@ ADD CONSTRAINT `fk_user` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`);
 -- Contraintes pour la table `place`
 --
 ALTER TABLE `3xAdvisor`.`place`
-ADD CONSTRAINT `fk_place_category` FOREIGN KEY (`category_id`) REFERENCES `place_categories` (`id`),
+ADD CONSTRAINT `fk_place_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
 ADD CONSTRAINT `fk_place_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
 ADD CONSTRAINT `fk_place_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
--- Contraintes pour la table `place_advices`
+-- Contraintes pour la table `advice`
 --
-ALTER TABLE `3xAdvisor`.`place_advices`
-ADD CONSTRAINT `fk_place_advices_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-ADD CONSTRAINT `fk_place_advices_place` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`);
+ALTER TABLE `3xAdvisor`.`advice`
+ADD CONSTRAINT `fk_advice_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `fk_advice_place` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`);
 
 --
--- Contraintes pour la table `place_advices_photos`
+-- Contraintes pour la table `photo`
 --
-ALTER TABLE `3xAdvisor`.`place_advices_photos`
-ADD CONSTRAINT `fk_place_advices_photos_advice_id` FOREIGN KEY (`advice_id`) REFERENCES `place_advices` (`id`),
-ADD CONSTRAINT `fk_place_advices_photos_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-ADD CONSTRAINT `fk_place_advices_photos_place_id` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`);
+ALTER TABLE `3xAdvisor`.`photo`
+ADD CONSTRAINT `fk_photo_advice_id` FOREIGN KEY (`advice_id`) REFERENCES `advice` (`id`),
+ADD CONSTRAINT `fk_photo_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `fk_photo_place_id` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`);
 
 
 --
--- Contraintes pour la table `user_favorites`
+-- Contraintes pour la table `favorite`
 --
-ALTER TABLE `3xAdvisor`.`user_favorites`
-ADD CONSTRAINT `fk_user_favorites_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-ADD CONSTRAINT `fk_user_favorites_place_id` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`) ON DELETE CASCADE;
+ALTER TABLE `3xAdvisor`.`favorite`
+ADD CONSTRAINT `fk_favorite_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `fk_favorite_place_id` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `user_hobbies_list`
+-- Contraintes pour la table `hobbies_list`
 --
-ALTER TABLE `3xAdvisor`.`user_hobbies_list`
-ADD CONSTRAINT `fk_user_hobbies_list_third_category_id` FOREIGN KEY (`third_category_id`) REFERENCES `place_categories` (`id`),
-ADD CONSTRAINT `fk_user_hobbies_list_second_category_id` FOREIGN KEY (`second_category_id`) REFERENCES `place_categories` (`id`),
-ADD CONSTRAINT `fk_user_hobbies_list_first_category_id` FOREIGN KEY (`first_category_id`) REFERENCES `place_categories` (`id`),
-ADD CONSTRAINT `fk_user_hobbies_list_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ALTER TABLE `3xAdvisor`.`hobbies_list`
+ADD CONSTRAINT `fk_hobbies_list_third_category_id` FOREIGN KEY (`third_category_id`) REFERENCES `category` (`id`),
+ADD CONSTRAINT `fk_hobbies_list_second_category_id` FOREIGN KEY (`second_category_id`) REFERENCES `category` (`id`),
+ADD CONSTRAINT `fk_hobbies_list_first_category_id` FOREIGN KEY (`first_category_id`) REFERENCES `category` (`id`),
+ADD CONSTRAINT `fk_hobbies_list_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 COMMIT;

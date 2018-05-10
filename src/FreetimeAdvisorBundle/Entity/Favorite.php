@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
 * Favorites
 *
-* @ORM\Table(name="user_favorites")
+* @ORM\Table(name="favorite")
 * @ORM\Entity(repositoryClass="FreetimeAdvisorBundle\Repository\FavoriteRepository")
 */
 class Favorite

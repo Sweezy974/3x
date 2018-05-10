@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
 * Photo
 *
-* @ORM\Table(name="place_advices_photos")
+* @ORM\Table(name="photo")
 * @ORM\Entity(repositoryClass="FreetimeAdvisorBundle\Repository\PhotoRepository")
 * @Vich\Uploadable
 */
