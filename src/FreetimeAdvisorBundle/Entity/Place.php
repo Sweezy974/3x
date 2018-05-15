@@ -27,7 +27,7 @@ class Place
     /**
     * @var string
     *
-    * @ORM\Column(name="name", type="string", length=80, unique=true)
+    * @ORM\Column(name="name", type="string", length=100, unique=true)
     */
     private $name;
 
