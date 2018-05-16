@@ -65,8 +65,6 @@ class PlaceController extends Controller
       return $this->redirectToRoute('new_advice', array('name' => $place->getName()));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/new.html.twig', array(
-      'place' => $place,
-      'user' => $user,
       'form' => $form->createView(),
     ));
   }
