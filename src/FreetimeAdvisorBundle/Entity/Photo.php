@@ -32,14 +32,14 @@ class Photo
   private $name;
 
   /**
-  * @Vich\UploadableField(mapping="place_images", fileNameProperty="name")
+  * @Vich\UploadableField(mapping="advice_images", fileNameProperty="name")
   * @var File
   */
   private $imageFile;
 
 
   /**
-  * @ORM\ManyToOne(targetEntity="User", inversedBy="photo")
+  * @ORM\ManyToOne(targetEntity="User",cascade={"persist"})
   * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
   */
   private $user;
@@ -51,7 +51,7 @@ class Photo
   private $place;
 
   /**
-  * @ORM\ManyToOne(targetEntity="Advice", inversedBy="photo")
+  * @ORM\ManyToOne(targetEntity="Advice",inversedBy="photo")
   * @ORM\JoinColumn(name="advice_id", referencedColumnName="id")
   */
   private $advice;
@@ -60,7 +60,7 @@ class Photo
   * @ORM\Column(type="datetime",options={"default":0})
   * @var \DateTime
   */
-  private $date;
+  private $createdAt;
 
 
   /**
@@ -168,16 +168,17 @@ class Photo
     return $this->advice;
   }
 
-  public function getDate()
+  public function setCreatedAt()
   {
-    return $this->date;
-  }
-
-  public function setDate()
-  {
-    $this->date = new \DateTime();
+    $this->createdAt = new \DateTime();
     return $this;
   }
+
+  public function getCreatedAt()
+  {
+    return $this->createdAt;
+  }
+
 
 
 }

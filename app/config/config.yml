@@ -10,6 +10,7 @@ parameters:
     locale: en
     app.path.user_images: /uploads/images/users
     app.path.place_images: /uploads/images/places
+    app.path.advice_images: /uploads/images/advices
 
 framework:
     templating:
@@ -65,6 +66,14 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+    organize_migrations: false # Version >= 1.2, possible values are: "BY_YEAR", "BY_YEAR_AND_MONTH", false
+    custom_template: ~ # Version >= 1.2, path to your custom migrations template
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'
@@ -89,8 +98,29 @@ vich_uploader:
     mappings:
         place_images:
             uri_prefix:         '%app.path.place_images%'
+            #dossier de destination
             upload_destination: '%kernel.root_dir%/../web/uploads/images/places'
+            # fichier avec nom unique
+            namer:
+              service: vich_uploader.namer_uniqid
+            # supprime le fichier si l'original est modifié
+            delete_on_update:   true
+            # supprime le fichier si supprimé de la base de données
+            delete_on_remove:   true
 
         user_images:
             uri_prefix:         '%app.path.user_images%'
             upload_destination: '%kernel.root_dir%/../web/uploads/images/users'
+            namer:
+              service: vich_uploader.namer_uniqid
+            delete_on_update:   true
+            delete_on_remove:   true
+
+
+        advice_images:
+            uri_prefix:         '%app.path.advice_images%'
+            upload_destination: '%kernel.root_dir%/../web/uploads/images/advices'
+            namer:
+              service: vich_uploader.namer_uniqid
+            delete_on_update:   true
+            delete_on_remove:   true

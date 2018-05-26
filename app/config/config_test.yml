@@ -1,3 +1,15 @@
+security:
+    firewalls:
+        # replace 'main' by the name of your own firewall
+        main:
+            http_basic: ~
+doctrine:
+    # ...
+    dbal:
+        host:     localhost
+        dbname:   3xadvisor_test
+        user:     fred
+        password: 1234
 imports:
     - { resource: config_dev.yml }
 
@@ -14,3 +26,23 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+# This file is auto-generated during the composer install
+parameters:
+    database_name: 3xAdvisortest
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        place_images:
+            uri_prefix:         '%app.path.place_images%'
+            #dossier de destination
+            upload_destination: '%kernel.root_dir%/../web/uploads/images/places'
+            # fichier avec nom unique
+            namer:
+              # service: vich_uploader.namer_uniqid
+
+            # supprime le fichier si l'original est modifié
+            delete_on_update:   true
+            # supprime le fichier si supprimé de la base de données
+            delete_on_remove:   true

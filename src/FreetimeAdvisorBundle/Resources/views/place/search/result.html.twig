@@ -11,7 +11,7 @@ $(".submit").click(function() {
   </div>
 </div>
 
-{{ render(controller('FreetimeAdvisorBundle:Place:searchPlace')) }}
+{{ render(controller('FreetimeAdvisorBundle:Search:searchPlace')) }}
 <div class="row center">
   <h5>Résultat de la recherche :</h5>
 </div>
@@ -21,15 +21,26 @@ $(".submit").click(function() {
   {% for place in places %}
 
   <div class="col s12 ">
-    <div class="card horizontal">
+    <div class="card horizontal small" style="height:200px!important;">
       <div class="card-image">
-        <img src="{{ asset ('uploads/images/users/') }}" alt="">
-        <p>
-        </p>
+        {% if place.mainPhoto == 'default.jpg' %}
+        <a href="#" title="aucune image disponible" class=""><img class="responsive-img" src="{{ asset ('images/default-no-image.png') }}" alt=""></a>
+        {% else %}
+        <img class="responsive-img"src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt="">
+        {% endif %}
       </div>
       <div class="card-stacked">
         <div class="card-content">
           <h5><strong>{{place.name}}</strong></h5>
+          {% for placeAvgScore in placeAvgScore if place.id == placeAvgScore.place_id %}
+          <strong class="chip blue lighten-4">
+            <a href="#"title="Moyenne de {{ placeAvgScore.score|round(1, 'floor') }} sur une base de {{placeAvgScore.total}} avis">{{ placeAvgScore.score|round(1, 'floor')}}/5</a>
+          </strong>
+          {% else %}
+          <strong class="chip">
+            <a href="#"title="Il n'y a pas encore d'avis pour ce lieu">~/5</a>
+          </strong>
+          {% endfor %}
 
           <div class="chip">
             <a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a>
@@ -40,7 +51,9 @@ $(".submit").click(function() {
         </div>
         <div class="card-action">
           <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>
+          {% if app.user.id == place.user.id %}
           <a href="{{ path('edit_place', { 'name': place.name }) }}">Modifier</a>
+          {% endif %}
         </div>
       </div>
     </div>

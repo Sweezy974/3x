@@ -1,0 +1,33 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<div class="row">
+  <div class="center">
+    <img width="100" src="{{ asset ('images/3x-smile-dis.png') }}" style="padding-top:10px;">
+    <p><strong>Vous n'avez pas encore chosit vos préférérences </strong></p>
+
+  </div>
+
+  <div class="center">
+    <p>
+      Pour une experience optimale sur notre site, nous vous conseillons de choisir au moins 3 catégories de loisirs que vous préférez pour vous proposez des activités correspondantes à vos préférences.
+    </p>
+  </div>
+  <div class="center">
+    <a  class="btn teal lighten-2" href="{{ path('user_select_hobbies') }}"><strong>j'ai compris</strong></a>
+  </div>
+  <div class="center">
+    <p>Cependant vous pourrez toujours naviguer sur notre site, mais nous ne pourront pas vous conseiller comme il se doit.</p>
+  </div>
+  <div class="row col s12 center">
+    <a  class="btn" href="{{ path('place_index') }}"><strong>les derniers lieux</strong></a>
+  </div>
+  <div class="row col s12 center">
+    <a  class="btn" href="{{ path('user_dashboard') }}"><strong>tableau de bord</strong></a>
+  </div>
+  <div class="row col s12 center">
+    <a  class="btn" href="{{ path('discover_place') }}"><strong>découvrir</strong></a>
+  </div>
+
+</div>
+{% endblock %}

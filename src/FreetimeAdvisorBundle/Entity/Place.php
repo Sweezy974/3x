@@ -3,12 +3,15 @@
 namespace FreetimeAdvisorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
 * Place
 *
 * @ORM\Table(name="place")
 * @ORM\Entity(repositoryClass="FreetimeAdvisorBundle\Repository\PlaceRepository")
+* @Vich\Uploadable
 */
 class Place
 {
@@ -24,7 +27,7 @@ class Place
     /**
     * @var string
     *
-    * @ORM\Column(name="name", type="string", length=80, unique=true)
+    * @ORM\Column(name="name", type="string", length=100, unique=true)
     */
     private $name;
 
@@ -43,26 +46,19 @@ class Place
     private $description;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="bestPicture", type="string", length=255, nullable=true,options={"default":"default.jpg"})
-    */
-    private $bestPicture;
-
-    /**
-    * @ORM\ManyToOne(targetEntity="City", inversedBy="place")
+    * @ORM\ManyToOne(targetEntity="City", cascade={"persist"})
     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
     */
     private $city;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Category", inversedBy="place")
+    * @ORM\ManyToOne(targetEntity="Category",cascade={"persist"})
     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
     */
     private $category;
 
     /**
-    * @ORM\ManyToOne(targetEntity="User", inversedBy="place")
+    * @ORM\ManyToOne(targetEntity="User",cascade={"persist"})
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
     */
     private $user;
@@ -81,7 +77,25 @@ class Place
     * @ORM\Column(type="datetime",options={"default":0})
     * @var \DateTime
     */
-    private $date;
+    private $createdAt;
+
+    /**
+    * @ORM\Column(type="datetime",options={"default":0})
+    * @var \DateTime
+    */
+    private $updatedAt;
+
+    /**
+    * @ORM\Column(type="string", length=255,options={"default":"default.jpg"})
+    * @var string
+    */
+    private $mainPhoto;
+
+    /**
+    * @Vich\UploadableField(mapping="place_images", fileNameProperty="mainPhoto")
+    * @var File
+    */
+    private $imageFile;
 
     /**
     * Constructor
@@ -175,17 +189,6 @@ class Place
         return $this->description;
     }
 
-    public function setBestPicture($bestPicture)
-    {
-        $this->bestPicture = $bestPicture;
-    }
-
-    public function getBestPicture()
-    {
-        return $this->bestPicture;
-    }
-
-
     /**
     * Set City
     *
@@ -274,15 +277,47 @@ class Place
         return $this->photo;
     }
 
-    public function getDate()
+    public function setCreatedAt($createdAt)
     {
-        return $this->date;
+        $this->createdAt = new \DateTime();
+        return $this;
     }
 
-    public function setDate($date)
+    public function getCreatedAt()
     {
-        $this->date = new \DateTime();
-        return $this;
+        return $this->createdAt;
+    }
+
+    public function setUpdatedAt($updatedAt)
+    {
+      $this->updatedAt = new \DateTime();
+      return $this;
+    }
+
+    public function getUpdatedAt()
+    {
+      return $this->updatedAt;
+    }
+
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setMainPhoto($mainPhoto)
+    {
+        $this->mainPhoto = $mainPhoto;
+    }
+
+    public function getMainPhoto()
+    {
+        return $this->mainPhoto;
     }
 
 

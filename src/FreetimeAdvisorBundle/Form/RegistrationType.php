@@ -20,14 +20,14 @@ class RegistrationType extends AbstractType
 
   {
     $builder
-    ->add('age', BirthdayType::class, array('attr' => array('class' => 'date'),'label'=>false,'required' => true,'widget' => 'single_text','html5' => true))
+    ->add('birthDate', BirthdayType::class, array('attr' => array('class' => 'date'),'label'=>false,'required' => true,'widget' => 'single_text','html5' => true))
     ->add('city', EntityType::class, array(
       'mapped'=>true,
       'class' => 'FreetimeAdvisorBundle:City',
       'choice_label' => 'name',
     ))
     ->add('description', TextareaType::class,array('required' => false,'attr' => array('placeholder'=>'décrivez-vous. max:300 caractère','maxlength' => 300)))
-    ->add('imageFile', VichImageType::class, array('required' => true,'label'=>false,'attr' => array('class' => 'col s12 m10 l10 offset-m1 offset-l1 ')))
+    ->add('imageFile', VichImageType::class, array('required' => true,'label'=>true,'attr' => array('class' => '')))
     ->add('save', SubmitType::class, array('label' => 'envoyer','attr' => array('class' => '')))
     ;
   }

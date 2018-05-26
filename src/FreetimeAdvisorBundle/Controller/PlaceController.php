@@ -4,22 +4,24 @@ namespace FreetimeAdvisorBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use FreetimeAdvisorBundle\Entity\Place;
-use FreetimeAdvisorBundle\Entity\Advice;
-use FreetimeAdvisorBundle\Entity\Photo;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use FreetimeAdvisorBundle\Entity\Place;
+use FreetimeAdvisorBundle\Entity\Advice;
+use FreetimeAdvisorBundle\Entity\Photo;
 
 
 class PlaceController extends Controller
 {
   /**
+  * AFFICHE LES LIEUX SUR UNE PAGE
   *
   * @Route("/place/index", name="place_index")
   * @Method("GET")
@@ -27,41 +29,50 @@ class PlaceController extends Controller
   public function index()
   {
     $em = $this->getDoctrine()->getManager();
-    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array(),array('date' => 'desc'));
+    //réccupère les 9 derniers lieux
+    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array(),array('createdAt' => 'desc'),9);
+    //réccupère la moyenne des avis de chaque lieux
+    $placesAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->allPlaceAverageScore();
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/index.html.twig', array(
       'places' => $places,
+      'placeAvgScore'=>$placesAvgScore,
     ));
   }
 
   /**
-  * @Route("/new/place", name="new_place")
+  * AJOUTER UN LIEU
+  *
+  * @Route("/place/new", name="new_place")
   * @Method({"GET","POST"})
   */
   public function newPlace(Request $request)
   {
     $user = $this->getUser();
-    $user->getId();
-    $place = new Place();
+    $user->getId(); //réccupère l'id de l'utilisateur actuel
+    $place = new Place(); //instancie le lieu
+    //créé un formulaire
     $form = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
     $form->handleRequest($request);
-    $place->setUser($user)
-    ->setDate("now");
+    $place->setUser($user) //ajoute l'id du créateur
+          ->setCreatedAt("now")// date de création
+          ->setUpdatedAt("now");// date de dernière modification
+    // si le formulaire envoie les infos et est valide
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $em->persist($place);
-      $em->flush();
-
-      return $this->redirectToRoute('new_place_advice', array('name' => $place->getName()));
+      $em->persist($place);//sauvegarde des données
+      $em->flush(); //ajout en base
+      //redirection vers la vue du lieu précédemment créé
+      return $this->redirectToRoute('new_advice', array('name' => $place->getName()));
     }
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/new.html.twig', array(
-      'place' => $place,
-      'user' => $user,
       'form' => $form->createView(),
     ));
   }
 
 
   /**
+  * PAGE D'UN LIEU
+  *
   * @Route("place/{name}", name="show_place")
   * @Method({"GET","POST"})
   */
@@ -72,27 +83,38 @@ class PlaceController extends Controller
     $user = $this->getUser();
     $user->getId();
     $place->getId();
-    $em = $this->getDoctrine()->getManager()->getRepository('FreetimeAdvisorBundle:Favorites');
-    $favorites = $em->findOneBy(array('userId' => $user ,'placeId' => $place));
-
-
+    $em = $this->getDoctrine()->getManager();
+    // vérifie si l'utilisateur a déjà posté un avis pour le lieu
+    $adviceExist = $em->getRepository('FreetimeAdvisorBundle:Advice')->findOneBy(array('user'=>$user,'place'=>$place));
+    // vérifie si l'utilisateur a ajouter le lieu en favoris
+    $favorite = $em->getRepository('FreetimeAdvisorBundle:Favorite')->findOneBy(array('user' => $user ,'place' => $place));
+    // réccupère la moyenne des avis par rapport au lieu
+    $placeAvgScore = $em->getRepository('FreetimeAdvisorBundle:Advice')->placeAverageScore($place);
     return $this->render('@FreetimeAdvisorBundle/Resources/views/place/show.html.twig', array(
       'place' => $place,
-      'favorites'=>$favorites
+      'favorite'=>$favorite,
+      'placeAvgScore'=>$placeAvgScore,
+      'adviceExist'=>$adviceExist
     ));
   }
 
   /**
+  * MODIFIER UN LIEU
+  *
   * @Route("place/{name}/edit", name="edit_place")
   * @Method({"GET","POST"})
+  *
+  * vérifie si c'est bien l'auteur qui modifie
+  * @Security("user.getUsername() == place.getUser()")
   */
   public function editPlace(Place $place, Request $request)
   {
+
     $editForm = $this->createForm('FreetimeAdvisorBundle\Form\PlaceType', $place);
     $editForm->handleRequest($request);
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $place->setDate("now");
+      $place->setUpdatedAt("now");
       $em->persist($place);
       $em->flush();
 
@@ -105,160 +127,22 @@ class PlaceController extends Controller
   }
 
   /**
-  * @Route("place/{name}/new/advice", name="new_place_advice")
-  * @Method({"GET","POST"})
+  * SUPPRIMER UN LIEU
+  *
+  * @Route("place/{name}/delete", name="delete_place")
+  * @Method({"GET", "DELETE"})
+  *
+  * vérifie si c'est bien l'auteur qui supprime *
+  * @Security("user.getUsername() == place.getUser()")
   */
-  public function newPlaceAdvice(Place $place, Request $request)
+  public function deletePlace(Place $place,Request $request)
   {
-    $user = $this->getUser();
-    $user->getId();
-    $advice = new Advice();
-    $form = $this->createForm('FreetimeAdvisorBundle\Form\AdviceType', $advice);
-    $form->handleRequest($request);
-    $advice
-    ->setUser($user)
-    ->setDate("now")
-    ->setPlace($place);
-    if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($advice);
-      $em->flush();
+    $em = $this->getDoctrine()->getManager(); // instancie l'entity manager
+    $em->remove($place);//supprime l'avis
+    $em->flush();
+    return $this->redirectToRoute('user_dashboard'); //redirection vers tableau de bord
 
-      return $this->redirectToRoute('new_place_photo', array('place_name' => $place->getName(),'advice_id' => $advice->getId()));
-    }
-    return $this->render('@FreetimeAdvisorBundle/Resources/views/advice/new.html.twig', array(
-      'place'=> $place,
-      'advice' => $advice,
-      'user' => $user,
-      'form' => $form->createView(),
-    ));
   }
 
-  /**
-  * @Route("place/{place_name}/advice/{advice_id}/new/photo", name="new_place_photo")
-  * @Template()
-  * @ParamConverter("place", class="FreetimeAdvisorBundle:Place",options={"mapping":{"place_name":"name"}})
-  * @ParamConverter("advice", class="FreetimeAdvisorBundle:Advice",options={"mapping":{"advice_id":"id"}})
-  */
-  public function newPlacePhoto( $place, $advice, Request $request)
-  {
-    // $advice = $this->getAdvice();
-    $advice->getId();
-    // dump($advice);
-    $user = $this->getUser();
-    $user->getId();
-    $photo = new Photo();
-    $form = $this->createForm('FreetimeAdvisorBundle\Form\PhotoType', $photo);
-    $form->handleRequest($request);
-    $photo
-    ->setUser($user)
-    ->setDate("now")
-    ->setAdvice($advice)
-    ->setPlace($place);
-    if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($photo);
-      $em->flush();
-
-      return $this->redirectToRoute('show_place', array('name' => $place->getName()));
-    }
-    return $this->render('@FreetimeAdvisorBundle/Resources/views/photo/new.html.twig', array(
-      'place'=> $place,
-      'user' => $user,
-      'form' => $form->createView(),
-    ));
-  }
-
-  /**
-  * Génère un form pour la recherche de lieu
-  */
-  public function searchPlaceAction()
-  {
-    $form = $this->createFormBuilder(null)
-    ->add('city', EntityType::class, array(
-      'mapped'=>true,
-      'class' => 'FreetimeAdvisorBundle:City',
-      'choice_label' => 'name',
-      'attr' => ['class'=>''],
-      'multiple'=>'true'
-    ))
-    ->add('category', EntityType::class, array(
-      'mapped'=>true,
-      'class' => 'FreetimeAdvisorBundle:Category',
-      'multiple' => 'true',
-      'choice_label' => 'name',
-      'attr' => ['class'=>''],
-
-    ))
-    ->add('name', TextType::class, array('required' => false,'attr' => array('class' => 'autocomplete','placeholder'=>'entrez le lieu recherché (facultatif)')))
-    ->add('save', SubmitType::class, array('label' => 'rechercher','attr' => array('class' => 'submit')))
-    ->getForm();
-
-    return $this->render('::searchbar.html.twig', array(
-      'form' => $form->createView(),
-    ));
-  }
-
-  /**
-  * @Route("place/search/", name="searchPlace")
-  * @param Request $request
-  */
-  public function searchPlaceResult(Request $request)
-  {
-    $city=$request->get("form")["city"] ;
-    $category=$request->get("form")["category"] ;
-    $name=$request->get("form")["name"] ;
-    $em = $this->getDoctrine()->getManager();
-
-    if (empty($name)) {
-      // si le nom n'est pas spécifié
-      $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'city' => $city));
-    }
-    elseif (empty($city)) {
-      // si la ville n'est pas spécifié
-      $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'name' => $name));
-    }
-    elseif (empty($category)) {
-      // si la catégorie n'est pas spécifié
-      $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('city' => $city,'name' => $name));
-    }
-    else {
-      // si le nom, la catégorie et la ville est spécifié
-      $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category,'city' => $city,'name' => $name));
-    }
-    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
-      'places' => $places,
-    ));
-  }
-
-  /**
-  * @Route("place/by/category/{category_name}", name="searchPlaceByCategory")
-  * @Template()
-  * @ParamConverter("category", class="FreetimeAdvisorBundle:Category",options={"mapping":{"category_name":"name"}})
-  */
-  public function searchPlaceByCategory($category)
-  {
-    $category->getName();
-    $em = $this->getDoctrine()->getManager();
-    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('category'=>$category),array('id' => 'desc'));
-    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
-      'places' => $places,
-    ));
-  }
-
-  /**
-  * @Route("place/by/city/{city_name}", name="searchPlaceByCity")
-  * @Template()
-  * @ParamConverter("city", class="FreetimeAdvisorBundle:City",options={"mapping":{"city_name":"name"}})
-  */
-  public function searchPlaceByCity($city)
-  {
-    $city->getName();
-    $em = $this->getDoctrine()->getManager();
-    $places = $em->getRepository('FreetimeAdvisorBundle:Place')->findby(array('city'=>$city),array('id' => 'desc'));
-    return $this->render('@FreetimeAdvisorBundle/Resources/views/place/search/result.html.twig', array(
-      'places' => $places,
-    ));
-  }
 
 }

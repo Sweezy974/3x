@@ -9,49 +9,70 @@
   </div>
 </div>
 <div class="row center">
-    <p><strong>Localisation :</strong> {{place.location}}</p>
+  <p>Ajouté par : {{ place.user.username }} le {{ place.createdAt|date('d/m/Y')}}</p>
+</div>
+
+<div class="row">
+{% if place.mainPhoto == 'default.jpg' %}
+<img class="col s12 m6 offset-m3 l6 offset-l3 responsive-img" data-caption="photo principale de : {{place.name}}" src="{{ asset ('images/default-no-image.png') }}">
+{% else %}
+<img class="col s12 m6 offset-m3 l6 offset-l3 responsive-img" data-caption="photo principale de : {{place.name}}" src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}">
+
+{% endif %}
 </div>
 <div class="row">
-  <div class="carousel " style="border:1px solid black;height:300px!important;" >
-    {% for photo in place.photo %}
-    <a data-lightbox="roadtrip"  data-title="Lieu: {{ photo.place.name|upper}} , ajouté par {{ photo.user.username}} " class="carousel-item" href="{{ asset ('uploads/images/places/') }}{{ photo.name }}"><img src="{{ asset ('uploads/images/places/') }}{{ photo.name }}"></a>
-    {% endfor %}
+  <div class="col s12 m7 l5  left">
+      <strong class="chip"><a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a></strong>
+      <strong class="chip"><a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}" style="color:black;">#{{place.category.name}}</a></strong>
   </div>
-
-</div>
-<div class="">
-  <div class="col s3 m2 left">
-    <div class="chip">
-      <a href="#">#{{place.city.name}}</a>
-    </div>
-  </div>
-  <div class="col s3 m2  left">
-    <div class="chip">
-      <a href="#">#{{place.category.name}}</a>
-    </div>
-  </div>
-  <div class="row col s6 m3 offset-m5 right">
-    {% if favorites.userId is defined %}
-    <a href="{{ path('delete_favorite', {'id': favorites.id }) }}"> <i class="material-icons right red-text">favorite</i>retirer des favoris </a>
+  <div class="col s12 m5 offset-l4 l3">
+    {% if favorite.user is defined %}
+    <a class="right" href="{{ path('delete_favorite', {'id': favorite.id }) }}"> <i class="material-icons right red-text">favorite</i>retirer des favoris </a>
     {% else %}
-    <a href="{{ path('user_new_favorite', {'id': place.id }) }}"><i class="material-icons right">favorite</i>Ajouter aux favoris</a>
+    <a class="right"href="{{ path('user_new_favorite', {'id': place.id }) }}"><i class="material-icons left ">favorite</i>Ajouter aux favoris</a>
     {% endif %}
   </div>
 </div>
-<div class="row">
-  <div class="col s12 m12 l12 center">
-    <h5>Description</h5>
-  </div>
-</div>
-<div class="row center">
-  <p>{{place.description}}</p>
-</div>
-<div class="row">
-  <div class="col s12 m12 l12">
-    <hr>
-    <h5>les avis :</h5>
-  </div>
 
+<ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+  <li>
+    <div class="collapsible-header active"><i class="material-icons">line_weight</i>Description</div>
+    <div class="collapsible-body"><span>{{place.description}}</span></div>
+  </li>
+  <li>
+    <div class="collapsible-header"><i class="material-icons">place</i>Localisation</div>
+    <div class="collapsible-body"><span>{{ place.location}}</span></div>
+  </li>
+  <li>
+    <div class="collapsible-header"><i class="material-icons">collections</i>Galerie</div>
+    <div class="collapsible-body">
+      <div class="slider">
+      <ul class="slides">
+
+          {% for photo in place.photo %}
+          <li>
+            <a data-lightbox="roadtrip"  data-title="Lieu: {{ photo.place.name|upper}} , ajouté par {{ photo.user.username}} " class="carousel-item" href="{{ asset ('uploads/images/advices/') }}{{ photo.name }}"><img  src="{{ asset ('uploads/images/advices/') }}{{ photo.name }}"></a>
+            <div class="caption center-align v-align ">
+              <h5 class="light grey-text text-lighten-3">{{ photo.advice.title|upper}}</h5>
+            </div>
+          </li>
+          {% else %}
+          <p>il n'y a pas encore de photo pour ce lieu</p>
+          {% endfor %}
+
+    </ul>
+  </div>
+    </div>
+  </li>
+</ul>
+
+
+<div class="row">
+  <hr>
+  <div class="col s12 center">
+    <h5>Moyenne des avis : {{placeAvgScore.score|round(1, 'floor')}}/5<i class="material-icons  yellow-text">grade</i></h5>
+    <p>Sur une base de {{placeAvgScore.total}} avis</p>
+  </div>
 </div>
 <div class="row">
   <div class="col s12 m12 l12">
@@ -59,21 +80,8 @@
       {% for advice in place.advice %}
       <li class="collection-item avatar ">
         <img src="{{ asset ('uploads/images/users/') }}{{ advice.user.avatar }}" alt="" class="circle">
-        <span class="title"><strong>{{advice.title}}</strong>
-        <p class="">par : {{advice.user.username}}
-          {% if advice.user.id == app.user.id %}
-          <p>
-          <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}">Modifier </a>|
-          <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}">Supprimer</a>
-          mon avis
-          </p>
-          </span>
-          {% else %}
-
-          {% endif %}
-        </p>
-
-        <p class="truncate"> {{advice.comment}}</p>
+        <span class="title"> {{advice.user.username}} |<strong>{{advice.title}} </strong>
+            <p class="truncate"> {{advice.comment}}</p>
         {% if advice.score == 5 %}
         <a href="#!" class="secondary-content"><i class="yellow-text material-icons left">grade</i>{{advice.score}} / 5</a>
         {% elseif advice.score == 4 %}
@@ -84,19 +92,43 @@
         <a href="#!" class="secondary-content"><i class="orange-text material-icons left">grade</i>{{advice.score}} / 5</a>
         {% elseif advice.score == 1 %}
         <a href="#!" class="secondary-content"><i class="red-text material-icons left">grade</i>{{advice.score}} / 5</a>
+        {% else %}
+        <p>score non valide</p>
         {% endif %}
+        {% if advice.photo is not null %}
+        <p>photos :</p>
+        {% for photo in advice.photo %}
+        {% if photo.advice.id == advice.id %}
+        <div class="" style="display:inline-block;">
+          <img width="30"  class="materialboxed" src="{{ asset ('uploads/images/advices/') }}{{ photo.name }}">
+        </div>
+        {% endif %}
+        {% else %}
+            <p><strong>pas de photos </strong></p>
+        {% endfor %}
+        {% endif %}
+        {% if advice.user.id == app.user.id %}
+        <br>
+        <a href="{{ path('delete_advice', {'name': advice.place.name,'id': advice.id }) }}"><i class="material-icons red-text">delete</i> |</a>
+        <a href="{{ path('edit_advice', {'name': advice.place.name,'id': advice.id }) }}"><i class="material-icons">edit</i> |</a>
+        <a href="{{ path('new_photo_advice', {'place_name': advice.place.name,'advice_id': advice.id }) }}"><i class="material-icons teal-text text-lighten-2">add_a_photo</i></a>
+      </span>
+      {% else %}
+      {% endif %}
       </li>
-    {% else %}
-    <p  class=" center red-text">il n'y a pas encore d'avis pour ce lieu</p>
-    {% endfor %}
-  </ul>
-    </div>
+      {% else %}
+      <p  class=" center red-text">il n'y a pas encore d'avis pour ce lieu</p>
+      {% endfor %}
+    </ul>
   </div>
+</div>
+{% if adviceExist is not null %}
+{% else %}
 <div class="row">
   <div class="col s12 m12 l12 center">
-    <a href="{{ path('new_place_advice', {'name': place.name }) }}" class="btn "> écrire un avis</a>
-
+    <a href="{{ path('new_advice', {'name': place.name }) }}" class="btn "> écrire un avis</a>
   </div>
-
 </div>
+
+{% endif %}
 {% endblock %}

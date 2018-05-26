@@ -39,9 +39,9 @@ class User extends FosUser
     /**
     * @var \DateTime
     *
-    * @ORM\Column(name="age", type="date")
+    * @ORM\Column(name="birth_date", type="date")
     */
-    private $age;
+    private $birthDate;
 
     /**
     * @ORM\Column(type="string", length=255,options={"default":"default.jpg"})
@@ -69,14 +69,16 @@ class User extends FosUser
 
 
 
+
+
     /**
     * Get id
     *
-    * @return int
+    * @return string
     */
-    public function getId()
+    public function getId ()
     {
-        return $this->id;
+        return (string) $this->id;
     }
 
     /**
@@ -104,27 +106,27 @@ class User extends FosUser
     }
 
     /**
-    * Set age
+    * Set birthDate
     *
-    * @param \DateTime $age
+    * @param \DateTime $birthDate
     *
     * @return User
     */
-    public function setAge($age)
+    public function setBirthDate($birthDate)
     {
-        $this->age = $age;
+        $this->birthDate = $birthDate;
 
         return $this;
     }
 
     /**
-    * Get age
+    * Get birthDate
     *
     * @return \DateTime
     */
-    public function getAge()
+    public function getBirthDate()
     {
-        return $this->age;
+        return $this->birthDate;
     }
 
     public function setImageFile(File $image = null)
@@ -138,6 +140,15 @@ class User extends FosUser
             // if 'updatedAt' is not defined in your entity, use another property
             $this->avatarUpdatedAt = new \DateTime('now');
         }
+    }
+
+    public function setAvatarUpdatedAt($avatarUpdatedAt)
+    {
+        $this->avatarUpdatedAt = $avatarUpdatedAt;
+    }
+    public function getAvatarUpdatedAt()
+    {
+        return $this->avatarUpdatedAt;
     }
 
     public function getImageFile()
@@ -154,7 +165,6 @@ class User extends FosUser
     {
         return $this->avatar;
     }
-
 
     /**
     * Set City
@@ -177,5 +187,6 @@ class User extends FosUser
     {
         return $this->city;
     }
+
 
 }

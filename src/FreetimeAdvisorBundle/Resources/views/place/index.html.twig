@@ -1,38 +1,51 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-
 <div class="row center">
   <h4>Les derniers lieux</h4>
 </div>
+
 <div class="row">
-  <div class="col s12 m12 l12 center">
-    <h5>rechercher</h5>
-  </div>
-</div>
-<div class="row">
-{{ render(controller('FreetimeAdvisorBundle:Place:searchPlace')) }}
+  <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">search</i>Rechercher</div>
+      <div class="collapsible-body">
+        {{ render(controller('FreetimeAdvisorBundle:Search:searchPlace')) }}
+        <p>obligatoire * </p>
+      </div>
+    </li>
+  </ul>
 </div>
 <div class="row">
   {% for place in places %}
 
   <div class="col s12 m4">
-    <div class="card ">
-        <div class="card-image">
-        <img width="50"src="{{ asset ('uploads/images/places/') }}{{ place.bestPicture }}" alt="">
+    <div class="card small">
+      <div class="card-image">
+        {% if place.mainPhoto == 'default.jpg' %}
+        <a href="#" title="aucune image disponible" class=""><img class="responsive-img" src="{{ asset ('images/default-no-image.png') }}" alt=""></a>
+        {% else %}
+        <img class="responsive-img"src="{{ asset ('uploads/images/places/') }}{{ place.mainPhoto }}" alt="">
+        {% endif %}
+        <span class="card-title">
+
+          {% for placeAvgScore in placeAvgScore if place.id == placeAvgScore.place_id %}
+          <strong class="chip blue lighten-4">
+            <a href="#"title="Moyenne de {{ placeAvgScore.score|round(1, 'floor') }} sur une base de {{placeAvgScore.total}} avis">{{ placeAvgScore.score|round(1, 'floor')}}/5</a>
+          </strong>
+          {% else %}
+          <strong class="chip">
+            <a href="#"title="Il n'y a pas encore d'avis pour ce lieu">~/5</a>
+          </strong>
+          {% endfor %}
+          <strong class="chip"><a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a></strong>
+          <strong class="chip"><a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}" style="color:black;">#{{place.category.name}}</a></strong>
+        </span>
       </div>
       <div class="card-stacked">
         <div class="card-content">
-          <h5><strong>{{place.name|upper}}</strong></h5>
+          <span class="card-title" >{{ place.name|upper }}
+          </span>
 
-          <div class="chip">
-            <a href="{{ path('searchPlaceByCity', { 'city_name': place.city.name }) }}" style="color:black;">#{{place.city.name}}</a>
-          </div>
-          <div class="chip">
-            <a href="{{ path('searchPlaceByCategory', { 'category_name': place.category.name }) }}">#{{place.category.name}}</a>
-          </div>
-          <div class="chip">
-            <p class="small"> ajouté le {{place.date|date("d/m/Y")}}</p>
-          </div>
         </div>
         <div class="card-action">
           <a href="{{ path('show_place', { 'name': place.name }) }}">Voir</a>

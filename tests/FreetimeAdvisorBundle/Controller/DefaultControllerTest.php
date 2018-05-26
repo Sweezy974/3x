@@ -1,17 +1,20 @@
 <?php
 
-namespace FreetimeAdvisorBundle\Tests\Controller;
+namespace Tests\FreetimeAdvisorBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+/**
+ *
+ */
+class DefauControllerTest extends WebTestCase
 {
-    public function testIndex()
-    {
-        $client = static::createClient();
+  /** @test */
+  public function index()
+  {
+    $client = static::createClient();
+    $crawler = $client->request('GET', '/');
+    $this->assertContains('Bienvenue sur FreetimeAdvisor', $client->getResponse()->getContent());
+  }
 
-        $crawler = $client->request('GET', '/');
-
-        $this->assertContains('Hello World', $client->getResponse()->getContent());
-    }
 }

@@ -19,7 +19,14 @@ class AdviceType extends AbstractType
     $builder
     ->add('title')
     ->add('comment')
-    ->add('score')
+    ->add('score', ChoiceType::class, array(
+    'choices'  => array(
+        '1/5' => 1,
+        '2/5' => 2 ,
+        '3/5' => 3 ,
+        '4/5' => 4 ,
+        '5/5' => 5 ,
+    )))
     ->add('save', SubmitType::class, array('label' => 'envoyer','attr' => array('class' => '')));
   }/**
   * {@inheritdoc}

@@ -49,7 +49,7 @@ class Advice
   private $place;
 
   /**
-  * @ORM\ManyToOne(targetEntity="User", inversedBy="advice")
+  * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
   * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
   */
   private $user;
@@ -58,7 +58,18 @@ class Advice
   * @ORM\Column(type="datetime",options={"default":0})
   * @var \DateTime
   */
-  private $date;
+  private $createdAt;
+
+  /**
+  * @ORM\Column(type="datetime",options={"default":0})
+  * @var \DateTime
+  */
+  private $updatedAt;
+
+  /**
+  * @ORM\OneToMany(targetEntity="Photo", mappedBy="advice", cascade={"remove", "persist"}))
+  */
+  private $photo;
 
 
   /**
@@ -180,14 +191,42 @@ class Advice
     return $this->user;
   }
 
-  public function getDate()
+
+  public function setCreatedAt($createdAt)
   {
-    return $this->date;
+    $this->createdAt = new \DateTime();
+    return $this;
   }
 
-  public function setDate($date)
+  public function getCreatedAt()
   {
-    $this->date = new \DateTime();
+    return $this->createdAt;
+  }
+
+  public function setUpdatedAt($updatedAt)
+  {
+    $this->updatedAt = new \DateTime();
     return $this;
+  }
+
+  public function getUpdatedAt()
+  {
+    return $this->updatedAt;
+  }
+
+  public function setPhoto($photo)
+  {
+      $this->photo = $photo;
+      return $this;
+  }
+
+  /**
+  * Get Category
+  *
+  * @return \FreetimeAdvisorBundle\Entity\Photo
+  */
+  public function getPhoto()
+  {
+      return $this->photo;
   }
 }
